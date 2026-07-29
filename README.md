@@ -1,4 +1,4 @@
-# 外站票工具箱
+# 哩程玩家工具箱
 
 單一 `index.html`（無相依套件、純前端計算）內含兩個工具，直接用瀏覽器開啟即可；push 到 `main` 會經 GitHub Actions 自動部署到 GitHub Pages（repo 須為 public）。
 
