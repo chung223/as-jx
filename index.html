@@ -392,6 +392,55 @@
   .linkrow a:hover{background:var(--gold); color:var(--gold-ink)}
   .linknote{font-size:12px; color:var(--faint); margin-top:9px}
 
+  /* ── 哩程兌換 ── */
+  .mhead{
+    display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(86px,1fr));
+    gap:8px; padding:0 16px 6px; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--faint); font-weight:600;
+  }
+  .mhead span:not(:first-child){text-align:right}
+  .mrows{display:flex; flex-direction:column; gap:10px}
+  .mrow{
+    display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(86px,1fr));
+    gap:8px; align-items:center;
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--gold-deep);
+    border-radius:12px; padding:12px 16px;
+  }
+  .mzone b{font-size:14px; letter-spacing:.02em}
+  .mzone small{display:block; color:var(--faint); font-size:11px; margin-top:2px}
+  .mcell{text-align:right; font-variant-numeric:tabular-nums}
+  .mcell small{display:none; color:var(--faint); font-size:10.5px}
+  .mcell b{font-size:14.5px; font-weight:700}
+  .mcell em{display:block; font-style:normal; font-size:10.5px; margin-top:1px; color:var(--faint)}
+  .mcell.ok b{color:var(--pass)}
+  .mcell.ok em{color:var(--pass)}
+  .mcell.no b{color:var(--muted)}
+  .mcell.no em{color:var(--over)}
+  .mcell.na{color:var(--faint)}
+  .mnote{color:var(--faint); font-size:12px; margin:10px 2px 0}
+  .msum{
+    display:flex; flex-wrap:wrap; gap:8px 16px; align-items:baseline; margin:0 0 14px;
+  }
+  .msum h2{font-family:var(--serif); font-size:clamp(20px,3vw,25px); margin:0}
+  .msum .counts{color:var(--muted); font-size:13px}
+  .msum .counts b{color:var(--pass); font-variant-numeric:tabular-nums}
+  .uplist{list-style:none; margin:0; padding:0}
+  .uplist li{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    padding:9px 2px; border-bottom:1px dashed var(--line); font-size:13px; color:var(--muted);
+  }
+  .uplist li:last-child{border-bottom:0}
+  .uplist .um{font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap; color:var(--ink)}
+  .uplist .um.ok{color:var(--pass)}
+  .uplist .um.no{color:var(--muted)}
+  @media (max-width:720px){
+    .mhead{display:none}
+    .mrow{grid-template-columns:repeat(3,1fr); padding:12px 14px}
+    .mzone{grid-column:1 / -1}
+    .mcell{text-align:left}
+    .mcell small{display:block}
+  }
+
   /* ── 手機優化 ── */
   @media (max-width:720px){
     body{font-size:14px}
@@ -441,6 +490,7 @@
     <nav class="tabs" role="tablist" aria-label="工具切換">
       <button type="button" class="tab" id="tab-calc" role="tab" aria-selected="true">中停計算機</button>
       <button type="button" class="tab" id="tab-fourleg" role="tab" aria-selected="false">四段票排程器</button>
+      <button type="button" class="tab" id="tab-mile" role="tab" aria-selected="false">哩程兌換</button>
     </nav>
   </header>
 
@@ -584,8 +634,46 @@
   </div>
   </section><!-- /view-fourleg -->
 
+  <section class="view" id="view-mile" hidden>
+  <div class="viewintro">
+    <p class="sub">華航／長榮／星宇兌換與升等所需哩程：填入你的哩程，馬上看夠換哪裡、哪個艙等。</p>
+    <div class="rulechips">
+      <span>華航・長榮表列<b>來回</b>（單程約半價）</span>
+      <span>星宇表列<b>單程</b>（來回 ×2）</span>
+      <span>稅金、燃油<b>另計</b></span>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="panel">
+      <h2>我的哩程</h2>
+      <p class="hint">不填哩程也可直接查表。</p>
+
+      <p class="seglabel">航空公司</p>
+      <div class="seg" role="group" aria-label="航空公司">
+        <button type="button" class="mi-air" data-air="CI" aria-pressed="true">華航</button>
+        <button type="button" class="mi-air" data-air="BR" aria-pressed="false">長榮</button>
+        <button type="button" class="mi-air" data-air="JX" aria-pressed="false">星宇</button>
+      </div>
+
+      <div class="field">
+        <label for="mi-have">持有哩程</label>
+        <input type="number" id="mi-have" min="0" step="1000" placeholder="例：60000" inputmode="numeric">
+      </div>
+
+      <p class="seglabel">行程</p>
+      <div class="seg" role="group" aria-label="行程型態">
+        <button type="button" id="mi-rt" aria-pressed="true">來回</button>
+        <button type="button" id="mi-ow" aria-pressed="false">單程</button>
+      </div>
+    </aside>
+
+    <section id="mi-main"></section>
+  </div>
+  </section><!-- /view-mile -->
+
   <p class="disclaimer">
-    距離為大圓計算，與航司系統或有數哩誤差；壓線組合（1,500–1,600 哩）的低價屬系統紅利，隨時可能修正。航點資料整理自官網與公開航訊（2026/07）；是否直飛、可否停留與票價，一律以各航司官網查價為準。本工具僅供參考。
+    距離為大圓計算，與航司系統或有數哩誤差；壓線組合（1,500–1,600 哩）的低價屬系統紅利，隨時可能修正。航點與哩程兌換資料整理自各航官網與公開攻略（2026/07），標「約」者為整理值；是否直飛、可否停留、兌換與升等哩程，一律以各航司官網為準。本工具僅供參考。
   </p>
 </div>
 
@@ -842,8 +930,8 @@ buildTable();
 render();
 
 /* ═════════════════════ 分頁切換 ═════════════════════ */
-const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg') };
-const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg') };
+const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile') };
+const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile') };
 function showView(v){
   for (const k of Object.keys(VIEWS)){
     VIEWS[k].hidden = (k !== v);
@@ -852,6 +940,7 @@ function showView(v){
 }
 TABS.calc.addEventListener('click', () => showView('calc'));
 TABS.fourleg.addEventListener('click', () => showView('fourleg'));
+TABS.mile.addEventListener('click', () => showView('mile'));
 
 /* ═════════════════════ 四段票排程器 ═════════════════════ */
 const FL_AIRLINES = {
@@ -1039,6 +1128,121 @@ function flRender(){
     setTimeout(() => { btn.textContent = '複製'; }, 2000);
   });
 }
+
+/* ═════════════════════ 哩程兌換 ═════════════════════
+   數值為來回（rt）哩程；單程 = rt/2。approx = 整理值，以官網為準。
+   資料整理自各航官網與公開攻略（2026/07）。 */
+const MILE_DATA = {
+  CI: {
+    name:'中華航空・華夏哩程',
+    site:'https://www.china-airlines.com/tw/zh', siteName:'華航官網',
+    basisNote:'官方以來回計價，單程約半價；2026/5/1 起官方微調數字，以官網為準。',
+    zones:[
+      { zone:'台灣 ⇄ 亞洲短程', sub:'日韓・港澳・東南亞', eco:{rt:35000}, pey:null, biz:{rt:60000} },
+      { zone:'台灣 ⇄ 歐美長程', sub:'北美・歐洲', eco:{rt:110000, approx:true}, pey:null, biz:{rt:160000} },
+    ],
+    upgrades:[
+      { route:'短程單段升商務（豪經票）', miles:8000 },
+      { route:'短程單段升商務（高艙等經濟票）', miles:15000 },
+      { route:'短程單段升商務（標準經濟票）', miles:20000 },
+      { route:'長程升等依票種而異', miles:null },
+    ],
+  },
+  BR: {
+    name:'長榮航空・無限萬哩遊',
+    site:'https://www.evaair.com/zh-tw/infinity-mileageLands/mileage-award-program/mileage-redemption/', siteName:'長榮官網兌換表',
+    basisNote:'官方以來回計價，單程為半價。',
+    zones:[
+      { zone:'台灣 ⇄ 港澳', sub:'短程', eco:{rt:20000, approx:true}, pey:null, biz:{rt:40000, approx:true} },
+      { zone:'台灣 ⇄ 東北亞', sub:'日本・韓國', eco:{rt:35000}, pey:{rt:40000}, biz:{rt:50000} },
+      { zone:'台灣 ⇄ 東南亞', sub:'泰・新・馬・菲・越・印尼', eco:{rt:35000}, pey:{rt:40000, approx:true}, biz:{rt:55000} },
+      { zone:'台灣 ⇄ 美洲 A 區', sub:'美西（LAX/SFO/SEA…）', eco:{rt:75000}, pey:{rt:110000}, biz:{rt:150000} },
+      { zone:'台灣 ⇄ 美洲 B 區', sub:'美東・加拿大（JFK/ORD/YVR…）', eco:{rt:80000, approx:true}, pey:{rt:115000, approx:true}, biz:{rt:160000} },
+      { zone:'台灣 ⇄ 歐洲', sub:'巴黎・倫敦・維也納…', eco:{rt:75000, approx:true}, pey:{rt:110000, approx:true}, biz:{rt:150000} },
+    ],
+    upgrades:[
+      { route:'依航段與訂位艙等而異；美東航線較美西約多 5,000 哩', miles:null },
+    ],
+  },
+  JX: {
+    name:'星宇航空・COSMILE',
+    site:'https://www.starlux-airlines.com/zh-TW', siteName:'星宇官網',
+    basisNote:'官方以單程計價，來回 ×2。',
+    zones:[
+      { zone:'亞洲區域線', sub:'日韓・港澳・東南亞', eco:{rt:30000}, pey:{rt:40000}, biz:{rt:55000} },
+      { zone:'台灣 ⇄ 北美', sub:'LAX/SFO/SEA/ONT/PHX', eco:{rt:70000}, pey:{rt:120000}, biz:{rt:180000} },
+    ],
+    upgrades:[
+      { route:'亞洲線單段升等（表定）', miles:18000 },
+      { route:'亞洲線單段升等（常見促銷）', miles:12000, approx:true },
+      { route:'北美線升商務（促銷起）', miles:30000, approx:true },
+    ],
+  },
+};
+const miState = { air:'CI', trip:'rt' };
+
+function miRender(){
+  document.querySelectorAll('.mi-air').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.air === miState.air)));
+  $id('mi-rt').setAttribute('aria-pressed', String(miState.trip === 'rt'));
+  $id('mi-ow').setAttribute('aria-pressed', String(miState.trip === 'ow'));
+
+  const d = MILE_DATA[miState.air];
+  const have = parseInt($id('mi-have').value, 10) || 0;
+  const factor = miState.trip === 'rt' ? 1 : 0.5;
+  const tripLabel = miState.trip === 'rt' ? '來回' : '單程';
+
+  let okCount = 0;
+  const cellHtml = (label, c) => {
+    if (!c) return `<div class="mcell na"><small>${label}</small><b>—</b></div>`;
+    const need = Math.round(c.rt * factor);
+    const approx = c.approx ? '約 ' : '';
+    if (!have) return `<div class="mcell"><small>${label}</small><b>${approx}${fmt(need)}</b></div>`;
+    if (have >= need){ okCount++;
+      return `<div class="mcell ok"><small>${label}</small><b>${approx}${fmt(need)}</b><em>✓ 可換</em></div>`;
+    }
+    return `<div class="mcell no"><small>${label}</small><b>${approx}${fmt(need)}</b><em>差 ${fmt(need - have)}</em></div>`;
+  };
+
+  const rows = d.zones.map(z => `<div class="mrow">
+    <div class="mzone"><b>${z.zone}</b><small>${z.sub}</small></div>
+    ${cellHtml('經濟', z.eco)}${cellHtml('豪經', z.pey)}${cellHtml('商務', z.biz)}
+  </div>`).join('');
+
+  const ups = d.upgrades.map(u => {
+    if (u.miles == null) return `<li><span>${u.route}</span><span class="um">依官網</span></li>`;
+    const approx = u.approx ? '約 ' : '';
+    const cls = !have ? '' : (have >= u.miles ? ' ok' : ' no');
+    return `<li><span>${u.route}</span><span class="um${cls}">${approx}${fmt(u.miles)} 哩</span></li>`;
+  }).join('');
+
+  $id('mi-main').innerHTML = `
+    <div class="msum reveal">
+      <h2>${d.name}</h2>
+      <span class="counts">${have ? `${fmt(have)} 哩・${tripLabel}可換 <b>${okCount}</b> 格` : `${tripLabel}所需哩程`}</span>
+    </div>
+    <div class="mhead"><span>區域</span><span>經濟</span><span>豪經</span><span>商務</span></div>
+    <div class="mrows reveal">${rows}</div>
+    <p class="mnote">${d.basisNote}</p>
+    <div class="card reveal" style="margin-top:18px">
+      <h3>哩程升等（單一航段）</h3>
+      <ul class="uplist">${ups}</ul>
+    </div>
+    <div class="linkrow" style="margin-top:14px">
+      <a href="${d.site}" target="_blank" rel="noopener">${d.siteName}</a>
+    </div>`;
+  okCount = 0;
+}
+
+function miInit(){
+  document.querySelectorAll('.mi-air').forEach(b =>
+    b.addEventListener('click', () => { miState.air = b.dataset.air; miRender(); }));
+  $id('mi-rt').addEventListener('click', () => { miState.trip = 'rt'; miRender(); });
+  $id('mi-ow').addEventListener('click', () => { miState.trip = 'ow'; miRender(); });
+  $id('mi-have').addEventListener('input', miRender);
+  miRender();
+}
+miInit();
 
 function flInit(){
   flBuildSelect($id('fl-a'), 'BKK');
