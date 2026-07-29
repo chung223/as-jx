@@ -70,6 +70,10 @@
     font-size:clamp(28px,4.6vw,44px); line-height:1.2; text-wrap:balance; letter-spacing:.02em;
   }
   .sub{color:var(--muted); margin:0 0 18px; max-width:60ch}
+  .hpath{display:flex; align-items:center; gap:9px; max-width:320px; margin:12px 0 0; color:var(--gold)}
+  .hpath span{flex:3; border-top:2px dashed var(--gold-deep)}
+  .hpath span:first-child{flex:1}
+  .hpath i{font-style:normal; font-size:15px; line-height:1}
   .rulechips{display:flex; flex-wrap:wrap; gap:8px}
   .rulechips span{
     border:1px solid var(--line-strong); color:var(--ink);
@@ -160,61 +164,72 @@
   .hubhead .via{font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); font-weight:600}
   .hubhead .hn{margin-left:auto; color:var(--faint); font-size:12.5px; font-variant-numeric:tabular-nums}
 
-  .rows{display:flex; flex-direction:column; gap:9px}
+  /* ── 登機證卡片 ── */
+  .rows{display:flex; flex-direction:column; gap:10px}
   .row{
-    display:grid; grid-template-columns:minmax(0,1fr) 168px 118px; gap:8px 18px; align-items:center;
+    --stubw:118px;
+    position:relative; overflow:hidden;
+    display:grid; grid-template-columns:minmax(0,1fr) var(--stubw); align-items:stretch;
     background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--pass);
-    border-radius:11px; padding:13px 16px;
-  }
-  @media (max-width:720px){
-    .row{grid-template-columns:1fr; gap:9px}
-    .row .meterbox{max-width:340px}
+    border-radius:12px;
   }
   .row.zone-edge{border-left-color:var(--warn)}
-  .row.zone-over{border-left-color:var(--over); opacity:.82}
-  .route{display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 8px; min-width:0}
-  .route .apt{white-space:nowrap}
-  .route .code{font-weight:700; letter-spacing:.05em; font-variant-numeric:tabular-nums}
-  .route .cityname{color:var(--muted); font-size:12.5px}
-  .route .arr{color:var(--gold); font-size:12px; padding:0 1px}
-  .route .stoptag{
-    font-size:10.5px; letter-spacing:.08em; color:var(--gold);
-    border:1px solid var(--gold-deep); border-radius:5px; padding:1px 6px; white-space:nowrap;
-  }
+  .row.zone-over{border-left-color:var(--over); opacity:.85}
+  .bp-main{padding:13px 16px 12px; min-width:0}
+
+  .fpath{display:flex; align-items:flex-start; gap:8px}
+  .ap{text-align:center; min-width:0; flex:0 1 auto}
+  .ap b{display:block; font-size:16.5px; letter-spacing:.06em; font-variant-numeric:tabular-nums; line-height:1.2}
+  .ap small{display:block; font-size:10.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:10em}
+  .ap.stop b, .ap.stop small{color:var(--gold)}
+  .leg{flex:1 1 34px; min-width:34px; position:relative; display:flex; flex-direction:column; align-items:center}
+  .leg::before{content:''; position:absolute; left:1px; right:1px; top:9px; border-top:2px dashed var(--line-strong)}
+  .leg i{font-style:normal; position:relative; z-index:1; color:var(--gold); font-size:13px; line-height:1.4; background:var(--surface); padding:0 5px}
+  .leg em{font-style:normal; font-size:10.5px; color:var(--faint); font-variant-numeric:tabular-nums; margin-top:3px}
+
+  .bp-meta{display:flex; align-items:center; gap:10px; margin-top:11px; flex-wrap:wrap}
+  .zb{font-size:11px; font-weight:700; letter-spacing:.06em; white-space:nowrap}
+  .tot{font-size:12.5px; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .zone-sweet .zb, .zone-sweet .tot{color:var(--pass)}
+  .zone-edge  .zb, .zone-edge  .tot{color:var(--warn)}
+  .zone-over  .zb, .zone-over  .tot{color:var(--over)}
   .tag{
     font-size:10.5px; color:var(--muted); background:var(--raised);
     border:1px solid var(--line); border-radius:5px; padding:1px 6px; white-space:nowrap;
   }
-  .seginfo{color:var(--faint); font-size:12px; margin-top:3px; font-variant-numeric:tabular-nums; width:100%}
-
-  .meterbox{min-width:0}
-  .meterlab{display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:4px}
-  .meterlab .tot{font-variant-numeric:tabular-nums; font-weight:700}
-  .meterlab .zb{letter-spacing:.05em}
-  .zone-sweet .meterlab .zb, .zone-sweet .meterlab .tot{color:var(--pass)}
-  .zone-edge  .meterlab .zb, .zone-edge  .meterlab .tot{color:var(--warn)}
-  .zone-over  .meterlab .zb, .zone-over  .meterlab .tot{color:var(--over)}
-  .meter{position:relative; height:6px; border-radius:3px; background:var(--sunken); overflow:visible}
+  .meter{flex:1 1 90px; min-width:70px; position:relative; height:6px; border-radius:3px; background:var(--sunken)}
   .meter .fill{position:absolute; inset:0 auto 0 0; border-radius:3px}
   .zone-sweet .fill{background:var(--pass)}
   .zone-edge  .fill{background:var(--warn)}
   .zone-over  .fill{background:var(--over)}
-  .meter .tick{
-    position:absolute; top:-3px; bottom:-3px; left:88.2%; width:2px;
-    background:var(--line-strong);
-  }
+  .meter .tick{position:absolute; top:-3px; bottom:-3px; left:88.2%; width:2px; background:var(--line-strong)}
 
-  .price{text-align:right}
-  @media (max-width:720px){ .price{text-align:left} }
-  .price .mi{
-    font-family:var(--serif); font-size:21px; font-weight:700; line-height:1.15;
-    font-variant-numeric:tabular-nums; letter-spacing:.01em;
+  .bp-stub{
+    display:flex; flex-direction:column; justify-content:center; text-align:right;
+    padding:12px 15px; border-left:2px dashed var(--line-strong); position:relative;
   }
-  .price .cab{font-size:11px; color:var(--muted); letter-spacing:.1em}
-  .price .alt{font-size:11.5px; color:var(--faint); font-variant-numeric:tabular-nums}
-  .zone-sweet .price .mi{color:var(--pass)}
-  .zone-edge  .price .mi{color:var(--warn)}
-  .zone-over  .price .mi{color:var(--over)}
+  .bp-stub::before, .bp-stub::after{
+    content:''; position:absolute; left:-9px; width:16px; height:16px; border-radius:50%;
+    background:var(--bg); border:1px solid var(--line);
+  }
+  .bp-stub::before{top:-9px}
+  .bp-stub::after{bottom:-9px}
+  .bp-stub .mi{font-family:var(--serif); font-size:20px; font-weight:700; line-height:1.1; font-variant-numeric:tabular-nums}
+  .bp-stub .mi small{font-size:11px; font-weight:400; margin-left:2px}
+  .bp-stub .cab{font-size:10.5px; color:var(--muted); letter-spacing:.08em; margin-top:3px}
+  .bp-stub .alt{font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; margin-top:1px}
+  .zone-sweet .bp-stub .mi{color:var(--pass)}
+  .zone-edge  .bp-stub .mi{color:var(--warn)}
+  .zone-over  .bp-stub .mi{color:var(--over)}
+  @media (max-width:720px){
+    .row{grid-template-columns:1fr}
+    .bp-stub{
+      flex-direction:row; align-items:baseline; justify-content:flex-end; gap:9px;
+      border-left:0; border-top:2px dashed var(--line-strong); padding:9px 14px;
+    }
+    .bp-stub::before{top:-9px; left:-9px; bottom:auto}
+    .bp-stub::after{top:-9px; right:-9px; bottom:auto; left:auto}
+  }
 
   .edgecallout{
     background:var(--warn-bg); border:1px solid var(--warn); border-radius:11px;
@@ -327,7 +342,7 @@
 
   .timeline{list-style:none; margin:0 0 6px; padding:0 0 0 4px}
   .timeline li{
-    position:relative; padding:9px 0 9px 24px; border-left:2px solid var(--line-strong);
+    position:relative; padding:9px 0 9px 24px; border-left:2px dashed var(--line-strong);
   }
   .timeline li::before{
     content:''; position:absolute; left:-6px; top:16px; width:10px; height:10px;
@@ -377,6 +392,40 @@
   .linkrow a:hover{background:var(--gold); color:var(--gold-ink)}
   .linknote{font-size:12px; color:var(--faint); margin-top:9px}
 
+  /* ── 手機優化 ── */
+  @media (max-width:720px){
+    body{font-size:14px}
+    .wrap{padding:0 14px 56px}
+    header.board{padding:26px 0 16px}
+    .tabs{margin-top:14px}
+    .tab{flex:1; text-align:center; padding:9px 10px; font-size:13px}
+    .hpath{max-width:220px}
+    .viewintro{padding:16px 0 0}
+    .viewintro .sub{margin-bottom:12px; font-size:13.5px}
+    .rulechips span{font-size:11px; padding:4px 10px}
+    .app{gap:16px; padding-top:16px}
+    .panel{padding:15px 14px}
+    .chip{padding:7px 9px; font-size:12.5px}
+    .intro{padding:18px 15px}
+    .steps{gap:10px; margin-bottom:16px}
+    .step{padding:12px 13px}
+    .summary{margin-bottom:12px}
+    .summary h2{font-size:20px}
+    .revnote{margin:-4px 0 14px}
+    .hubhead h3{font-size:15px}
+    .ap b{font-size:15px}
+    .bp-meta{gap:8px; margin-top:9px}
+    .info{margin-top:28px; gap:14px}
+    .card{padding:16px 15px}
+    .flout{padding:16px 14px}
+    .rulecard{padding:12px 14px; font-size:12.5px}
+    .copybox pre{font-size:11.5px; padding:12px 13px}
+    .timeline li{padding:8px 0 8px 20px}
+    .tl-route{font-size:13.5px}
+    th, td{font-size:12px}
+    .disclaimer{font-size:11px}
+  }
+
   @media (prefers-reduced-motion:no-preference){
     .reveal{animation:rise .45s cubic-bezier(.2,.7,.3,1) both}
     @keyframes rise{from{opacity:0; transform:translateY(7px)} to{opacity:1; transform:none}}
@@ -386,29 +435,30 @@
 
 <div class="wrap">
   <header class="board">
-    <p class="eyebrow">Taiwan Carriers · Award &amp; Fare Tools</p>
+    <p class="eyebrow">Departures · Taiwan Fare Tools</p>
     <h1>外站票工具箱</h1>
+    <div class="hpath" aria-hidden="true"><span></span><i>✈</i><span></span></div>
     <nav class="tabs" role="tablist" aria-label="工具切換">
-      <button type="button" class="tab" id="tab-calc" role="tab" aria-selected="true">星宇 × 阿拉斯加中停計算機</button>
-      <button type="button" class="tab" id="tab-fourleg" role="tab" aria-selected="false">三大航四段票排程器</button>
+      <button type="button" class="tab" id="tab-calc" role="tab" aria-selected="true">中停計算機</button>
+      <button type="button" class="tab" id="tab-fourleg" role="tab" aria-selected="false">四段票排程器</button>
     </nav>
   </header>
 
   <section class="view" id="view-calc">
   <div class="viewintro">
-    <p class="sub">用阿拉斯加哩程開星宇「外站出發、免費中停台灣 14 天」的單程票 — 選一個出發地，立刻列出所有總距離壓在 1,500 哩內的跨國搭配。</p>
+    <p class="sub">阿拉斯加哩程 × 星宇：選出發地，找出可中停台灣 14 天、總距離 1,500 哩內的單程組合。</p>
     <div class="rulechips">
-      <span>總距離 <b>≤ 1,500 哩</b> → 經濟 7,500／商務 15,000</span>
-      <span>單程免費中停 <b>TPE / RMQ ≤ 14 天</b></span>
-      <span>出發與目的須為<b>不同國家／地區</b></span>
-      <span>前後段<b>同一航空（星宇）</b></span>
+      <span><b>≤1,500 哩</b>＝經濟 7,500／商務 15,000</span>
+      <span>中停 <b>TPE/RMQ ≤14 天</b></span>
+      <span>出發、目的<b>須跨國</b></span>
+      <span>全程<b>星宇</b></span>
     </div>
   </div>
 
   <div class="app">
     <aside class="panel">
       <h2>出發地（外站）</h2>
-      <p class="hint">選擇行程起點 A，往下看可搭配的目的地 B。</p>
+      <p class="hint">選起點 A，看可搭配的 B。</p>
       <div id="picker"></div>
       <hr class="divider">
       <p class="seglabel">艙等</p>
@@ -420,11 +470,11 @@
 
     <section id="main">
       <div class="intro reveal" id="intro">
-        <h2>這個玩法怎麼運作？</h2>
+        <h2>怎麼玩？</h2>
         <div class="steps">
-          <div class="step"><span class="n">壹</span><p><b>選出發地 A（外站）</b>。A 不能在台灣，也必須與目的地 B 屬不同國家／地區，否則會被當成來回票計價。</p></div>
-          <div class="step"><span class="n">貳</span><p>計算機找出所有 <b>A → 台北/台中 → B</b> 組合，兩段大圓距離加總 <b>≤ 1,500 哩</b>者，只要 7,500（經濟）／15,000（商務）哩。</p></div>
-          <div class="step"><span class="n">參</span><p>到 AS 官網用 <b>Multi-city</b> 分兩段訂：A→TPE（Day 1）＋ TPE→B（最晚 Day 15），中停台灣最長 <b>14 天</b>。</p></div>
+          <div class="step"><span class="n">壹</span><p><b>選外站出發地 A</b> — 不在台灣、與 B 不同國。</p></div>
+          <div class="step"><span class="n">貳</span><p><b>A → 台北/台中 → B</b> 總距離 <b>≤1,500 哩</b> ＝ 7,500／15,000 哩。</p></div>
+          <div class="step"><span class="n">參</span><p>AS 官網 <b>Multi-city</b>：A→TPE（Day 1）＋ TPE→B（≤Day 15）。</p></div>
         </div>
         <div class="qps">
           <span class="qps-label">熱門出發地：</span>
@@ -440,25 +490,25 @@
 
   <div class="info">
     <div class="card">
-      <h3>訂票三步驟（Multi-city）</h3>
+      <h3>訂票三步驟</h3>
       <ol>
-        <li>先分別查好 <b>A → TPE/RMQ</b> 與 <b>TPE/RMQ → B</b> 兩段<b>各自有哩程票</b>的日期並記下來。</li>
-        <li>切到 <b>Multi-city</b>：第一段輸入 A→TPE（Day 1），第二段輸入 TPE→B（<b>14 天內</b>，最晚 Day 15）。</li>
-        <li>系統帶出 <span class="gold">7,500 哩（經濟）／15,000 哩（商務）＋稅金</span>即成功；別忘了自買 LCC 或單程票<b>補頭尾接駁</b>（例如先飛去 A）。</li>
+        <li>先分別查好<b>兩段各自有哩程票</b>的日期。</li>
+        <li><b>Multi-city</b>：A→TPE（Day 1）＋ TPE→B（<b>14 天內</b>）。</li>
+        <li>出現 <span class="gold">7,500／15,000 哩＋稅金</span>即成功；LCC 自補<b>頭尾接駁</b>。</li>
       </ol>
     </div>
     <div class="card">
-      <h3>查不到票？常見原因</h3>
+      <h3>查不到票？</h3>
       <ul>
-        <li>出發地與目的地<b>同一國家／地區</b>（開出來也會變來回票計算）。</li>
+        <li>出發與目的<b>同國</b>（會變來回票計價）。</li>
         <li>中停超過 <b>14 天</b>。</li>
-        <li>前後兩段<b>不是同一家航空</b>。</li>
-        <li>星宇部分航線<b>非全年開賣</b>（如宮古島為季節性航班）。</li>
-        <li>部分航點<b>並非每天有航班</b>，先確認兩段各自有票的日期再拼。</li>
+        <li>前後段<b>不同航空</b>。</li>
+        <li>航線<b>非全年開賣</b>（宮古島等季節性）。</li>
+        <li>該航點<b>當天沒有航班</b>。</li>
       </ul>
     </div>
     <div class="card tablecard">
-      <h3>星宇航空航點距離總表（2026 年 7 月）</h3>
+      <h3>星宇航點距離總表（2026/07）</h3>
       <div class="tscroll"><table id="dtable">
         <thead><tr>
           <th>航點</th><th>國家／地區</th>
@@ -466,25 +516,25 @@
         </tr></thead>
         <tbody></tbody>
       </table></div>
-      <p class="legendnote">— 表示該樞紐目前未飛航此點。北美與歐洲航線適用另一張兌換表，不參與本玩法配對；高雄 KHH 預計 2026 下半年進駐、航線未定案，暫未納入。</p>
+      <p class="legendnote">— 為未飛航。北美、歐洲另計價不參與配對；高雄 KHH 航線未定案暫未納入。</p>
     </div>
   </div>
   </section><!-- /view-calc -->
 
   <section class="view" id="view-fourleg" hidden>
   <div class="viewintro">
-    <p class="sub">規劃華航／長榮／星宇「外站出發、經台北折返」的現金四段票 — 排好四段日期、自動檢查新制轉機與票期規則，並產生可直接貼進官網多城市查價的行程單。</p>
+    <p class="sub">華航／長榮／星宇外站四段票（A→TPE→B→TPE→A）：排日期、自動驗規則、一鍵產生查價單。</p>
     <div class="rulechips">
-      <span>四段：A→TPE→B→TPE→A，<b>B 為折返點</b></span>
-      <span>新制：台北最多 <b>1 次停留＋1 次 24h 內轉機</b>（依航司）</span>
-      <span>票期 <b>一年</b>・須依票面順序飛</span>
+      <span><b>B 為折返點</b></span>
+      <span>台北限 <b>1 停留＋1 轉機（24h 內）</b></span>
+      <span>票期<b>一年</b>・依序飛</span>
     </div>
   </div>
 
   <div class="app">
     <aside class="panel">
       <h2>行程設定</h2>
-      <p class="hint">選航空公司與航點，再排四段日期。</p>
+      <p class="hint">選航司與航點，再排日期。</p>
 
       <p class="seglabel">航空公司</p>
       <div class="seg" role="group" aria-label="航空公司">
@@ -509,13 +559,13 @@
       <div class="modes" role="radiogroup" aria-label="台北停留安排">
         <label class="mode"><input type="radio" name="fl-mode" value="out-transit" checked>
           <span><b>去程轉機・回程停留台灣</b>
-          <small>段 1＋2 於 24 小時內接駁直達 B；段 3 回台後停留，段 4 開啟下一趟旅行（結束在外站）。</small></span></label>
+          <small>段 1＋2 於 24h 內接駁；段 3 回台停留，段 4 開啟下趟（結束在外站）。</small></span></label>
         <label class="mode"><input type="radio" name="fl-mode" value="in-transit">
           <span><b>去程停留台灣・回程轉機</b>
-          <small>段 1 先回台停留；段 2 出發玩 B；段 3＋4 於 24 小時內接駁回外站。</small></span></label>
+          <small>段 1 回台停留；段 3＋4 於 24h 內接駁回外站。</small></span></label>
         <label class="mode"><input type="radio" name="fl-mode" value="both-transit">
           <span><b>兩端皆 24h 內轉機</b>
-          <small>最保守、最不易觸發票價重算（華航短程線／星宇建議用此模式）。</small></span></label>
+          <small>最不易觸發重算（華航短程／星宇建議）。</small></span></label>
       </div>
 
       <div class="field"><label for="fl-d1">第 1 段日期（A → TPE）</label><input type="date" id="fl-d1"></div>
@@ -535,7 +585,7 @@
   </section><!-- /view-fourleg -->
 
   <p class="disclaimer">
-    【中停計算機】距離為機場座標大圓計算（statute miles），與 Alaska 系統實際判定可能有數哩誤差；壓線組合（1,500–1,600 哩）依 2026/07 實測仍常出低價，惟屬系統紅利，隨時可能修正，一切以 AS 官網實際查價為準。航點資料整理自星宇航空官網與公開航訊（2026 年 7 月）。【四段票排程器】航點清單僅為常用參考，實際是否直飛、由哪家執飛、可否停留與票價計算，一律以各航空公司官網查價結果與票價規則為準。本工具僅供參考，不構成任何訂票保證。
+    距離為大圓計算，與航司系統或有數哩誤差；壓線組合（1,500–1,600 哩）的低價屬系統紅利，隨時可能修正。航點資料整理自官網與公開航訊（2026/07）；是否直飛、可否停留與票價，一律以各航司官網查價為準。本工具僅供參考。
   </p>
 </div>
 
@@ -663,31 +713,31 @@ function rowHtml(c, hubCode){
   const p = c.zone === 'sweet' ? PRICE.sweet : PRICE.high;
   const alt = cab === 'eco' ? `商務 ${fmt(p.biz)}` : `經濟 ${fmt(p.eco)}`;
   const main = cab === 'eco' ? p.eco : p.biz;
-  const zb = c.zone === 'sweet' ? '甜蜜區' : c.zone === 'edge' ? '壓線彩蛋區' : '爆表';
+  const zb = c.zone === 'sweet' ? '甜蜜區' : c.zone === 'edge' ? '壓線彩蛋' : '爆表';
   const pct = Math.min(c.total, 1700) / 1700 * 100;
   const o = byCode[state.origin];
   return `<div class="row zone-${c.zone}">
-    <div class="route-wrap">
-      <div class="route">
-        <span class="apt"><span class="code">${o.code}</span> <span class="cityname">${esc(o.city)}</span></span>
-        <span class="arr">✈</span>
-        <span class="stoptag">中停 ${hubCode} ≤14天</span>
-        <span class="arr">✈</span>
-        <span class="apt"><span class="code">${c.dest.code}</span> <span class="cityname">${esc(c.dest.city)}・${COUNTRY[c.dest.country]}</span></span>
+    <div class="bp-main">
+      <div class="fpath">
+        <span class="ap"><b>${o.code}</b><small>${esc(o.city)}</small></span>
+        <span class="leg"><i>✈</i><em>${fmt(c.d1)} 哩</em></span>
+        <span class="ap stop"><b>${hubCode}</b><small>中停 ≤14 天</small></span>
+        <span class="leg"><i>✈</i><em>${fmt(c.d2)} 哩</em></span>
+        <span class="ap"><b>${c.dest.code}</b><small>${esc(c.dest.city)}・${COUNTRY[c.dest.country]}</small></span>
+      </div>
+      <div class="bp-meta">
+        <span class="zb">${zb}</span>
+        <div class="meter" role="img" aria-label="總距離 ${fmt(c.total)} 哩，門檻 1,500 哩，${zb}">
+          <span class="fill" style="width:${pct.toFixed(1)}%"></span><span class="tick" title="1,500 哩門檻"></span>
+        </div>
+        <span class="tot">${fmt(c.total)} 哩</span>
         ${tagHtml(c.dest)}
       </div>
-      <div class="seginfo">${o.code}–${hubCode} ${fmt(c.d1)} 哩 ＋ ${hubCode}–${c.dest.code} ${fmt(c.d2)} 哩</div>
     </div>
-    <div class="meterbox">
-      <div class="meterlab"><span class="zb">${zb}</span><span class="tot">${fmt(c.total)} 哩</span></div>
-      <div class="meter" role="img" aria-label="總距離 ${fmt(c.total)} 哩，門檻 1,500 哩，${zb}">
-        <span class="fill" style="width:${pct.toFixed(1)}%"></span><span class="tick" title="1,500 哩門檻"></span>
-      </div>
-    </div>
-    <div class="price">
-      <div class="mi">${fmt(main)} <span style="font-size:12px">哩</span></div>
-      <div class="cab">${cab === 'eco' ? '經濟艙' : '商務艙'}／單程</div>
-      <div class="alt">${alt} 哩</div>
+    <div class="bp-stub">
+      <div class="mi">${fmt(main)}<small>哩</small></div>
+      <div class="cab">${cab === 'eco' ? '經濟' : '商務'}・單程</div>
+      <div class="alt">${alt}</div>
     </div>
   </div>`;
 }
@@ -714,7 +764,7 @@ function render(){
       <h2>${esc(o.city)}（${o.code}）出發</h2>
       <span class="counts">甜蜜區 <b>${sweet}</b> 組・壓線 ${edge} 組・爆表 ${over} 組</span>
     </div>
-    <p class="revnote">組合雙向皆可開（例如反向 B → 台灣 → ${o.code}）；想看反向定價請改選 B 為出發地。</p>`;
+    <p class="revnote">反向（B → 台灣 → ${o.code}）同價，改選 B 即可查看。</p>`;
 
   for (const [hubCode, hb] of Object.entries(r.hubs)){
     const sweetEdge = hb.list.filter(c => c.zone !== 'over');
@@ -726,7 +776,7 @@ function render(){
       </div>
       <div class="rows">${sweetEdge.map(c => rowHtml(c, hubCode)).join('')}</div>`;
     if (sweetEdge.some(c => c.zone === 'edge')){
-      html += `<div class="edgecallout"><b>⚡ 壓線彩蛋：</b>總距離 1,500–1,600 哩表定應跳 ${fmt(PRICE.high.eco)}／${fmt(PRICE.high.biz)} 哩，但 2026/07 實測 AS 官網對 KIX、UKB 這類壓線組合仍常出 ${fmt(PRICE.sweet.eco)}／${fmt(PRICE.sweet.biz)} 低價 — 屬系統紅利，訂票前請以實際查價為準。</div>`;
+      html += `<div class="edgecallout"><b>⚡ 壓線彩蛋：</b>表定 ${fmt(PRICE.high.eco)}／${fmt(PRICE.high.biz)}，實測 KIX、UKB 等壓線組合常仍出 ${fmt(PRICE.sweet.eco)}／${fmt(PRICE.sweet.biz)} — 以官網查價為準。</div>`;
     }
     if (overs.length){
       html += `<details class="fold"><summary>爆表組合（&gt; 1,600 哩，${fmt(PRICE.high.eco)}／${fmt(PRICE.high.biz)} 哩）— ${overs.length} 組</summary>
@@ -925,12 +975,12 @@ function flRender(){
   }
 
   const legs = [
-    { dashed:true, date:null, route:`台灣 → ${A.code} ${A.name}`, note:'自費接駁（LCC／單程票），須在第 1 段前抵達外站', leg:'接駁' },
+    { dashed:true, date:null, route:`台灣 → ${A.code} ${A.name}`, note:'自費接駁，段 1 前抵達外站', leg:'接駁' },
     { date:d1, route:`${A.code} ${A.name} → TPE 台北`, leg:'第 1 段' },
     { date:d2, route:`TPE 台北 → ${B.code} ${B.name}`, leg:'第 2 段', badge: flBadge(tpeGo, d2auto || tpeGo <= 1) },
     { date:d3, route:`${B.code} ${B.name} → TPE 台北`, leg:'第 3 段', badge:{ cls:'', text:`${B.name}停留 ${bStay} 天` } },
     { date:d4, route:`TPE 台北 → ${A.code} ${A.name}`, leg:'第 4 段', badge: flBadge(tpeBack, d4auto || tpeBack <= 1) },
-    { dashed:true, date:null, route:`${A.code} ${A.name} → 台灣`, note:'行程結束在外站，自費返台（或銜接下一張外站票）', leg:'接駁' },
+    { dashed:true, date:null, route:`${A.code} ${A.name} → 台灣`, note:'結束在外站，自費返台（或接下一張外站票）', leg:'接駁' },
   ];
   const okYear = total <= 365;
   const copyLines = [
@@ -973,7 +1023,7 @@ function flRender(){
       <a href="https://matrix.itasoftware.com/" target="_blank" rel="noopener">ITA Matrix</a>
       <a href="https://bookwithmatrix.com/" target="_blank" rel="noopener">BookWithMatrix</a>
     </div>
-    <p class="linknote">航司官網與 Google Flights 的多城市搜尋不支援帶入行程的網址參數，請點「複製」後貼著填。提早約 360 天、把日期卡在不同假期最容易撈到甜價。</p>`;
+    <p class="linknote">多城市查價不支援網址帶入，複製後貼著填；提早約 360 天最甜。</p>`;
 
   $id('fl-copy').addEventListener('click', async () => {
     const btn = $id('fl-copy');
