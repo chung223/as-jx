@@ -1,0 +1,606 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>星宇 × 阿拉斯加 中停哩程計算機</title>
+<style>
+  /* ───────── tokens ───────── */
+  :root{
+    --bg:#16120c; --surface:#1f1913; --raised:#2a2216; --sunken:#120f0a;
+    --line:rgba(212,175,110,.16); --line-strong:rgba(212,175,110,.32);
+    --ink:#f0e8d8; --muted:#a29377; --faint:#6f6350;
+    --gold:#d4af6e; --gold-deep:#8a6d3b; --gold-ink:#1c150b;
+    --pass:#8cc1a0; --pass-bg:rgba(140,193,160,.12);
+    --warn:#e39a45; --warn-bg:rgba(227,154,69,.12);
+    --over:#c96f5f; --over-bg:rgba(201,111,95,.10);
+    --shadow:0 18px 40px -18px rgba(0,0,0,.55);
+    --serif:"Songti TC","Noto Serif TC","PMingLiU","Palatino Linotype",Georgia,serif;
+    --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Helvetica Neue",sans-serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f5f0e5; --surface:#fdfbf4; --raised:#ffffff; --sunken:#ede6d6;
+      --line:rgba(124,95,43,.18); --line-strong:rgba(124,95,43,.36);
+      --ink:#2b2416; --muted:#7b6d55; --faint:#a2947a;
+      --gold:#9c7a36; --gold-deep:#c8a35f; --gold-ink:#fffdf6;
+      --pass:#2f7a55; --pass-bg:rgba(47,122,85,.10);
+      --warn:#a6641a; --warn-bg:rgba(166,100,26,.10);
+      --over:#a84b39; --over-bg:rgba(168,75,57,.09);
+      --shadow:0 18px 40px -22px rgba(90,70,30,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16120c; --surface:#1f1913; --raised:#2a2216; --sunken:#120f0a;
+    --line:rgba(212,175,110,.16); --line-strong:rgba(212,175,110,.32);
+    --ink:#f0e8d8; --muted:#a29377; --faint:#6f6350;
+    --gold:#d4af6e; --gold-deep:#8a6d3b; --gold-ink:#1c150b;
+    --pass:#8cc1a0; --pass-bg:rgba(140,193,160,.12);
+    --warn:#e39a45; --warn-bg:rgba(227,154,69,.12);
+    --over:#c96f5f; --over-bg:rgba(201,111,95,.10);
+    --shadow:0 18px 40px -18px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f0e5; --surface:#fdfbf4; --raised:#ffffff; --sunken:#ede6d6;
+    --line:rgba(124,95,43,.18); --line-strong:rgba(124,95,43,.36);
+    --ink:#2b2416; --muted:#7b6d55; --faint:#a2947a;
+    --gold:#9c7a36; --gold-deep:#c8a35f; --gold-ink:#fffdf6;
+    --pass:#2f7a55; --pass-bg:rgba(47,122,85,.10);
+    --warn:#a6641a; --warn-bg:rgba(166,100,26,.10);
+    --over:#a84b39; --over-bg:rgba(168,75,57,.09);
+    --shadow:0 18px 40px -22px rgba(90,70,30,.35);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:15px; line-height:1.65;
+    background-image:
+      radial-gradient(1200px 500px at 85% -10%, rgba(212,175,110,.07), transparent 60%),
+      radial-gradient(900px 420px at -10% 8%, rgba(212,175,110,.05), transparent 55%);
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 20px 80px}
+
+  /* ───────── header ───────── */
+  header.board{padding:44px 0 26px; border-bottom:1px solid var(--line)}
+  .eyebrow{
+    font-size:11px; letter-spacing:.32em; text-transform:uppercase;
+    color:var(--gold); margin:0 0 10px; font-weight:600;
+  }
+  h1{
+    font-family:var(--serif); font-weight:700; margin:0 0 8px;
+    font-size:clamp(28px,4.6vw,44px); line-height:1.2; text-wrap:balance; letter-spacing:.02em;
+  }
+  .sub{color:var(--muted); margin:0 0 18px; max-width:60ch}
+  .rulechips{display:flex; flex-wrap:wrap; gap:8px}
+  .rulechips span{
+    border:1px solid var(--line-strong); color:var(--ink);
+    padding:5px 13px; border-radius:999px; font-size:12.5px; letter-spacing:.04em;
+    background:var(--surface);
+  }
+  .rulechips b{color:var(--gold); font-weight:700}
+
+  /* ───────── layout ───────── */
+  .app{display:grid; grid-template-columns:308px 1fr; gap:26px; padding-top:26px; align-items:start}
+  @media (max-width:840px){ .app{grid-template-columns:1fr} }
+
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:20px; box-shadow:var(--shadow);
+    position:sticky; top:16px;
+  }
+  @media (max-width:840px){ .panel{position:static} }
+  .panel h2{font-family:var(--serif); font-size:17px; margin:0 0 4px; letter-spacing:.06em}
+  .panel .hint{color:var(--muted); font-size:12.5px; margin:0 0 14px}
+  .cgroup{margin-bottom:14px}
+  .cgroup-name{
+    font-size:11px; letter-spacing:.22em; color:var(--faint); text-transform:uppercase;
+    margin:0 0 7px; font-weight:600;
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{
+    font-family:var(--sans); font-size:13px; cursor:pointer;
+    background:var(--raised); color:var(--ink);
+    border:1px solid var(--line); border-radius:8px; padding:6px 10px;
+    transition:border-color .15s, background .15s, transform .1s;
+  }
+  .chip:hover{border-color:var(--gold)}
+  .chip:focus-visible, .seg button:focus-visible, .qp:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  .chip[aria-pressed="true"]{
+    background:var(--gold); color:var(--gold-ink); border-color:var(--gold); font-weight:700;
+  }
+  .chip .co{font-size:11px; letter-spacing:.06em; opacity:.72; margin-right:4px; font-variant-numeric:tabular-nums}
+  .divider{border:0; border-top:1px solid var(--line); margin:16px 0}
+  .seg{display:flex; border:1px solid var(--line-strong); border-radius:9px; overflow:hidden}
+  .seg button{
+    flex:1; padding:8px 0; font-size:13.5px; cursor:pointer; font-family:var(--sans);
+    background:transparent; color:var(--muted); border:0;
+  }
+  .seg button[aria-pressed="true"]{background:var(--gold); color:var(--gold-ink); font-weight:700}
+  .seglabel{font-size:11px; letter-spacing:.22em; color:var(--faint); text-transform:uppercase; margin:0 0 7px; font-weight:600}
+
+  /* ───────── intro / empty state ───────── */
+  .intro{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:28px; box-shadow:var(--shadow);
+  }
+  .intro h2{font-family:var(--serif); margin:0 0 16px; font-size:21px}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px}
+  @media (max-width:720px){ .steps{grid-template-columns:1fr} }
+  .step{background:var(--raised); border:1px solid var(--line); border-radius:11px; padding:15px 16px}
+  .step .n{
+    font-family:var(--serif); color:var(--gold); font-size:22px; font-weight:700; line-height:1;
+    display:block; margin-bottom:8px;
+  }
+  .step p{margin:0; font-size:13.5px; color:var(--muted)}
+  .step b{color:var(--ink)}
+  .qps{display:flex; flex-wrap:wrap; gap:9px; align-items:center}
+  .qps-label{font-size:13px; color:var(--muted); margin-right:2px}
+  .qp{
+    font-family:var(--sans); cursor:pointer; font-size:13.5px;
+    background:transparent; color:var(--gold); font-weight:700;
+    border:1px solid var(--gold-deep); border-radius:999px; padding:7px 16px;
+    transition:background .15s,color .15s;
+  }
+  .qp:hover{background:var(--gold); color:var(--gold-ink)}
+
+  /* ───────── results ───────── */
+  .summary{
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 16px; margin:2px 0 18px;
+  }
+  .summary h2{font-family:var(--serif); font-size:clamp(21px,3vw,27px); margin:0}
+  .summary .counts{color:var(--muted); font-size:13.5px}
+  .summary .counts b{color:var(--pass); font-variant-numeric:tabular-nums}
+  .revnote{font-size:12.5px; color:var(--faint); margin:-8px 0 18px}
+
+  .hubblock{margin-bottom:26px}
+  .hubhead{
+    display:flex; align-items:baseline; gap:10px; margin-bottom:10px;
+    border-bottom:1px solid var(--line-strong); padding-bottom:7px;
+  }
+  .hubhead h3{font-family:var(--serif); font-size:16.5px; margin:0; letter-spacing:.05em}
+  .hubhead .via{font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); font-weight:600}
+  .hubhead .hn{margin-left:auto; color:var(--faint); font-size:12.5px; font-variant-numeric:tabular-nums}
+
+  .rows{display:flex; flex-direction:column; gap:9px}
+  .row{
+    display:grid; grid-template-columns:minmax(0,1fr) 168px 118px; gap:8px 18px; align-items:center;
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--pass);
+    border-radius:11px; padding:13px 16px;
+  }
+  @media (max-width:720px){
+    .row{grid-template-columns:1fr; gap:9px}
+    .row .meterbox{max-width:340px}
+  }
+  .row.zone-edge{border-left-color:var(--warn)}
+  .row.zone-over{border-left-color:var(--over); opacity:.82}
+  .route{display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 8px; min-width:0}
+  .route .apt{white-space:nowrap}
+  .route .code{font-weight:700; letter-spacing:.05em; font-variant-numeric:tabular-nums}
+  .route .cityname{color:var(--muted); font-size:12.5px}
+  .route .arr{color:var(--gold); font-size:12px; padding:0 1px}
+  .route .stoptag{
+    font-size:10.5px; letter-spacing:.08em; color:var(--gold);
+    border:1px solid var(--gold-deep); border-radius:5px; padding:1px 6px; white-space:nowrap;
+  }
+  .tag{
+    font-size:10.5px; color:var(--muted); background:var(--raised);
+    border:1px solid var(--line); border-radius:5px; padding:1px 6px; white-space:nowrap;
+  }
+  .seginfo{color:var(--faint); font-size:12px; margin-top:3px; font-variant-numeric:tabular-nums; width:100%}
+
+  .meterbox{min-width:0}
+  .meterlab{display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:4px}
+  .meterlab .tot{font-variant-numeric:tabular-nums; font-weight:700}
+  .meterlab .zb{letter-spacing:.05em}
+  .zone-sweet .meterlab .zb, .zone-sweet .meterlab .tot{color:var(--pass)}
+  .zone-edge  .meterlab .zb, .zone-edge  .meterlab .tot{color:var(--warn)}
+  .zone-over  .meterlab .zb, .zone-over  .meterlab .tot{color:var(--over)}
+  .meter{position:relative; height:6px; border-radius:3px; background:var(--sunken); overflow:visible}
+  .meter .fill{position:absolute; inset:0 auto 0 0; border-radius:3px}
+  .zone-sweet .fill{background:var(--pass)}
+  .zone-edge  .fill{background:var(--warn)}
+  .zone-over  .fill{background:var(--over)}
+  .meter .tick{
+    position:absolute; top:-3px; bottom:-3px; left:88.2%; width:2px;
+    background:var(--line-strong);
+  }
+
+  .price{text-align:right}
+  @media (max-width:720px){ .price{text-align:left} }
+  .price .mi{
+    font-family:var(--serif); font-size:21px; font-weight:700; line-height:1.15;
+    font-variant-numeric:tabular-nums; letter-spacing:.01em;
+  }
+  .price .cab{font-size:11px; color:var(--muted); letter-spacing:.1em}
+  .price .alt{font-size:11.5px; color:var(--faint); font-variant-numeric:tabular-nums}
+  .zone-sweet .price .mi{color:var(--pass)}
+  .zone-edge  .price .mi{color:var(--warn)}
+  .zone-over  .price .mi{color:var(--over)}
+
+  .edgecallout{
+    background:var(--warn-bg); border:1px solid var(--warn); border-radius:11px;
+    color:var(--ink); font-size:13px; padding:11px 15px; margin:12px 0 9px;
+  }
+  .edgecallout b{color:var(--warn)}
+
+  details.fold{margin-top:12px}
+  details.fold summary{
+    cursor:pointer; color:var(--muted); font-size:13px; letter-spacing:.03em;
+    padding:7px 2px; user-select:none;
+  }
+  details.fold summary:hover{color:var(--ink)}
+  details.fold[open] summary{margin-bottom:8px}
+  .excl{color:var(--faint); font-size:13px; line-height:2}
+  .excl .code{color:var(--muted); font-weight:600}
+
+  /* ───────── footer sections ───────── */
+  .info{margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:22px}
+  @media (max-width:840px){ .info{grid-template-columns:1fr} }
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px 24px}
+  .card h3{font-family:var(--serif); margin:0 0 12px; font-size:17px; letter-spacing:.05em}
+  .card ol,.card ul{margin:0; padding-left:20px; color:var(--muted); font-size:13.5px}
+  .card li{margin-bottom:8px}
+  .card li::marker{color:var(--gold)}
+  .card b{color:var(--ink)}
+  .card .gold{color:var(--gold)}
+
+  .tablecard{grid-column:1 / -1}
+  .tscroll{overflow-x:auto}
+  table{border-collapse:collapse; width:100%; font-size:13px; min-width:560px}
+  th{
+    text-align:left; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--faint); font-weight:600; padding:7px 12px 7px 0; border-bottom:1px solid var(--line-strong);
+  }
+  th.num, td.num{text-align:right}
+  td{padding:7px 12px 7px 0; border-bottom:1px solid var(--line); color:var(--muted); font-variant-numeric:tabular-nums}
+  td .code{color:var(--ink); font-weight:700; letter-spacing:.05em}
+  td.na{color:var(--faint)}
+  tr.inactive td{color:var(--faint)}
+  .legendnote{color:var(--faint); font-size:12px; margin-top:10px}
+
+  .disclaimer{
+    margin-top:26px; color:var(--faint); font-size:12px; line-height:1.9;
+    border-top:1px solid var(--line); padding-top:16px;
+  }
+
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{animation:rise .45s cubic-bezier(.2,.7,.3,1) both}
+    @keyframes rise{from{opacity:0; transform:translateY(7px)} to{opacity:1; transform:none}}
+    .row{transition:border-color .15s}
+  }
+</style>
+
+<div class="wrap">
+  <header class="board">
+    <p class="eyebrow">Alaska Mileage Plan × STARLUX Airlines</p>
+    <h1>星宇中停哩程計算機</h1>
+    <p class="sub">用阿拉斯加哩程開星宇「外站出發、免費中停台灣 14 天」的單程票 — 選一個出發地，立刻列出所有總距離壓在 1,500 哩內的跨國搭配。</p>
+    <div class="rulechips">
+      <span>總距離 <b>≤ 1,500 哩</b> → 經濟 7,500／商務 15,000</span>
+      <span>單程免費中停 <b>TPE / RMQ ≤ 14 天</b></span>
+      <span>出發與目的須為<b>不同國家／地區</b></span>
+      <span>前後段<b>同一航空（星宇）</b></span>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="panel">
+      <h2>出發地（外站）</h2>
+      <p class="hint">選擇行程起點 A，往下看可搭配的目的地 B。</p>
+      <div id="picker"></div>
+      <hr class="divider">
+      <p class="seglabel">艙等</p>
+      <div class="seg" role="group" aria-label="艙等">
+        <button type="button" id="cab-eco" aria-pressed="true">經濟艙</button>
+        <button type="button" id="cab-biz" aria-pressed="false">商務艙</button>
+      </div>
+    </aside>
+
+    <section id="main">
+      <div class="intro reveal" id="intro">
+        <h2>這個玩法怎麼運作？</h2>
+        <div class="steps">
+          <div class="step"><span class="n">壹</span><p><b>選出發地 A（外站）</b>。A 不能在台灣，也必須與目的地 B 屬不同國家／地區，否則會被當成來回票計價。</p></div>
+          <div class="step"><span class="n">貳</span><p>計算機找出所有 <b>A → 台北/台中 → B</b> 組合，兩段大圓距離加總 <b>≤ 1,500 哩</b>者，只要 7,500（經濟）／15,000（商務）哩。</p></div>
+          <div class="step"><span class="n">參</span><p>到 AS 官網用 <b>Multi-city</b> 分兩段訂：A→TPE（Day 1）＋ TPE→B（最晚 Day 15），中停台灣最長 <b>14 天</b>。</p></div>
+        </div>
+        <div class="qps">
+          <span class="qps-label">熱門出發地：</span>
+          <button type="button" class="qp" data-qp="HKG">香港 HKG</button>
+          <button type="button" class="qp" data-qp="MFM">澳門 MFM</button>
+          <button type="button" class="qp" data-qp="OKA">沖繩 OKA</button>
+          <button type="button" class="qp" data-qp="SHI">宮古島 SHI</button>
+        </div>
+      </div>
+      <div id="results" hidden></div>
+    </section>
+  </div>
+
+  <div class="info">
+    <div class="card">
+      <h3>訂票三步驟（Multi-city）</h3>
+      <ol>
+        <li>先分別查好 <b>A → TPE/RMQ</b> 與 <b>TPE/RMQ → B</b> 兩段<b>各自有哩程票</b>的日期並記下來。</li>
+        <li>切到 <b>Multi-city</b>：第一段輸入 A→TPE（Day 1），第二段輸入 TPE→B（<b>14 天內</b>，最晚 Day 15）。</li>
+        <li>系統帶出 <span class="gold">7,500 哩（經濟）／15,000 哩（商務）＋稅金</span>即成功；別忘了自買 LCC 或單程票<b>補頭尾接駁</b>（例如先飛去 A）。</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>查不到票？常見原因</h3>
+      <ul>
+        <li>出發地與目的地<b>同一國家／地區</b>（開出來也會變來回票計算）。</li>
+        <li>中停超過 <b>14 天</b>。</li>
+        <li>前後兩段<b>不是同一家航空</b>。</li>
+        <li>星宇部分航線<b>非全年開賣</b>（如宮古島為季節性航班）。</li>
+        <li>部分航點<b>並非每天有航班</b>，先確認兩段各自有票的日期再拼。</li>
+      </ul>
+    </div>
+    <div class="card tablecard">
+      <h3>星宇航空航點距離總表（2026 年 7 月）</h3>
+      <div class="tscroll"><table id="dtable">
+        <thead><tr>
+          <th>航點</th><th>國家／地區</th>
+          <th class="num">距台北 TPE（哩）</th><th class="num">距台中 RMQ（哩）</th><th>備註</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="legendnote">— 表示該樞紐目前未飛航此點。北美與歐洲航線適用另一張兌換表，不參與本玩法配對；高雄 KHH 預計 2026 下半年進駐、航線未定案，暫未納入。</p>
+    </div>
+  </div>
+
+  <p class="disclaimer">
+    距離為機場座標大圓計算（statute miles），與 Alaska 系統實際判定可能有數哩誤差；壓線組合（1,500–1,600 哩）依 2026/07 實測仍常出低價，惟屬系統紅利，隨時可能修正，一切以 AS 官網實際查價為準。航點資料整理自星宇航空官網與公開航訊（2026 年 7 月）；哩程票開放與否、航班日期請以星宇及阿拉斯加航空官網為準。本工具僅供參考，不構成任何訂票保證。
+  </p>
+</div>
+
+<script>
+/* ───────────────────────── data ─────────────────────────
+   hubs: 目前有星宇定期航班的出發樞紐
+   note / seasonal / since: 顯示於標籤
+   scope: 'asia' 參與配對；'longhaul' 僅列於距離表 */
+const HUBS = {
+  TPE: { code:'TPE', name:'台北桃園', lat:25.0777, lon:121.2325 },
+  RMQ: { code:'RMQ', name:'台中',     lat:24.2647, lon:120.6206 },
+};
+
+const AIRPORTS = [
+  // 日本
+  { code:'NRT', city:'東京成田',       country:'JP', lat:35.7720, lon:140.3929, hubs:['TPE','RMQ'], scope:'asia', note:'台中線 2026/3/30 開航' },
+  { code:'KIX', city:'大阪關西',       country:'JP', lat:34.4342, lon:135.2441, hubs:['TPE'],       scope:'asia' },
+  { code:'UKB', city:'神戶',           country:'JP', lat:34.6328, lon:135.2239, hubs:['TPE','RMQ'], scope:'asia' },
+  { code:'NGO', city:'名古屋',         country:'JP', lat:34.8584, lon:136.8049, hubs:['TPE'],       scope:'asia' },
+  { code:'FUK', city:'福岡',           country:'JP', lat:33.5859, lon:130.4508, hubs:['TPE'],       scope:'asia' },
+  { code:'KMJ', city:'熊本',           country:'JP', lat:32.8373, lon:130.8551, hubs:['TPE','RMQ'], scope:'asia', note:'台中線 2026/3/31 開航' },
+  { code:'CTS', city:'札幌新千歲',     country:'JP', lat:42.7752, lon:141.6923, hubs:['TPE'],       scope:'asia' },
+  { code:'SDJ', city:'仙台',           country:'JP', lat:38.1397, lon:140.9169, hubs:['TPE'],       scope:'asia' },
+  { code:'HKD', city:'函館',           country:'JP', lat:41.7700, lon:140.8219, hubs:['TPE'],       scope:'asia' },
+  { code:'TAK', city:'高松',           country:'JP', lat:34.2142, lon:134.0156, hubs:['RMQ'],       scope:'asia' },
+  { code:'OKA', city:'沖繩那霸',       country:'JP', lat:26.1958, lon:127.6459, hubs:['TPE','RMQ'], scope:'asia' },
+  { code:'SHI', city:'宮古島（下地島）', country:'JP', lat:24.8267, lon:125.1447, hubs:['TPE','RMQ'], scope:'asia', seasonal:true },
+  // 韓國
+  { code:'PUS', city:'釜山',           country:'KR', lat:35.1795, lon:128.9382, hubs:['TPE','RMQ'], scope:'asia', note:'2026/6/1 開航' },
+  // 港澳
+  { code:'HKG', city:'香港',           country:'HK', lat:22.3080, lon:113.9185, hubs:['TPE'],       scope:'asia' },
+  { code:'MFM', city:'澳門',           country:'MO', lat:22.1496, lon:113.5915, hubs:['TPE','RMQ'], scope:'asia' },
+  // 菲律賓
+  { code:'MNL', city:'馬尼拉',         country:'PH', lat:14.5086, lon:121.0198, hubs:['TPE'],       scope:'asia' },
+  { code:'CRK', city:'克拉克',         country:'PH', lat:15.1860, lon:120.5600, hubs:['TPE'],       scope:'asia' },
+  { code:'CEB', city:'宿霧',           country:'PH', lat:10.3075, lon:123.9790, hubs:['TPE'],       scope:'asia' },
+  // 越南
+  { code:'HAN', city:'河內',           country:'VN', lat:21.2212, lon:105.8072, hubs:['TPE'],       scope:'asia' },
+  { code:'DAD', city:'峴港',           country:'VN', lat:16.0439, lon:108.1994, hubs:['TPE','RMQ'], scope:'asia' },
+  { code:'SGN', city:'胡志明市',       country:'VN', lat:10.8188, lon:106.6520, hubs:['TPE'],       scope:'asia' },
+  { code:'PQC', city:'富國島',         country:'VN', lat:10.1698, lon:103.9931, hubs:['TPE','RMQ'], scope:'asia', seasonal:true },
+  // 泰國
+  { code:'BKK', city:'曼谷',           country:'TH', lat:13.6900, lon:100.7501, hubs:['TPE'],       scope:'asia' },
+  { code:'CNX', city:'清邁',           country:'TH', lat:18.7668, lon:98.9626,  hubs:['TPE'],       scope:'asia' },
+  // 新馬印
+  { code:'SIN', city:'新加坡',         country:'SG', lat:1.3644,  lon:103.9915, hubs:['TPE'],       scope:'asia' },
+  { code:'KUL', city:'吉隆坡',         country:'MY', lat:2.7456,  lon:101.7099, hubs:['TPE'],       scope:'asia' },
+  { code:'PEN', city:'檳城',           country:'MY', lat:5.2971,  lon:100.2770, hubs:['TPE'],       scope:'asia' },
+  { code:'CGK', city:'雅加達',         country:'ID', lat:-6.1256, lon:106.6559, hubs:['TPE'],       scope:'asia' },
+  // 長程（僅供距離表參考，另一張兌換表）
+  { code:'LAX', city:'洛杉磯',         country:'US', lat:33.9416, lon:-118.4085, hubs:['TPE'], scope:'longhaul' },
+  { code:'SFO', city:'舊金山',         country:'US', lat:37.6213, lon:-122.3790, hubs:['TPE'], scope:'longhaul' },
+  { code:'SEA', city:'西雅圖',         country:'US', lat:47.4502, lon:-122.3088, hubs:['TPE'], scope:'longhaul' },
+  { code:'ONT', city:'安大略',         country:'US', lat:34.0560, lon:-117.6012, hubs:['TPE'], scope:'longhaul' },
+  { code:'PHX', city:'鳳凰城',         country:'US', lat:33.4343, lon:-112.0116, hubs:['TPE'], scope:'longhaul', note:'2026/1/15 開航' },
+  { code:'PRG', city:'布拉格',         country:'CZ', lat:50.1008, lon:14.2600,   hubs:['TPE'], scope:'longhaul', note:'2026/8/1 開航' },
+  { code:'DPS', city:'峇里島',         country:'ID', lat:-8.7482, lon:115.1672,  hubs:['TPE'], scope:'future',   note:'2026 年底前開航（籌備中）' },
+];
+
+const COUNTRY = {
+  JP:'日本', KR:'韓國', HK:'香港', MO:'澳門', PH:'菲律賓', VN:'越南',
+  TH:'泰國', SG:'新加坡', MY:'馬來西亞', ID:'印尼', US:'美國', CZ:'捷克',
+};
+// 顯示於出發地選單的分組順序
+const PICK_ORDER = ['HK','MO','JP','KR','PH','VN','TH','SG','MY','ID'];
+
+const SWEET_MAX = 1500;   // 低價表上限
+const EDGE_MAX  = 1600;   // 壓線彩蛋觀察區上限（實測 KIX/UKB 約 1,559–1,589 哩仍出低價）
+const PRICE = { sweet:{eco:7500, biz:15000}, high:{eco:15000, biz:50000} };
+
+/* ───────────────────────── engine ───────────────────────── */
+const R_MI = 3958.7613;
+const rad = d => d * Math.PI / 180;
+function gcMiles(a, b){
+  const h = Math.sin(rad(b.lat-a.lat)/2)**2 +
+    Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(rad(b.lon-a.lon)/2)**2;
+  return Math.round(2 * R_MI * Math.asin(Math.sqrt(h)));
+}
+const byCode = Object.fromEntries(AIRPORTS.map(a => [a.code, a]));
+const fmt = n => n.toLocaleString('en-US');
+
+function zoneOf(total){
+  if (total <= SWEET_MAX) return 'sweet';
+  if (total <= EDGE_MAX)  return 'edge';
+  return 'over';
+}
+function combosFrom(originCode){
+  const o = byCode[originCode];
+  const out = { hubs:{}, sameCountry:[] };
+  for (const hubCode of o.hubs){
+    const hub = HUBS[hubCode];
+    const d1 = gcMiles(o, hub);
+    const list = [];
+    for (const d of AIRPORTS){
+      if (d.scope !== 'asia' || d.code === o.code) continue;
+      if (!d.hubs.includes(hubCode)) continue;
+      if (d.country === o.country){
+        if (hubCode === o.hubs[0]) out.sameCountry.push(d);
+        continue;
+      }
+      const d2 = gcMiles(hub, d);
+      const total = d1 + d2;
+      list.push({ dest:d, d1, d2, total, zone: zoneOf(total) });
+    }
+    list.sort((x,y) => x.total - y.total);
+    if (list.length) out.hubs[hubCode] = { hub, d1, list };
+  }
+  return out;
+}
+
+/* ───────────────────────── state & render ───────────────────────── */
+let state = { origin:null, cabin:'eco' };
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function tagHtml(a){
+  let t = '';
+  if (a.seasonal) t += '<span class="tag">季節性航班</span>';
+  if (a.note)     t += `<span class="tag">${esc(a.note)}</span>`;
+  return t;
+}
+
+function rowHtml(c, hubCode){
+  const cab = state.cabin;
+  const p = c.zone === 'sweet' ? PRICE.sweet : PRICE.high;
+  const alt = cab === 'eco' ? `商務 ${fmt(p.biz)}` : `經濟 ${fmt(p.eco)}`;
+  const main = cab === 'eco' ? p.eco : p.biz;
+  const zb = c.zone === 'sweet' ? '甜蜜區' : c.zone === 'edge' ? '壓線彩蛋區' : '爆表';
+  const pct = Math.min(c.total, 1700) / 1700 * 100;
+  const o = byCode[state.origin];
+  return `<div class="row zone-${c.zone}">
+    <div class="route-wrap">
+      <div class="route">
+        <span class="apt"><span class="code">${o.code}</span> <span class="cityname">${esc(o.city)}</span></span>
+        <span class="arr">✈</span>
+        <span class="stoptag">中停 ${hubCode} ≤14天</span>
+        <span class="arr">✈</span>
+        <span class="apt"><span class="code">${c.dest.code}</span> <span class="cityname">${esc(c.dest.city)}・${COUNTRY[c.dest.country]}</span></span>
+        ${tagHtml(c.dest)}
+      </div>
+      <div class="seginfo">${o.code}–${hubCode} ${fmt(c.d1)} 哩 ＋ ${hubCode}–${c.dest.code} ${fmt(c.d2)} 哩</div>
+    </div>
+    <div class="meterbox">
+      <div class="meterlab"><span class="zb">${zb}</span><span class="tot">${fmt(c.total)} 哩</span></div>
+      <div class="meter" role="img" aria-label="總距離 ${fmt(c.total)} 哩，門檻 1,500 哩，${zb}">
+        <span class="fill" style="width:${pct.toFixed(1)}%"></span><span class="tick" title="1,500 哩門檻"></span>
+      </div>
+    </div>
+    <div class="price">
+      <div class="mi">${fmt(main)} <span style="font-size:12px">哩</span></div>
+      <div class="cab">${cab === 'eco' ? '經濟艙' : '商務艙'}／單程</div>
+      <div class="alt">${alt} 哩</div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const intro = document.getElementById('intro');
+  const box = document.getElementById('results');
+  document.querySelectorAll('#picker .chip').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.code === state.origin)));
+  document.getElementById('cab-eco').setAttribute('aria-pressed', String(state.cabin === 'eco'));
+  document.getElementById('cab-biz').setAttribute('aria-pressed', String(state.cabin === 'biz'));
+
+  if (!state.origin){ intro.hidden = false; box.hidden = true; return; }
+  intro.hidden = true; box.hidden = false;
+
+  const o = byCode[state.origin];
+  const r = combosFrom(state.origin);
+  let sweet = 0, edge = 0, over = 0;
+  for (const h of Object.values(r.hubs)) for (const c of h.list){
+    if (c.zone === 'sweet') sweet++; else if (c.zone === 'edge') edge++; else over++;
+  }
+
+  let html = `<div class="summary reveal">
+      <h2>${esc(o.city)}（${o.code}）出發</h2>
+      <span class="counts">甜蜜區 <b>${sweet}</b> 組・壓線 ${edge} 組・爆表 ${over} 組</span>
+    </div>
+    <p class="revnote">組合雙向皆可開（例如反向 B → 台灣 → ${o.code}）；想看反向定價請改選 B 為出發地。</p>`;
+
+  for (const [hubCode, hb] of Object.entries(r.hubs)){
+    const sweetEdge = hb.list.filter(c => c.zone !== 'over');
+    const overs = hb.list.filter(c => c.zone === 'over');
+    html += `<div class="hubblock reveal">
+      <div class="hubhead">
+        <span class="via">Via</span><h3>${hb.hub.name}（${hubCode}）中停</h3>
+        <span class="hn">${o.code}–${hubCode} ${fmt(hb.d1)} 哩</span>
+      </div>
+      <div class="rows">${sweetEdge.map(c => rowHtml(c, hubCode)).join('')}</div>`;
+    if (sweetEdge.some(c => c.zone === 'edge')){
+      html += `<div class="edgecallout"><b>⚡ 壓線彩蛋：</b>總距離 1,500–1,600 哩表定應跳 ${fmt(PRICE.high.eco)}／${fmt(PRICE.high.biz)} 哩，但 2026/07 實測 AS 官網對 KIX、UKB 這類壓線組合仍常出 ${fmt(PRICE.sweet.eco)}／${fmt(PRICE.sweet.biz)} 低價 — 屬系統紅利，訂票前請以實際查價為準。</div>`;
+    }
+    if (overs.length){
+      html += `<details class="fold"><summary>爆表組合（&gt; 1,600 哩，${fmt(PRICE.high.eco)}／${fmt(PRICE.high.biz)} 哩）— ${overs.length} 組</summary>
+        <div class="rows">${overs.map(c => rowHtml(c, hubCode)).join('')}</div></details>`;
+    }
+    html += `</div>`;
+  }
+
+  if (r.sameCountry.length){
+    const items = r.sameCountry.map(d => `<span class="code">${d.code}</span> ${esc(d.city)}`).join('、');
+    html += `<details class="fold reveal"><summary>同國家／地區、不符跨國條件的航點 — ${r.sameCountry.length} 個</summary>
+      <p class="excl">${items}：與 ${esc(o.city)} 同屬${COUNTRY[o.country]}，開出來會被系統以來回票計價，不適用本玩法。</p></details>`;
+  }
+  box.innerHTML = html;
+}
+
+/* ───────────────────────── build UI ───────────────────────── */
+function buildPicker(){
+  const p = document.getElementById('picker');
+  let html = '';
+  for (const cc of PICK_ORDER){
+    const list = AIRPORTS.filter(a => a.scope === 'asia' && a.country === cc);
+    if (!list.length) continue;
+    html += `<div class="cgroup"><p class="cgroup-name">${COUNTRY[cc]}</p><div class="chips">` +
+      list.map(a => `<button type="button" class="chip" data-code="${a.code}" aria-pressed="false"><span class="co">${a.code}</span>${esc(a.city)}</button>`).join('') +
+      `</div></div>`;
+  }
+  p.innerHTML = html;
+  p.addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    state.origin = (state.origin === b.dataset.code) ? null : b.dataset.code;
+    render();
+  });
+}
+
+function buildTable(){
+  const tb = document.querySelector('#dtable tbody');
+  tb.innerHTML = AIRPORTS.map(a => {
+    const inactive = a.scope === 'future';
+    const dT = a.hubs.includes('TPE') && !inactive ? fmt(gcMiles(a, HUBS.TPE)) : null;
+    const dR = a.hubs.includes('RMQ') && !inactive ? fmt(gcMiles(a, HUBS.RMQ)) : null;
+    const notes = [];
+    if (a.seasonal) notes.push('季節性航班');
+    if (a.note) notes.push(a.note);
+    if (a.scope === 'longhaul') notes.push('長程線・另計價');
+    return `<tr${inactive ? ' class="inactive"' : ''}>
+      <td><span class="code">${a.code}</span> ${esc(a.city)}</td>
+      <td>${COUNTRY[a.country]}</td>
+      <td class="num${dT ? '' : ' na'}">${dT ?? '—'}</td>
+      <td class="num${dR ? '' : ' na'}">${dR ?? '—'}</td>
+      <td>${esc(notes.join('；')) || ''}</td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('cab-eco').addEventListener('click', () => { state.cabin = 'eco'; render(); });
+document.getElementById('cab-biz').addEventListener('click', () => { state.cabin = 'biz'; render(); });
+document.querySelectorAll('.qp').forEach(b =>
+  b.addEventListener('click', () => { state.origin = b.dataset.qp; render(); }));
+
+buildPicker();
+buildTable();
+render();
+</script>
