@@ -304,6 +304,12 @@
     border-top:1px solid var(--line); padding-top:16px;
   }
 
+  /* ───────── 資料藍（降雨等水象資料） ───────── */
+  :root{--data-blue:#7fb4d9}
+  @media (prefers-color-scheme: light){ :root{--data-blue:#39708f} }
+  :root[data-theme="dark"]{--data-blue:#7fb4d9}
+  :root[data-theme="light"]{--data-blue:#39708f}
+
   /* ───────── theme color-scheme (原生控件跟主題) ───────── */
   :root{color-scheme:dark}
   @media (prefers-color-scheme: light){ :root{color-scheme:light} }
@@ -514,6 +520,37 @@
   .cxcab.no .cs{color:var(--over)}
   .cxcab.na{opacity:.55}
 
+  /* ── 即時資訊 ── */
+  .fxstrip{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
+  .fxpill{
+    border:1px solid var(--line-strong); border-radius:9px; padding:7px 12px;
+    font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums;
+  }
+  .fxpill b{display:block; font-size:15px; color:var(--ink); font-family:var(--serif)}
+  .chartbox{margin:10px 0 4px}
+  .chartbox svg{display:block; width:100%; height:auto}
+  .charttitle{font-size:11px; letter-spacing:.1em; color:var(--faint); text-transform:uppercase; margin:10px 0 4px}
+  .liveerr{
+    background:var(--warn-bg); border:1px solid var(--warn); border-radius:9px;
+    color:var(--ink); font-size:12.5px; padding:10px 13px; margin-top:8px;
+  }
+  .livestamp{font-size:10.5px; color:var(--faint); margin-top:8px}
+  .wxnow{display:flex; flex-wrap:wrap; align-items:center; gap:14px 22px; margin:6px 0 4px}
+  .wxtemp{font-family:var(--serif); font-size:42px; font-weight:700; line-height:1; font-variant-numeric:tabular-nums}
+  .wxtemp small{font-size:16px; font-weight:400; color:var(--muted)}
+  .wxdesc{font-size:13px; color:var(--muted)}
+  .wxdesc b{display:block; font-size:15px; color:var(--ink)}
+  .compass{display:flex; align-items:center; gap:9px}
+  .compass svg{display:block}
+  .compass .cv{font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; line-height:1.5}
+  .mapcard{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:14px 16px 8px; margin-bottom:18px; box-shadow:var(--shadow);
+  }
+  .mapcard canvas{display:block; width:100%; height:300px}
+  @media (max-width:720px){ .mapcard canvas{height:220px} }
+  .maplab{font-size:10.5px; color:var(--faint); text-align:right; padding:4px 2px 2px}
+
   /* ── 玩家面板 ── */
   .dashgrid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px; padding-top:22px}
   .dashgrid .span2{grid-column:1 / -1}
@@ -647,6 +684,7 @@
       <button type="button" class="tab" id="tab-calc" role="tab" aria-selected="true">中停計算機</button>
       <button type="button" class="tab" id="tab-fourleg" role="tab" aria-selected="false">四段票排程器</button>
       <button type="button" class="tab" id="tab-mile" role="tab" aria-selected="false">哩程兌換</button>
+      <button type="button" class="tab" id="tab-live" role="tab" aria-selected="false">即時資訊</button>
       <button type="button" class="tab" id="tab-dash" role="tab" aria-selected="false">玩家面板</button>
     </nav>
   </header>
@@ -853,6 +891,34 @@
     <section id="mi-main"></section>
   </div>
   </section><!-- /view-mile -->
+
+  <section class="view" id="view-live" hidden>
+  <div class="viewintro">
+    <p class="sub">即時匯率與機場天氣 — 直連免金鑰公開 API，不經第三方伺服器。</p>
+    <div class="rulechips">
+      <span>匯率 <b>frankfurter.app</b></span>
+      <span>天氣 <b>open-meteo.com</b></span>
+      <span>皆<b>免金鑰</b>・瀏覽器直連</span>
+    </div>
+  </div>
+
+  <div class="dashgrid">
+    <div class="card">
+      <h3>匯率（台幣計價）</h3>
+      <div id="fx-out"><p class="mnote">載入中…</p></div>
+      <hr class="divider">
+      <div class="field"><label for="fx-cents">阿拉斯加買分價（美分／哩）</label>
+        <input type="number" id="fx-cents" step="0.01" min="0" value="2.11" inputmode="decimal"></div>
+      <div id="fx-as"></div>
+    </div>
+
+    <div class="card">
+      <h3>機場天氣</h3>
+      <div class="field"><label for="wx-apt">機場</label><select id="wx-apt"></select></div>
+      <div id="wx-out"><p class="mnote">載入中…</p></div>
+    </div>
+  </div>
+  </section><!-- /view-live -->
 
   <section class="view" id="view-dash" hidden>
   <div class="viewintro">
@@ -1113,7 +1179,8 @@ function render(){
       <h2>${esc(o.city)}（${o.code}）出發</h2>
       <span class="counts">甜蜜區 <b>${sweet}</b> 組・壓線 ${edge} 組・爆表 ${over} 組</span>
     </div>
-    <p class="revnote">反向（B → 台灣 → ${o.code}）同價，改選 B 即可查看。</p>`;
+    <p class="revnote">反向（B → 台灣 → ${o.code}）同價，改選 B 即可查看。</p>
+    <div class="mapcard reveal"><canvas id="routemap" aria-label="航線示意圖"></canvas><div class="maplab">航線示意・綠＝甜蜜區、琥珀＝壓線、灰＝爆表</div></div>`;
 
   for (const [hubCode, hb] of Object.entries(r.hubs)){
     const sweetEdge = hb.list.filter(c => c.zone !== 'over');
@@ -1140,6 +1207,7 @@ function render(){
       <p class="excl">${items}：與 ${esc(o.city)} 同屬${COUNTRY[o.country]}，開出來會被系統以來回票計價，不適用本玩法。</p></details>`;
   }
   box.innerHTML = html;
+  requestAnimationFrame(() => drawRouteMap(o, r));
 }
 
 /* ───────────────────────── build UI ───────────────────────── */
@@ -1191,8 +1259,8 @@ buildTable();
 render();
 
 /* ═════════════════════ 分頁切換 ═════════════════════ */
-const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), dash: document.getElementById('view-dash') };
-const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile'),  dash: document.getElementById('tab-dash') };
+const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), live: document.getElementById('view-live'), dash: document.getElementById('view-dash') };
+const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile'),  live: document.getElementById('tab-live'),  dash: document.getElementById('tab-dash') };
 let currentView = 'calc';
 function showView(v){
   currentView = v;
@@ -1201,11 +1269,13 @@ function showView(v){
     TABS[k].setAttribute('aria-selected', String(k === v));
   }
   if (v === 'mile' && typeof miPrefill === 'function') miPrefill();
+  if (v === 'live') liveInit();
   if (typeof syncHash === 'function') syncHash();
 }
 TABS.calc.addEventListener('click', () => showView('calc'));
 TABS.fourleg.addEventListener('click', () => showView('fourleg'));
 TABS.mile.addEventListener('click', () => showView('mile'));
+TABS.live.addEventListener('click', () => showView('live'));
 TABS.dash.addEventListener('click', () => showView('dash'));
 
 /* ═════════════════════ 四段票排程器 ═════════════════════ */
@@ -2025,7 +2095,225 @@ function applyHash(){
   render(); flRender(); miRender();
   showView(t && VIEWS[t] ? t : 'calc');
 }
-applyHash();
+
+/* ═════════════════════ 即時資訊（免金鑰 API：frankfurter / open-meteo） ═════════════════════ */
+let liveLoaded = false;
+function liveInit(){
+  if (liveLoaded) return; liveLoaded = true;
+  fxLoad(); wxBuildSelect(); wxLoad();
+}
+const fxState = { usdtwd: null };
+async function fxLoad(){
+  const out = $id('fx-out');
+  try {
+    const end = new Date(), start = new Date(); start.setDate(start.getDate() - 30);
+    const iso = d => d.toLocaleDateString('sv');
+    const [latest, series] = await Promise.all([
+      fetch('https://api.frankfurter.app/latest?from=TWD&to=USD,JPY,HKD,EUR').then(r => r.json()),
+      fetch(`https://api.frankfurter.app/${iso(start)}..${iso(end)}?from=USD&to=TWD`).then(r => r.json()),
+    ]);
+    const inv = c => 1 / latest.rates[c];
+    fxState.usdtwd = inv('USD');
+    const pills = [
+      ['美元 USD', inv('USD').toFixed(2)],
+      ['日圓 JPY×100', (inv('JPY') * 100).toFixed(2)],
+      ['港幣 HKD', inv('HKD').toFixed(2)],
+      ['歐元 EUR', inv('EUR').toFixed(2)],
+    ].map(([n, v]) => `<span class="fxpill">${n}<b>${v}</b></span>`).join('');
+    const pts = Object.entries(series.rates).map(([d, r]) => [d, r.TWD]).sort((a, b) => a[0] < b[0] ? -1 : 1);
+    out.innerHTML = `<div class="fxstrip">${pills}</div>
+      <p class="charttitle">USD → TWD・近 30 天</p>
+      <div class="chartbox">${fxSpark(pts)}</div>
+      <p class="livestamp">資料日期 ${latest.date}（歐洲央行牌價，週末不更新）</p>`;
+    fxAsRender();
+  } catch {
+    out.innerHTML = `<div class="liveerr">⚠ 無法取得匯率 — 此環境可能封鎖外部連線，或 API 暫時無回應。</div>`;
+  }
+}
+function fxSpark(pts){
+  const W = 560, H = 120, P = 8, PB = 16;
+  const vs = pts.map(p => p[1]);
+  const min = Math.min(...vs), max = Math.max(...vs), span = (max - min) || 1;
+  const x = i => P + 30 + i * (W - 2*P - 30) / (pts.length - 1);
+  const y = v => P + (max - v) * (H - P - PB) / span;
+  const path = pts.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p[1]).toFixed(1)}`).join('');
+  const last = pts[pts.length - 1];
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="美元兌台幣近30天走勢，最新 ${last[1].toFixed(2)}">
+    <line x1="${P+30}" y1="${y(min).toFixed(1)}" x2="${W-P}" y2="${y(min).toFixed(1)}" stroke="var(--line)"/>
+    <line x1="${P+30}" y1="${y(max).toFixed(1)}" x2="${W-P}" y2="${y(max).toFixed(1)}" stroke="var(--line)"/>
+    <text x="${P}" y="${(y(max)+4).toFixed(1)}" font-size="10" fill="var(--faint)">${max.toFixed(2)}</text>
+    <text x="${P}" y="${(y(min)+4).toFixed(1)}" font-size="10" fill="var(--faint)">${min.toFixed(2)}</text>
+    <path d="${path}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(pts.length-1).toFixed(1)}" cy="${y(last[1]).toFixed(1)}" r="4" fill="var(--gold)" stroke="var(--surface)" stroke-width="2"/>
+    <text x="${(x(pts.length-1)-8).toFixed(1)}" y="${(y(last[1])-9).toFixed(1)}" font-size="11" font-weight="700" fill="var(--ink)" text-anchor="end">${last[1].toFixed(2)}</text>
+  </svg>`;
+}
+function fxAsRender(){
+  const cents = +$id('fx-cents').value || 0;
+  const el = $id('fx-as');
+  if (!fxState.usdtwd){ el.innerHTML = '<p class="mnote">匯率載入後自動換算。</p>'; return; }
+  const nt = cents / 100 * fxState.usdtwd;
+  el.innerHTML = `<div class="cpmres" style="margin-top:2px">
+      <span class="val" style="font-size:26px">${nt.toFixed(2)}</span><span class="unit">NT$／哩</span>
+      <button type="button" class="copybtn" style="position:static" id="fx-apply">套用到比較費率（AS）</button>
+    </div>
+    <p class="mnote">依 AS 官網買分常態價換算；促銷加贈時實際成本更低。</p>`;
+  $id('fx-apply').addEventListener('click', () => {
+    const r = loadLS('cmpRates', {}); r.AS = +nt.toFixed(2); saveLS('cmpRates', r);
+    cmpBuildRates();
+    $id('fx-apply').textContent = '已套用 ✓';
+    setTimeout(() => { const b = $id('fx-apply'); if (b) b.textContent = '套用到比較費率（AS）'; }, 2000);
+  });
+}
+$id('fx-cents').addEventListener('input', fxAsRender);
+
+const WMO = { 0:'晴朗',1:'大致晴朗',2:'多雲',3:'陰天',45:'霧',48:'霧凇',51:'毛毛雨',53:'毛毛雨',55:'毛毛雨',56:'凍雨',57:'凍雨',61:'小雨',63:'中雨',65:'大雨',66:'凍雨',67:'凍雨',71:'小雪',73:'中雪',75:'大雪',77:'霰',80:'陣雨',81:'陣雨',82:'強陣雨',85:'陣雪',86:'陣雪',95:'雷雨',96:'雷雨冰雹',99:'雷雨冰雹' };
+function wxCoord(c){ return cxByCode[c] || HUBS[c]; }
+function wxDow(s){ return ['日','一','二','三','四','五','六'][new Date(s + 'T00:00:00').getDay()]; }
+function wxBuildSelect(){
+  const sel = $id('wx-apt');
+  let html = `<optgroup label="台灣"><option value="TPE" selected>TPE 台北桃園</option><option value="RMQ">RMQ 台中</option><option value="KHH">KHH 高雄</option></optgroup>` +
+    `<optgroup label="港澳"><option value="HKG">HKG 香港</option></optgroup>`;
+  for (const [g, list] of Object.entries(CX_AIRPORTS)){
+    if (g === '台港澳') continue;
+    html += `<optgroup label="${g}">` + list.map(([c, n]) => `<option value="${c}">${c} ${n}</option>`).join('') + `</optgroup>`;
+  }
+  sel.innerHTML = html;
+  sel.addEventListener('change', wxLoad);
+}
+async function wxLoad(){
+  const p = wxCoord($id('wx-apt').value);
+  const out = $id('wx-out');
+  out.innerHTML = '<p class="mnote">載入中…</p>';
+  try {
+    const u = `https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}` +
+      `&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m` +
+      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=7&timezone=auto&wind_speed_unit=kn`;
+    const d = await fetch(u).then(r => r.json());
+    const cur = d.current, dl = d.daily;
+    const dirs = ['北','北北東','東北','東北東','東','東南東','東南','南南東','南','南南西','西南','西南西','西','西北西','西北','北北西'];
+    const dir = dirs[Math.round(cur.wind_direction_10m / 22.5) % 16];
+    out.innerHTML = `
+      <div class="wxnow">
+        <span class="wxtemp">${Math.round(cur.temperature_2m)}<small>°C</small></span>
+        <span class="wxdesc"><b>${WMO[cur.weather_code] || '—'}</b>體感 ${Math.round(cur.apparent_temperature)}°・濕度 ${cur.relative_humidity_2m}%</span>
+        <span class="compass">
+          <svg width="52" height="52" viewBox="0 0 52 52" role="img" aria-label="風向 ${dir}，風速 ${Math.round(cur.wind_speed_10m)} 節">
+            <circle cx="26" cy="26" r="24" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text x="26" y="11" font-size="8" fill="var(--faint)" text-anchor="middle">N</text>
+            <g transform="rotate(${cur.wind_direction_10m + 180} 26 26)">
+              <path d="M26 13 L31 32 L26 27 L21 32 Z" fill="var(--gold)"/>
+            </g>
+          </svg>
+          <span class="cv">${dir}風 ${Math.round(cur.wind_speed_10m)} kn<br>陣風 ${Math.round(cur.wind_gusts_10m)} kn</span>
+        </span>
+      </div>
+      <p class="charttitle">未來 7 天氣溫（高／低 °C）</p>
+      <div class="chartbox">${wxTempChart(dl)}</div>
+      <p class="charttitle">降雨機率（%）</p>
+      <div class="chartbox">${wxRainChart(dl)}</div>
+      <p class="livestamp">更新 ${cur.time.replace('T', ' ')}（當地時間）</p>`;
+  } catch {
+    out.innerHTML = `<div class="liveerr">⚠ 無法取得天氣 — 此環境可能封鎖外部連線，或 API 暫時無回應。</div>`;
+  }
+}
+function wxTempChart(dl){
+  const W = 560, H = 150, PL = 8, PR = 40, PT = 14, PB = 22;
+  const n = dl.time.length;
+  const hi = dl.temperature_2m_max, lo = dl.temperature_2m_min;
+  const min = Math.floor(Math.min(...lo)) - 1, max = Math.ceil(Math.max(...hi)) + 1;
+  const x = i => PL + 20 + i * (W - PL - PR - 20) / (n - 1);
+  const y = v => PT + (max - v) * (H - PT - PB) / (max - min);
+  const line = arr => arr.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+  const back = [...lo].map((_, k) => { const i = n - 1 - k; return `L${x(i).toFixed(1)},${y(lo[i]).toFixed(1)}`; }).join('');
+  const days = dl.time.map((t, i) =>
+    `<text x="${x(i).toFixed(1)}" y="${H - 6}" font-size="10" fill="var(--faint)" text-anchor="middle">${wxDow(t)}</text>
+     <rect x="${(x(i) - 20).toFixed(1)}" y="0" width="40" height="${H}" fill="transparent"><title>${t.slice(5)}（${wxDow(t)}）高 ${hi[i]}° 低 ${lo[i]}°</title></rect>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="七天氣溫趨勢">
+    <path d="${line(hi)} ${back} Z" fill="var(--gold)" opacity="0.14"/>
+    <path d="${line(hi)}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="${line(lo)}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linejoin="round"/>
+    <text x="${(x(n-1) + 7).toFixed(1)}" y="${(y(hi[n-1]) + 4).toFixed(1)}" font-size="11" font-weight="700" fill="var(--ink)">${Math.round(hi[n-1])}° 高</text>
+    <text x="${(x(n-1) + 7).toFixed(1)}" y="${(y(lo[n-1]) + 4).toFixed(1)}" font-size="11" fill="var(--muted)">${Math.round(lo[n-1])}° 低</text>
+    ${days}
+  </svg>`;
+}
+function wxRainChart(dl){
+  const W = 560, H = 110, PL = 28, PR = 10, PT = 12, PB = 22;
+  const n = dl.time.length;
+  const vs = dl.precipitation_probability_max.map(v => v ?? 0);
+  const x = i => PL + (i + 0.5) * (W - PL - PR) / n;
+  const y = v => PT + (100 - v) * (H - PT - PB) / 100;
+  const bw = Math.min(26, (W - PL - PR) / n * 0.5);
+  const maxV = Math.max(...vs), maxI = vs.indexOf(maxV);
+  const bars = vs.map((v, i) =>
+    `<rect x="${(x(i) - bw/2).toFixed(1)}" y="${y(v).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(2, H - PB - y(v)).toFixed(1)}" rx="2" fill="var(--data-blue)"><title>${dl.time[i].slice(5)}（${wxDow(dl.time[i])}）降雨機率 ${v}%</title></rect>` +
+    `<text x="${x(i).toFixed(1)}" y="${H - 6}" font-size="10" fill="var(--faint)" text-anchor="middle">${wxDow(dl.time[i])}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="七天降雨機率">
+    <line x1="${PL - 4}" y1="${y(0).toFixed(1)}" x2="${W - PR}" y2="${y(0).toFixed(1)}" stroke="var(--line-strong)"/>
+    <text x="${PL - 8}" y="${(y(100) + 4).toFixed(1)}" font-size="10" fill="var(--faint)" text-anchor="end">100</text>
+    <text x="${PL - 8}" y="${(y(0) + 4).toFixed(1)}" font-size="10" fill="var(--faint)" text-anchor="end">0</text>
+    ${bars}
+    ${maxV > 0 ? `<text x="${x(maxI).toFixed(1)}" y="${(y(maxV) - 5).toFixed(1)}" font-size="10.5" font-weight="700" fill="var(--ink)" text-anchor="middle">${maxV}%</text>` : ''}
+  </svg>`;
+}
+
+/* ── 中停計算機航線示意圖（Canvas） ── */
+function rmCurve(g, x1, y1, x2, y2){
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, k = 0.12;
+  g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(mx - dy * k, my + dx * k, x2, y2); g.stroke();
+}
+function drawRouteMap(o, r){
+  const cv = document.getElementById('routemap'); if (!cv) return;
+  const dpr = window.devicePixelRatio || 1;
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if (!w) return;
+  cv.width = w * dpr; cv.height = h * dpr;
+  const g = cv.getContext('2d'); g.scale(dpr, dpr);
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const pts = [{ code:o.code, lat:o.lat, lon:o.lon, kind:'origin' }];
+  for (const hb of Object.values(r.hubs)){
+    pts.push({ code:hb.hub.code, lat:hb.hub.lat, lon:hb.hub.lon, kind:'hub' });
+    for (const c of hb.list) pts.push({ code:c.dest.code, lat:c.dest.lat, lon:c.dest.lon, kind:c.zone });
+  }
+  const pad = 2.5;
+  const la0 = Math.min(...pts.map(p => p.lat)) - pad, la1 = Math.max(...pts.map(p => p.lat)) + pad;
+  const lo0 = Math.min(...pts.map(p => p.lon)) - pad, lo1 = Math.max(...pts.map(p => p.lon)) + pad;
+  const X = lon => (lon - lo0) / (lo1 - lo0) * (w - 24) + 12;
+  const Y = lat => (la1 - lat) / (la1 - la0) * (h - 24) + 12;
+  g.clearRect(0, 0, w, h);
+  g.strokeStyle = css('--line'); g.lineWidth = 1; g.setLineDash([]);
+  const step = (lo1 - lo0) > 40 ? 10 : 5;
+  for (let lo = Math.ceil(lo0/step)*step; lo <= lo1; lo += step){ g.beginPath(); g.moveTo(X(lo), 0); g.lineTo(X(lo), h); g.stroke(); }
+  for (let la = Math.ceil(la0/step)*step; la <= la1; la += step){ g.beginPath(); g.moveTo(0, Y(la)); g.lineTo(w, Y(la)); g.stroke(); }
+  const zc = { sweet: css('--pass'), edge: css('--warn'), over: css('--faint') };
+  for (const hb of Object.values(r.hubs)){
+    const hx = X(hb.hub.lon), hy = Y(hb.hub.lat);
+    for (const c of hb.list){
+      g.strokeStyle = zc[c.zone]; g.lineWidth = c.zone === 'over' ? 1 : 1.5; g.setLineDash([5, 4]);
+      rmCurve(g, hx, hy, X(c.dest.lon), Y(c.dest.lat));
+    }
+    g.strokeStyle = css('--gold'); g.lineWidth = 2.2; g.setLineDash([7, 5]);
+    rmCurve(g, X(o.lon), Y(o.lat), hx, hy);
+  }
+  g.setLineDash([]);
+  g.font = '9px sans-serif'; g.textBaseline = 'middle';
+  for (const p of pts){
+    const x = X(p.lon), y = Y(p.lat);
+    if (p.kind === 'origin' || p.kind === 'hub'){
+      g.fillStyle = css('--gold');
+      g.beginPath(); g.arc(x, y, 4.5, 0, 7); g.fill();
+      g.font = 'bold 11px sans-serif'; g.fillStyle = css('--ink');
+      g.fillText(p.code, x + 7, y - 6);
+      g.font = '9px sans-serif';
+    } else {
+      g.fillStyle = zc[p.kind];
+      g.beginPath(); g.arc(x, y, 3, 0, 7); g.fill();
+      g.fillStyle = css('--muted');
+      g.fillText(p.code, x + 5, y - 4);
+    }
+  }
+}
 
 /* ═════════════════════ 主題切換 ═════════════════════ */
 (function(){
@@ -2044,6 +2332,7 @@ applyHash();
     if (mode === 'auto') { try { localStorage.removeItem('mt_theme'); } catch {} }
     else saveLS('theme', mode);
     apply(mode);
+    if (state.origin) render();
   });
 })();
 
@@ -2051,4 +2340,6 @@ applyHash();
 if ('serviceWorker' in navigator && location.protocol === 'https:'){
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
+
+applyHash();
 </script>
