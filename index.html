@@ -444,6 +444,36 @@
     .mcell small{display:block}
   }
 
+  /* ── 亞洲萬里通 ── */
+  .cxdist{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 16px; margin:0 0 14px}
+  .cxdist h2{font-family:var(--serif); font-size:clamp(20px,3vw,25px); margin:0}
+  .cxdist .dv{font-family:var(--serif); font-size:clamp(22px,3.4vw,30px); font-weight:700; color:var(--gold); font-variant-numeric:tabular-nums}
+  .cxdist .du{color:var(--muted); font-size:12.5px}
+  .bandbar{display:flex; gap:3px; margin:0 0 4px}
+  .bandseg{
+    flex:1; position:relative; height:26px; border-radius:6px;
+    background:var(--sunken); border:1px solid var(--line);
+    display:grid; place-items:center; font-size:10.5px; color:var(--faint); letter-spacing:.04em;
+  }
+  .bandseg.active{background:var(--gold); border-color:var(--gold); color:var(--gold-ink); font-weight:700}
+  .bandlab{display:flex; gap:3px; margin-bottom:16px}
+  .bandlab span{flex:1; text-align:right; font-size:9.5px; color:var(--faint); font-variant-numeric:tabular-nums}
+  .cxgrid{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px}
+  @media (max-width:720px){ .cxgrid{grid-template-columns:repeat(2, minmax(0,1fr))} }
+  .cxcab{
+    background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--gold-deep);
+    border-radius:11px; padding:12px 14px; text-align:center;
+  }
+  .cxcab .cl{font-size:11px; letter-spacing:.14em; color:var(--faint); text-transform:uppercase}
+  .cxcab .cv{font-family:var(--serif); font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; margin-top:4px; line-height:1.2}
+  .cxcab .cs{font-size:11px; margin-top:3px; color:var(--faint)}
+  .cxcab.ok{border-top-color:var(--pass)}
+  .cxcab.ok .cv, .cxcab.ok .cs{color:var(--pass)}
+  .cxcab.part{border-top-color:var(--warn)}
+  .cxcab.part .cs{color:var(--warn)}
+  .cxcab.no .cs{color:var(--over)}
+  .cxcab.na{opacity:.55}
+
   /* ── 玩家面板 ── */
   .dashgrid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px; padding-top:22px}
   .dashgrid .span2{grid-column:1 / -1}
@@ -557,6 +587,7 @@
       <button type="button" class="tab" id="tab-calc" role="tab" aria-selected="true">中停計算機</button>
       <button type="button" class="tab" id="tab-fourleg" role="tab" aria-selected="false">四段票排程器</button>
       <button type="button" class="tab" id="tab-mile" role="tab" aria-selected="false">哩程兌換</button>
+      <button type="button" class="tab" id="tab-cx" role="tab" aria-selected="false">亞洲萬里通</button>
       <button type="button" class="tab" id="tab-dash" role="tab" aria-selected="false">玩家面板</button>
     </nav>
   </header>
@@ -738,6 +769,44 @@
     <section id="mi-main"></section>
   </div>
   </section><!-- /view-mile -->
+
+  <section class="view" id="view-cx" hidden>
+  <div class="viewintro">
+    <p class="sub">國泰「標準獎勵」計算：選兩個機場算大圓距離、判定距離帶，顯示各艙等所需里數。</p>
+    <div class="rulechips">
+      <span>依<b>單程飛行距離</b>分五級</span>
+      <span>2026/5/1 <b>新表</b></span>
+      <span>稅金、附加費<b>另計</b></span>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="panel">
+      <h2>行程</h2>
+      <p class="hint">限國泰航班的標準獎勵。</p>
+      <div class="field">
+        <label for="cx-from">出發地</label>
+        <select id="cx-from"></select>
+      </div>
+      <div class="field">
+        <label for="cx-to">目的地</label>
+        <select id="cx-to"></select>
+      </div>
+      <hr class="divider">
+      <div class="field">
+        <label for="cx-have">持有里數（可不填）</label>
+        <input type="number" id="cx-have" min="0" step="1000" placeholder="例：60000" inputmode="numeric">
+      </div>
+      <p class="seglabel">行程</p>
+      <div class="seg" role="group" aria-label="行程型態">
+        <button type="button" id="cx-ow" aria-pressed="true">單程</button>
+        <button type="button" id="cx-rt" aria-pressed="false">來回</button>
+      </div>
+    </aside>
+
+    <section id="cx-main"></section>
+  </div>
+  </section><!-- /view-cx -->
 
   <section class="view" id="view-dash" hidden>
   <div class="viewintro">
@@ -1032,8 +1101,8 @@ buildTable();
 render();
 
 /* ═════════════════════ 分頁切換 ═════════════════════ */
-const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), dash: document.getElementById('view-dash') };
-const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile'),  dash: document.getElementById('tab-dash') };
+const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), cx: document.getElementById('view-cx'), dash: document.getElementById('view-dash') };
+const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile'),  cx: document.getElementById('tab-cx'),  dash: document.getElementById('tab-dash') };
 let currentView = 'calc';
 function showView(v){
   currentView = v;
@@ -1047,6 +1116,7 @@ function showView(v){
 TABS.calc.addEventListener('click', () => showView('calc'));
 TABS.fourleg.addEventListener('click', () => showView('fourleg'));
 TABS.mile.addEventListener('click', () => showView('mile'));
+TABS.cx.addEventListener('click', () => showView('cx'));
 TABS.dash.addEventListener('click', () => showView('dash'));
 
 /* ═════════════════════ 四段票排程器 ═════════════════════ */
@@ -1385,6 +1455,119 @@ function flInit(){
 }
 flInit();
 
+/* ═════════════════════ 亞洲萬里通 ═════════════════════
+   國泰自家航班「標準獎勵」單程里數（2026/5/1 新表）；
+   {v} 確認值、{lo,hi} 依城市類別分級、approx = 整理值以官網為準。 */
+const CX_AIRPORTS = {
+  '台港澳': [
+    ['HKG','香港',22.3080,113.9185], ['TPE','台北桃園',25.0777,121.2325], ['KHH','高雄',22.5771,120.3500],
+  ],
+  '日本': [
+    ['NRT','東京成田',35.7720,140.3929], ['HND','東京羽田',35.5494,139.7798], ['KIX','大阪關西',34.4342,135.2441],
+    ['NGO','名古屋',34.8584,136.8049], ['FUK','福岡',33.5859,130.4508], ['CTS','札幌',42.7752,141.6923], ['OKA','沖繩',26.1958,127.6459],
+  ],
+  '韓國・中國': [
+    ['ICN','首爾仁川',37.4602,126.4407], ['PUS','釜山',35.1795,128.9382],
+    ['PVG','上海浦東',31.1443,121.8083], ['PEK','北京首都',40.0799,116.6031], ['CAN','廣州',23.3924,113.2988],
+  ],
+  '東南亞・南亞': [
+    ['BKK','曼谷',13.6900,100.7501], ['CNX','清邁',18.7668,98.9626], ['HKT','普吉島',8.1132,98.3169],
+    ['SGN','胡志明市',10.8188,106.6520], ['HAN','河內',21.2212,105.8072], ['DAD','峴港',16.0439,108.1994],
+    ['SIN','新加坡',1.3644,103.9915], ['KUL','吉隆坡',2.7456,101.7099], ['PEN','檳城',5.2971,100.2770],
+    ['MNL','馬尼拉',14.5086,121.0198], ['CEB','宿霧',10.3075,123.9790], ['CGK','雅加達',-6.1256,106.6559],
+    ['DPS','峇里島',-8.7482,115.1672], ['DEL','德里',28.5562,77.1000], ['BOM','孟買',19.0896,72.8656], ['DXB','杜拜',25.2532,55.3657],
+  ],
+  '紐澳': [
+    ['SYD','雪梨',-33.9399,151.1753], ['MEL','墨爾本',-37.6690,144.8410], ['BNE','布里斯本',-27.3842,153.1075],
+    ['PER','伯斯',-31.9385,115.9672], ['AKL','奧克蘭',-37.0082,174.7917],
+  ],
+  '歐洲': [
+    ['LHR','倫敦',51.4700,-0.4543], ['CDG','巴黎',49.0097,2.5479], ['AMS','阿姆斯特丹',52.3105,4.7683],
+    ['FRA','法蘭克福',50.0379,8.5622], ['MXP','米蘭',45.6306,8.7281], ['MAD','馬德里',40.4983,-3.5676], ['ZRH','蘇黎世',47.4647,8.5492],
+  ],
+  '北美': [
+    ['LAX','洛杉磯',33.9416,-118.4085], ['SFO','舊金山',37.6213,-122.3790], ['SEA','西雅圖',47.4502,-122.3088],
+    ['JFK','紐約',40.6413,-73.7781], ['BOS','波士頓',42.3656,-71.0096], ['ORD','芝加哥',41.9742,-87.9073],
+    ['DFW','達拉斯',32.8998,-97.0403], ['YVR','溫哥華',49.1947,-123.1792], ['YYZ','多倫多',43.6777,-79.6248],
+  ],
+};
+const CX_CHART = [
+  { name:'超短途', max:750,      eco:{v:7000},                pey:{v:15000, approx:true}, biz:{v:22000, approx:true}, fst:null },
+  { name:'短途',   max:2750,     eco:{lo:11000, hi:13000},    pey:{v:18000},              biz:{lo:27000, hi:33000},   fst:null },
+  { name:'中途',   max:5000,     eco:{v:30000, approx:true},  pey:{v:42000, approx:true}, biz:{v:60000},              fst:{v:85000, approx:true} },
+  { name:'長途',   max:7500,     eco:{v:35000, approx:true},  pey:{v:52000},              biz:{v:91000},              fst:{v:125000, approx:true} },
+  { name:'超長途', max:Infinity, eco:{v:38000},               pey:{v:78000},              biz:{v:119000},             fst:{v:145000, approx:true} },
+];
+const cxState = { trip:'ow' };
+const cxByCode = {};
+for (const list of Object.values(CX_AIRPORTS)) for (const [c, n, lat, lon] of list) cxByCode[c] = { code:c, name:n, lat, lon };
+
+function cxBuildSelect(sel, def){
+  sel.innerHTML = Object.entries(CX_AIRPORTS).map(([g, list]) =>
+    `<optgroup label="${g}">` + list.map(([c, n]) =>
+      `<option value="${c}"${c === def ? ' selected' : ''}>${c} ${n}</option>`).join('') + `</optgroup>`).join('');
+}
+function cxCell(label, c, mult, have){
+  if (!c) return `<div class="cxcab na"><div class="cl">${label}</div><div class="cv">—</div><div class="cs">不適用</div></div>`;
+  const approx = c.approx ? '約 ' : '';
+  const lo = (c.lo ?? c.v) * mult, hi = (c.hi ?? c.v) * mult;
+  const val = c.lo ? `${fmt(lo)}–${fmt(hi)}` : `${approx}${fmt(lo)}`;
+  let cls = '', st = c.lo ? '依城市類別' : '';
+  if (have){
+    if (have >= hi){ cls = 'ok'; st = '✓ 可換'; }
+    else if (have >= lo){ cls = 'part'; st = '部分城市可換'; }
+    else { cls = 'no'; st = `差 ${fmt(lo - have)}`; }
+  }
+  return `<div class="cxcab ${cls}"><div class="cl">${label}</div><div class="cv">${val}</div><div class="cs">${st}</div></div>`;
+}
+function cxRender(){
+  syncHash();
+  $id('cx-ow').setAttribute('aria-pressed', String(cxState.trip === 'ow'));
+  $id('cx-rt').setAttribute('aria-pressed', String(cxState.trip === 'rt'));
+  const A = cxByCode[$id('cx-from').value], B = cxByCode[$id('cx-to').value];
+  const main = $id('cx-main');
+  if (A.code === B.code){
+    main.innerHTML = `<div class="intro"><p style="margin:0;color:var(--muted)">出發地與目的地不能相同。</p></div>`;
+    return;
+  }
+  const dist = gcMiles(A, B);
+  const band = CX_CHART.find(b => dist <= b.max);
+  const mult = cxState.trip === 'rt' ? 2 : 1;
+  const have = parseInt($id('cx-have').value, 10) || 0;
+  const bounds = ['751', '2,751', '5,001', '7,501', ''];
+  main.innerHTML = `
+    <div class="cxdist reveal">
+      <h2>${A.code} ✈ ${B.code}</h2>
+      <span><span class="dv">${fmt(dist)}</span> <span class="du">哩（單程大圓）・${band.name}</span></span>
+    </div>
+    <div class="bandbar" role="img" aria-label="距離帶：${band.name}">
+      ${CX_CHART.map(b => `<span class="bandseg${b === band ? ' active' : ''}">${b.name}</span>`).join('')}
+    </div>
+    <div class="bandlab">${bounds.map(x => `<span>${x ? x + '哩→' : ''}</span>`).join('')}</div>
+    <div class="cxgrid reveal">
+      ${cxCell('經濟', band.eco, mult, have)}
+      ${cxCell('特選經濟', band.pey, mult, have)}
+      ${cxCell('商務', band.biz, mult, have)}
+      ${cxCell('頭等', band.fst, mult, have)}
+    </div>
+    <p class="mnote">表列為國泰自家航班「標準獎勵」${cxState.trip === 'rt' ? '來回（單程 ×2）' : '單程'}里數（2026/5/1 新表）；短途經濟／商務依城市類別分兩級（首爾、新加坡等較低；東京、峇里島等較高），標「約」為整理值。特選、頭等視機型提供；稅金附加費另計；新規每城市限中停或開口一次。</p>
+    <div class="linkrow" style="margin-top:12px">
+      <a href="https://www.asiamiles.com/zh.html" target="_blank" rel="noopener">亞洲萬里通官網</a>
+      <a href="https://www.cathaypacific.com/cx/zh_TW.html" target="_blank" rel="noopener">國泰航空</a>
+    </div>`;
+}
+function cxInit(){
+  cxBuildSelect($id('cx-from'), 'HKG');
+  cxBuildSelect($id('cx-to'), 'TPE');
+  $id('cx-from').addEventListener('change', cxRender);
+  $id('cx-to').addEventListener('change', cxRender);
+  $id('cx-have').addEventListener('input', cxRender);
+  $id('cx-ow').addEventListener('click', () => { cxState.trip = 'ow'; cxRender(); });
+  $id('cx-rt').addEventListener('click', () => { cxState.trip = 'rt'; cxRender(); });
+  cxRender();
+}
+cxInit();
+
 /* ═════════════════════ 玩家面板 ═════════════════════ */
 function loadLS(k, d){ try { return JSON.parse(localStorage.getItem('mt_' + k)) ?? d; } catch { return d; } }
 function saveLS(k, v){ try { localStorage.setItem('mt_' + k, JSON.stringify(v)); } catch {} }
@@ -1511,6 +1694,11 @@ function syncHash(){
       p.set('ma', miState.air); p.set('mt', miState.trip);
       if ($id('mi-have').value) p.set('mh', $id('mi-have').value);
     }
+    if (currentView === 'cx'){
+      p.set('cf', $id('cx-from').value); p.set('cg', $id('cx-to').value);
+      if (cxState.trip === 'rt') p.set('cr', '1');
+      if ($id('cx-have').value) p.set('ch', $id('cx-have').value);
+    }
     const h = p.toString();
     history.replaceState(null, '', h ? '#' + h : location.pathname + location.search);
   } catch {}
@@ -1535,8 +1723,12 @@ function applyHash(){
   if (MILE_DATA[p.get('ma')]) miState.air = p.get('ma');
   if (['rt','ow'].includes(p.get('mt'))) miState.trip = p.get('mt');
   if (p.get('mh')) $id('mi-have').value = p.get('mh');
+  if (cxByCode[p.get('cf')]) $id('cx-from').value = p.get('cf');
+  if (cxByCode[p.get('cg')]) $id('cx-to').value = p.get('cg');
+  if (p.get('cr') === '1') cxState.trip = 'rt';
+  if (p.get('ch')) $id('cx-have').value = p.get('ch');
   syncHash.ready = true;
-  render(); flRender(); miRender();
+  render(); flRender(); miRender(); cxRender();
   const t = p.get('t');
   showView(t && VIEWS[t] ? t : 'calc');
 }
