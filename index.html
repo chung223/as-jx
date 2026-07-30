@@ -425,6 +425,17 @@
     color:var(--gold-ink); background:var(--gold); border-radius:4px;
     padding:1px 5px; margin-left:5px; vertical-align:2px;
   }
+  .mcell .cost{display:block; font-style:normal; font-size:10.5px; color:var(--gold); margin-top:1px; font-variant-numeric:tabular-nums}
+  .raterow{
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    font-size:12px; color:var(--muted); padding:4px 0;
+  }
+  .raterow input{
+    width:74px; background:var(--raised); color:var(--ink);
+    border:1px solid var(--line-strong); border-radius:7px; padding:5px 7px;
+    font-family:var(--sans); font-size:12px; font-variant-numeric:tabular-nums; text-align:right;
+  }
+  .ratenote{font-size:10.5px; color:var(--faint); margin:5px 0 0}
   .mnote{color:var(--faint); font-size:12px; margin:10px 2px 0}
   .msum{
     display:flex; flex-wrap:wrap; gap:8px 16px; align-items:baseline; margin:0 0 14px;
@@ -766,6 +777,10 @@
           <label for="cmp-dest">目的地（台灣出發）</label>
           <select id="cmp-dest"></select>
         </div>
+        <div class="field">
+          <label class="ck"><input type="checkbox" id="cmp-cost">估算哩程取得成本（NT$）</label>
+        </div>
+        <div id="cmp-rates" hidden></div>
       </div>
 
       <div id="mi-cx-fields" hidden>
@@ -1588,12 +1603,27 @@ const CMP_DESTS = {
     ['CDG','巴黎',{ci:null,br:'eur',jx:null}],
   ],
 };
+/* 每哩取得成本（NT$/哩）：預設為常見管道參考值，可修改、存於本機 */
+const CMP_RATE_DEF = { CI:0.35, BR:0.35, JX:0.40, CX:0.35, AS:0.65 };
+const CMP_RATE_SRC = { CI:'聯名卡／轉點', BR:'聯名卡／轉點', JX:'聯名卡／轉點', CX:'信用卡轉點', AS:'官網買分為主' };
+function cmpRates(){ return { ...CMP_RATE_DEF, ...loadLS('cmpRates', {}) }; }
+function cmpBuildRates(){
+  const r = cmpRates();
+  $id('cmp-rates').innerHTML = Object.entries(CMP_RATE_DEF).map(([id]) => `
+    <div class="raterow"><span>${{CI:'華航',BR:'長榮',JX:'星宇',CX:'國泰',AS:'阿拉斯加'}[id]}<small style="color:var(--faint)">・${CMP_RATE_SRC[id]}</small></span>
+      <input type="number" min="0" step="0.05" data-rid="${id}" value="${r[id]}" aria-label="每哩成本"></div>`).join('') +
+    `<p class="ratenote">單位 NT$/哩。預設僅供參考：買分、轉點、刷卡回饋成本因人而異。</p>`;
+}
+
 function cmpRenderInto(main){
   const code = $id('cmp-dest').value;
   let hit;
   for (const list of Object.values(CMP_DESTS)){ hit = list.find(x => x[0] === code) || hit; }
   const [c, name, av] = hit;
   const coord = cxByCode[c];
+  const costMode = $id('cmp-cost').checked;
+  const rates = cmpRates();
+  $id('cmp-rates').hidden = !costMode;
   const have = parseInt($id('mi-have').value, 10) || 0;
   const zf = miState.trip === 'rt' ? 1 : 0.5;
   const xf = miState.trip === 'rt' ? 2 : 1;
@@ -1613,29 +1643,32 @@ function cmpRenderInto(main){
     asCells = { eco:{ lo:p.eco*xf, hi:p.eco*xf }, pey:null, biz:{ lo:p.biz*xf, hi:p.biz*xf } };
   }
   const rows = [
-    { name:'華航', sub:'華夏哩程', cells: zone('CI', av.ci) },
-    { name:'長榮', sub:'無限萬哩遊', cells: zone('BR', av.br) },
-    { name:'星宇', sub:'COSMILE', cells: zone('JX', av.jx) },
-    { name:'國泰', sub:`亞洲萬里通・經香港（共 ${fmt(cxDist)} 哩・${band.name}）`, cells:{ eco:norm(band.eco, xf), pey:norm(band.pey, xf), biz:norm(band.biz, xf) } },
-    { name:'阿拉斯加 × 星宇', sub:'可另加免費中停台灣 14 天', cells: asCells },
+    { id:'CI', name:'華航', sub:'華夏哩程', cells: zone('CI', av.ci) },
+    { id:'BR', name:'長榮', sub:'無限萬哩遊', cells: zone('BR', av.br) },
+    { id:'JX', name:'星宇', sub:'COSMILE', cells: zone('JX', av.jx) },
+    { id:'CX', name:'國泰', sub:`亞洲萬里通・經香港（共 ${fmt(cxDist)} 哩・${band.name}）`, cells:{ eco:norm(band.eco, xf), pey:norm(band.pey, xf), biz:norm(band.biz, xf) } },
+    { id:'AS', name:'阿拉斯加 × 星宇', sub:'可另加免費中停台灣 14 天', cells: asCells },
   ];
+  if (costMode) for (const r of rows) r.sub += `・NT$${rates[r.id]}/哩`;
+  const metric = (r, cc) => costMode ? cc.lo * rates[r.id] : cc.lo;
   const mins = {};
   for (const cab of ['eco','pey','biz']){
-    const vals = rows.map(r => r.cells?.[cab]?.lo).filter(v => v != null);
+    const vals = rows.map(r => r.cells?.[cab] ? metric(r, r.cells[cab]) : null).filter(v => v != null);
     mins[cab] = vals.length ? Math.min(...vals) : null;
   }
   const cellHtml = (r, cab, label) => {
     const cc = r.cells?.[cab];
     if (!cc) return `<div class="mcell na"><small>${label}</small><b>—</b></div>`;
     const val = cc.lo === cc.hi ? `${cc.approx ? '約 ' : ''}${fmt(cc.lo)}` : `${fmt(cc.lo)}–${fmt(cc.hi)}`;
-    const best = cc.lo === mins[cab] ? '<span class="best">最省</span>' : '';
+    const best = metric(r, cc) === mins[cab] ? '<span class="best">最省</span>' : '';
+    const cost = costMode ? `<span class="cost">≈NT$ ${fmt(Math.round(cc.lo * rates[r.id] / 100) * 100)}</span>` : '';
     let cls = '', em = '';
     if (have){
       if (have >= cc.hi){ cls = ' ok'; em = '<em>✓ 可換</em>'; }
       else if (have >= cc.lo){ cls = ' ok'; em = '<em>部分城市可換</em>'; }
       else { cls = ' no'; em = `<em>差 ${fmt(cc.lo - have)}</em>`; }
     }
-    return `<div class="mcell${cls}"><small>${label}</small><b>${val}${best}</b>${em}</div>`;
+    return `<div class="mcell${cls}"><small>${label}</small><b>${val}${best}</b>${cost}${em}</div>`;
   };
   main.innerHTML = `
     <div class="msum reveal">
@@ -1647,7 +1680,7 @@ function cmpRenderInto(main){
       <div class="mzone"><b>${r.name}</b><small>${r.cells ? r.sub : '未飛航／不適用'}</small></div>
       ${cellHtml(r,'eco','經濟')}${cellHtml(r,'pey','豪經')}${cellHtml(r,'biz','商務')}
     </div>`).join('')}</div>
-    <p class="mnote">— ＝ 未飛航或不適用。華航／長榮以來回表、星宇以單程表換算；國泰自台灣出發須經香港轉機、按總距離計價；「阿拉斯加 × 星宇」為以 AS 哩程兌換星宇航班（限亞洲區、需另持 AS 哩程）。標「約」與區間為整理值，一律以官網為準。</p>`;
+    <p class="mnote">— ＝ 未飛航或不適用。華航／長榮以來回表、星宇以單程表換算；國泰自台灣出發須經香港轉機、按總距離計價；「阿拉斯加 × 星宇」為以 AS 哩程兌換星宇航班（限亞洲區、需另持 AS 哩程）。${costMode ? '「最省」以取得成本（哩程 × 你設定的每哩成本）判定，成本不含稅金與燃油。' : '「最省」以哩程數判定 — 注意各家哩程取得成本不同，可勾選「估算取得成本」以台幣比較。'}標「約」與區間為整理值，一律以官網為準。</p>`;
 }
 function cmpBuildSelect(){
   $id('cmp-dest').innerHTML = Object.entries(CMP_DESTS).map(([g, list]) =>
@@ -1655,7 +1688,16 @@ function cmpBuildSelect(){
       `<option value="${x[0]}"${x[0] === 'NRT' ? ' selected' : ''}>${x[0]} ${x[1]}</option>`).join('') + `</optgroup>`).join('');
 }
 cmpBuildSelect();
+cmpBuildRates();
 $id('cmp-dest').addEventListener('change', () => miRender());
+$id('cmp-cost').addEventListener('change', () => miRender());
+$id('cmp-rates').addEventListener('input', e => {
+  const el = e.target.closest('input[data-rid]'); if (!el) return;
+  const r = loadLS('cmpRates', {});
+  r[el.dataset.rid] = parseFloat(el.value) || 0;
+  saveLS('cmpRates', r);
+  miRender();
+});
 
 /* ═════════════════════ 玩家面板 ═════════════════════ */
 function loadLS(k, d){ try { return JSON.parse(localStorage.getItem('mt_' + k)) ?? d; } catch { return d; } }
