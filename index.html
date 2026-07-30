@@ -420,6 +420,11 @@
   .mcell.no b{color:var(--muted)}
   .mcell.no em{color:var(--over)}
   .mcell.na{color:var(--faint)}
+  .mcell .best{
+    display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.04em;
+    color:var(--gold-ink); background:var(--gold); border-radius:4px;
+    padding:1px 5px; margin-left:5px; vertical-align:2px;
+  }
   .mnote{color:var(--faint); font-size:12px; margin:10px 2px 0}
   .msum{
     display:flex; flex-wrap:wrap; gap:8px 16px; align-items:baseline; margin:0 0 14px;
@@ -753,6 +758,14 @@
         <button type="button" class="mi-air" data-air="BR" aria-pressed="false">長榮</button>
         <button type="button" class="mi-air" data-air="JX" aria-pressed="false">星宇</button>
         <button type="button" class="mi-air" data-air="CX" aria-pressed="false">國泰</button>
+        <button type="button" class="mi-air" data-air="CMP" aria-pressed="false">比較</button>
+      </div>
+
+      <div id="mi-cmp-fields" hidden>
+        <div class="field">
+          <label for="cmp-dest">目的地（台灣出發）</label>
+          <select id="cmp-dest"></select>
+        </div>
       </div>
 
       <div id="mi-cx-fields" hidden>
@@ -1289,8 +1302,8 @@ const MILE_DATA = {
     site:'https://www.china-airlines.com/tw/zh', siteName:'華航官網',
     basisNote:'官方以來回計價，單程約半價；2026/5/1 起官方微調數字，以官網為準。',
     zones:[
-      { zone:'台灣 ⇄ 亞洲短程', sub:'日韓・港澳・東南亞', eco:{rt:35000}, pey:null, biz:{rt:60000} },
-      { zone:'台灣 ⇄ 歐美長程', sub:'北美・歐洲', eco:{rt:110000, approx:true}, pey:null, biz:{rt:160000} },
+      { key:'asia', zone:'台灣 ⇄ 亞洲短程', sub:'日韓・港澳・東南亞', eco:{rt:35000}, pey:null, biz:{rt:60000} },
+      { key:'long', zone:'台灣 ⇄ 歐美長程', sub:'北美・歐洲', eco:{rt:110000, approx:true}, pey:null, biz:{rt:160000} },
     ],
     upgrades:[
       { route:'短程單段升商務（豪經票）', miles:8000 },
@@ -1304,12 +1317,12 @@ const MILE_DATA = {
     site:'https://www.evaair.com/zh-tw/infinity-mileageLands/mileage-award-program/mileage-redemption/', siteName:'長榮官網兌換表',
     basisNote:'官方以來回計價，單程為半價。',
     zones:[
-      { zone:'台灣 ⇄ 港澳', sub:'短程', eco:{rt:20000, approx:true}, pey:null, biz:{rt:40000, approx:true} },
-      { zone:'台灣 ⇄ 東北亞', sub:'日本・韓國', eco:{rt:35000}, pey:{rt:40000}, biz:{rt:50000} },
-      { zone:'台灣 ⇄ 東南亞', sub:'泰・新・馬・菲・越・印尼', eco:{rt:35000}, pey:{rt:40000, approx:true}, biz:{rt:55000} },
-      { zone:'台灣 ⇄ 美洲 A 區', sub:'美西（LAX/SFO/SEA…）', eco:{rt:75000}, pey:{rt:110000}, biz:{rt:150000} },
-      { zone:'台灣 ⇄ 美洲 B 區', sub:'美東・加拿大（JFK/ORD/YVR…）', eco:{rt:80000, approx:true}, pey:{rt:115000, approx:true}, biz:{rt:160000} },
-      { zone:'台灣 ⇄ 歐洲', sub:'巴黎・倫敦・維也納…', eco:{rt:75000, approx:true}, pey:{rt:110000, approx:true}, biz:{rt:150000} },
+      { key:'hkmo', zone:'台灣 ⇄ 港澳', sub:'短程', eco:{rt:20000, approx:true}, pey:null, biz:{rt:40000, approx:true} },
+      { key:'nea', zone:'台灣 ⇄ 東北亞', sub:'日本・韓國', eco:{rt:35000}, pey:{rt:40000}, biz:{rt:50000} },
+      { key:'sea', zone:'台灣 ⇄ 東南亞', sub:'泰・新・馬・菲・越・印尼', eco:{rt:35000}, pey:{rt:40000, approx:true}, biz:{rt:55000} },
+      { key:'usw', zone:'台灣 ⇄ 美洲 A 區', sub:'美西（LAX/SFO/SEA…）', eco:{rt:75000}, pey:{rt:110000}, biz:{rt:150000} },
+      { key:'use', zone:'台灣 ⇄ 美洲 B 區', sub:'美東・加拿大（JFK/ORD/YVR…）', eco:{rt:80000, approx:true}, pey:{rt:115000, approx:true}, biz:{rt:160000} },
+      { key:'eur', zone:'台灣 ⇄ 歐洲', sub:'巴黎・倫敦・維也納…', eco:{rt:75000, approx:true}, pey:{rt:110000, approx:true}, biz:{rt:150000} },
     ],
     upgrades:[
       { route:'依航段與訂位艙等而異；美東航線較美西約多 5,000 哩', miles:null },
@@ -1320,8 +1333,8 @@ const MILE_DATA = {
     site:'https://www.starlux-airlines.com/zh-TW', siteName:'星宇官網',
     basisNote:'官方以單程計價，來回 ×2。',
     zones:[
-      { zone:'亞洲區域線', sub:'日韓・港澳・東南亞', eco:{rt:30000}, pey:{rt:40000}, biz:{rt:55000} },
-      { zone:'台灣 ⇄ 北美', sub:'LAX/SFO/SEA/ONT/PHX', eco:{rt:70000}, pey:{rt:120000}, biz:{rt:180000} },
+      { key:'asia', zone:'亞洲區域線', sub:'日韓・港澳・東南亞', eco:{rt:30000}, pey:{rt:40000}, biz:{rt:55000} },
+      { key:'na', zone:'台灣 ⇄ 北美', sub:'LAX/SFO/SEA/ONT/PHX', eco:{rt:70000}, pey:{rt:120000}, biz:{rt:180000} },
     ],
     upgrades:[
       { route:'亞洲線單段升等（表定）', miles:18000 },
@@ -1339,7 +1352,9 @@ function miRender(){
   $id('mi-rt').setAttribute('aria-pressed', String(miState.trip === 'rt'));
   $id('mi-ow').setAttribute('aria-pressed', String(miState.trip === 'ow'));
   $id('mi-cx-fields').hidden = (miState.air !== 'CX');
+  $id('mi-cmp-fields').hidden = (miState.air !== 'CMP');
   if (miState.air === 'CX'){ cxRenderInto($id('mi-main')); return; }
+  if (miState.air === 'CMP'){ cmpRenderInto($id('mi-main')); return; }
 
   const d = MILE_DATA[miState.air];
   const have = parseInt($id('mi-have').value, 10) || 0;
@@ -1531,6 +1546,117 @@ cxBuildSelect($id('cx-to'), 'TPE');
 $id('cx-from').addEventListener('change', () => miRender());
 $id('cx-to').addEventListener('change', () => miRender());
 
+/* ═════════════════════ 跨計畫比價 ═════════════════════
+   同一目的地比較五個計畫所需哩程；zone key 對應 MILE_DATA。 */
+const CMP_DESTS = {
+  '港澳': [ ['HKG','香港',{ci:'asia',br:'hkmo',jx:'asia'}] ],
+  '日本': [
+    ['NRT','東京成田',{ci:'asia',br:'nea',jx:'asia'}],
+    ['HND','東京羽田',{ci:'asia',br:'nea',jx:null}],
+    ['KIX','大阪',{ci:'asia',br:'nea',jx:'asia'}],
+    ['NGO','名古屋',{ci:'asia',br:'nea',jx:'asia'}],
+    ['FUK','福岡',{ci:'asia',br:'nea',jx:'asia'}],
+    ['CTS','札幌',{ci:'asia',br:'nea',jx:'asia'}],
+    ['OKA','沖繩',{ci:'asia',br:'nea',jx:'asia'}],
+  ],
+  '韓國': [
+    ['ICN','首爾',{ci:'asia',br:'nea',jx:null}],
+    ['PUS','釜山',{ci:'asia',br:'nea',jx:'asia'}],
+  ],
+  '東南亞': [
+    ['BKK','曼谷',{ci:'asia',br:'sea',jx:'asia'}],
+    ['SGN','胡志明市',{ci:'asia',br:'sea',jx:'asia'}],
+    ['HAN','河內',{ci:'asia',br:'sea',jx:'asia'}],
+    ['DAD','峴港',{ci:'asia',br:'sea',jx:'asia'}],
+    ['SIN','新加坡',{ci:'asia',br:'sea',jx:'asia'}],
+    ['KUL','吉隆坡',{ci:'asia',br:'sea',jx:'asia'}],
+    ['MNL','馬尼拉',{ci:'asia',br:'sea',jx:'asia'}],
+    ['CEB','宿霧',{ci:'asia',br:'sea',jx:'asia'}],
+    ['CGK','雅加達',{ci:'asia',br:'sea',jx:'asia'}],
+    ['DPS','峇里島',{ci:'asia',br:'sea',jx:null}],
+  ],
+  '北美': [
+    ['LAX','洛杉磯',{ci:'long',br:'usw',jx:'na'}],
+    ['SFO','舊金山',{ci:'long',br:'usw',jx:'na'}],
+    ['SEA','西雅圖',{ci:null,br:'usw',jx:'na'}],
+    ['JFK','紐約',{ci:'long',br:'use',jx:null}],
+    ['YVR','溫哥華',{ci:'long',br:'use',jx:null}],
+  ],
+  '歐洲': [
+    ['LHR','倫敦',{ci:'long',br:'eur',jx:null}],
+    ['AMS','阿姆斯特丹',{ci:'long',br:'eur',jx:null}],
+    ['CDG','巴黎',{ci:null,br:'eur',jx:null}],
+  ],
+};
+function cmpRenderInto(main){
+  const code = $id('cmp-dest').value;
+  let hit;
+  for (const list of Object.values(CMP_DESTS)){ hit = list.find(x => x[0] === code) || hit; }
+  const [c, name, av] = hit;
+  const coord = cxByCode[c];
+  const have = parseInt($id('mi-have').value, 10) || 0;
+  const zf = miState.trip === 'rt' ? 1 : 0.5;
+  const xf = miState.trip === 'rt' ? 2 : 1;
+  const norm = (cell, mult) => cell ? { lo:Math.round((cell.lo ?? cell.v ?? cell.rt) * mult), hi:Math.round((cell.hi ?? cell.v ?? cell.rt) * mult), approx:!!cell.approx } : null;
+  const zone = (air, key) => {
+    if (!key) return null;
+    const z = MILE_DATA[air].zones.find(z => z.key === key);
+    return z ? { eco:norm(z.eco, zf), pey:norm(z.pey, zf), biz:norm(z.biz, zf) } : null;
+  };
+  const cxDist = c === 'HKG' ? gcMiles(HUBS.TPE, coord)
+    : gcMiles(HUBS.TPE, cxByCode.HKG) + gcMiles(cxByCode.HKG, coord);
+  const band = CX_CHART.find(b => cxDist <= b.max);
+  let asCells = null;
+  if (av.jx === 'asia'){
+    const d1 = gcMiles(HUBS.TPE, coord);
+    const p = d1 <= 1500 ? { eco:7500, biz:15000 } : { eco:15000, biz:50000 };
+    asCells = { eco:{ lo:p.eco*xf, hi:p.eco*xf }, pey:null, biz:{ lo:p.biz*xf, hi:p.biz*xf } };
+  }
+  const rows = [
+    { name:'華航', sub:'華夏哩程', cells: zone('CI', av.ci) },
+    { name:'長榮', sub:'無限萬哩遊', cells: zone('BR', av.br) },
+    { name:'星宇', sub:'COSMILE', cells: zone('JX', av.jx) },
+    { name:'國泰', sub:`亞洲萬里通・經香港（共 ${fmt(cxDist)} 哩・${band.name}）`, cells:{ eco:norm(band.eco, xf), pey:norm(band.pey, xf), biz:norm(band.biz, xf) } },
+    { name:'阿拉斯加 × 星宇', sub:'可另加免費中停台灣 14 天', cells: asCells },
+  ];
+  const mins = {};
+  for (const cab of ['eco','pey','biz']){
+    const vals = rows.map(r => r.cells?.[cab]?.lo).filter(v => v != null);
+    mins[cab] = vals.length ? Math.min(...vals) : null;
+  }
+  const cellHtml = (r, cab, label) => {
+    const cc = r.cells?.[cab];
+    if (!cc) return `<div class="mcell na"><small>${label}</small><b>—</b></div>`;
+    const val = cc.lo === cc.hi ? `${cc.approx ? '約 ' : ''}${fmt(cc.lo)}` : `${fmt(cc.lo)}–${fmt(cc.hi)}`;
+    const best = cc.lo === mins[cab] ? '<span class="best">最省</span>' : '';
+    let cls = '', em = '';
+    if (have){
+      if (have >= cc.hi){ cls = ' ok'; em = '<em>✓ 可換</em>'; }
+      else if (have >= cc.lo){ cls = ' ok'; em = '<em>部分城市可換</em>'; }
+      else { cls = ' no'; em = `<em>差 ${fmt(cc.lo - have)}</em>`; }
+    }
+    return `<div class="mcell${cls}"><small>${label}</small><b>${val}${best}</b>${em}</div>`;
+  };
+  main.innerHTML = `
+    <div class="msum reveal">
+      <h2>台灣 ⇄ ${name}（${c}）</h2>
+      <span class="counts">${miState.trip === 'rt' ? '來回' : '單程'}所需哩程・跨計畫比較</span>
+    </div>
+    <div class="mhead"><span>計畫</span><span>經濟</span><span>豪經</span><span>商務</span></div>
+    <div class="mrows reveal">${rows.map(r => `<div class="mrow"${r.cells ? '' : ' style="opacity:.55"'}>
+      <div class="mzone"><b>${r.name}</b><small>${r.cells ? r.sub : '未飛航／不適用'}</small></div>
+      ${cellHtml(r,'eco','經濟')}${cellHtml(r,'pey','豪經')}${cellHtml(r,'biz','商務')}
+    </div>`).join('')}</div>
+    <p class="mnote">— ＝ 未飛航或不適用。華航／長榮以來回表、星宇以單程表換算；國泰自台灣出發須經香港轉機、按總距離計價；「阿拉斯加 × 星宇」為以 AS 哩程兌換星宇航班（限亞洲區、需另持 AS 哩程）。標「約」與區間為整理值，一律以官網為準。</p>`;
+}
+function cmpBuildSelect(){
+  $id('cmp-dest').innerHTML = Object.entries(CMP_DESTS).map(([g, list]) =>
+    `<optgroup label="${g}">` + list.map(x =>
+      `<option value="${x[0]}"${x[0] === 'NRT' ? ' selected' : ''}>${x[0]} ${x[1]}</option>`).join('') + `</optgroup>`).join('');
+}
+cmpBuildSelect();
+$id('cmp-dest').addEventListener('change', () => miRender());
+
 /* ═════════════════════ 玩家面板 ═════════════════════ */
 function loadLS(k, d){ try { return JSON.parse(localStorage.getItem('mt_' + k)) ?? d; } catch { return d; } }
 function saveLS(k, v){ try { localStorage.setItem('mt_' + k, JSON.stringify(v)); } catch {} }
@@ -1658,6 +1784,7 @@ function syncHash(){
       p.set('ma', miState.air); p.set('mt', miState.trip);
       if ($id('mi-have').value) p.set('mh', $id('mi-have').value);
       if (miState.air === 'CX'){ p.set('cf', $id('cx-from').value); p.set('cg', $id('cx-to').value); }
+      if (miState.air === 'CMP') p.set('cd', $id('cmp-dest').value);
     }
     const h = p.toString();
     history.replaceState(null, '', h ? '#' + h : location.pathname + location.search);
@@ -1680,7 +1807,8 @@ function applyHash(){
   }
   for (const d of ['d1','d2','d3','d4']) if (/^\d{4}-\d{2}-\d{2}$/.test(p.get(d) || '')) $id('fl-' + d).value = p.get(d);
   if (p.get('nd') === '1') $id('fl-nextday').checked = true;
-  if (MILE_DATA[p.get('ma')] || p.get('ma') === 'CX') miState.air = p.get('ma');
+  if (MILE_DATA[p.get('ma')] || ['CX','CMP'].includes(p.get('ma'))) miState.air = p.get('ma');
+  if (p.get('cd') && [...$id('cmp-dest').options].some(o => o.value === p.get('cd'))) $id('cmp-dest').value = p.get('cd');
   if (['rt','ow'].includes(p.get('mt'))) miState.trip = p.get('mt');
   if (p.get('mh')) $id('mi-have').value = p.get('mh');
   if (cxByCode[p.get('cf')]) $id('cx-from').value = p.get('cf');
