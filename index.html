@@ -63,7 +63,15 @@
   .wrap{max-width:1120px; margin:0 auto; padding:0 20px 80px}
 
   /* ───────── header ───────── */
-  header.board{padding:44px 0 26px; border-bottom:1px solid var(--line)}
+  header.board{padding:44px 0 26px; border-bottom:1px solid var(--line); position:relative}
+  .themebtn{
+    position:absolute; top:46px; right:0; cursor:pointer;
+    font-family:var(--sans); font-size:12px; letter-spacing:.05em;
+    background:var(--surface); color:var(--muted);
+    border:1px solid var(--line-strong); border-radius:999px; padding:6px 13px;
+  }
+  .themebtn:hover{color:var(--ink); border-color:var(--gold)}
+  .themebtn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
   .eyebrow{
     font-size:11px; letter-spacing:.32em; text-transform:uppercase;
     color:var(--gold); margin:0 0 10px; font-weight:600;
@@ -206,6 +214,22 @@
   .zone-edge  .fill{background:var(--warn)}
   .zone-over  .fill{background:var(--over)}
   .meter .tick{position:absolute; top:-3px; bottom:-3px; left:88.2%; width:2px; background:var(--line-strong)}
+
+  .notesfold{margin-top:9px}
+  .notesfold summary{
+    cursor:pointer; color:var(--faint); font-size:11.5px; letter-spacing:.03em;
+    user-select:none; list-style-position:inside;
+  }
+  .notesfold summary:hover{color:var(--ink)}
+  .notesfold .hasnote{color:var(--pass); font-weight:700; font-variant-numeric:tabular-nums}
+  .notesgrid{display:flex; flex-wrap:wrap; gap:8px; margin-top:7px}
+  .notesgrid label{font-size:10.5px; color:var(--faint); display:block; margin-bottom:2px}
+  .notesgrid input{
+    background:var(--raised); color:var(--ink); border:1px solid var(--line-strong);
+    border-radius:6px; padding:5px 7px; font-family:var(--sans); font-size:12px; width:100%;
+  }
+  .notesgrid .nd{flex:0 1 150px; min-width:130px}
+  .notesgrid .nm{flex:1 1 140px; min-width:120px}
 
   .bp-stub{
     display:flex; flex-direction:column; justify-content:center; text-align:right;
@@ -531,6 +555,8 @@
     .assetrow .pn{grid-column:1 / -1}
     .assetrow .exps{text-align:left}
   }
+  .goalgrid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:0 16px}
+  @media (max-width:720px){ .goalgrid{grid-template-columns:repeat(2, minmax(0,1fr)); gap:0 10px} }
   .eliterow{padding:12px 0; border-bottom:1px dashed var(--line)}
   .eliterow:last-child{border-bottom:0}
   .elitetop{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center}
@@ -592,10 +618,28 @@
     @keyframes rise{from{opacity:0; transform:translateY(7px)} to{opacity:1; transform:none}}
     .row{transition:border-color .15s}
   }
+  /* ── 列印 ── */
+  @media print{
+    :root, :root[data-theme="dark"]{
+      --bg:#fff; --surface:#fff; --raised:#fff; --sunken:#f2f2f2;
+      --ink:#111; --muted:#444; --faint:#777;
+      --gold:#8a6d3b; --gold-deep:#8a6d3b; --gold-ink:#fff;
+      --line:#ccc; --line-strong:#999;
+      --pass:#1e6e46; --pass-bg:#eef6f0; --warn:#8a5a10; --warn-bg:#f8f2e6; --over:#a33; --over-bg:#f8ecec;
+      --shadow:none;
+    }
+    body{background:#fff}
+    .tabs, .panel, .copybtn, .linkrow, .qps, .hpath, .themebtn, .notesfold{display:none !important}
+    .app{grid-template-columns:1fr; gap:12px}
+    .row, .mrow, .card, .eliterow{break-inside:avoid}
+    header.board{padding:8px 0}
+  }
 </style>
+<script>try{const t=JSON.parse(localStorage.getItem('mt_theme'));if(t)document.documentElement.dataset.theme=t;}catch{}</script>
 
 <div class="wrap">
   <header class="board">
+    <button type="button" id="themebtn" class="themebtn" aria-label="切換深淺色主題">◐ 自動</button>
     <p class="eyebrow">Departures · Miles &amp; Fare Tools</p>
     <h1>哩程玩家工具箱</h1>
     <div class="hpath" aria-hidden="true"><span></span><i>✈</i><span></span></div>
@@ -838,6 +882,27 @@
     </div>
 
     <div class="card span2">
+      <h3>存哩目標</h3>
+      <div class="goalgrid">
+        <div class="field">
+          <label for="goal-preset">快速帶入目標</label>
+          <select id="goal-preset"></select>
+        </div>
+        <div class="field"><label for="goal-miles">目標哩程</label>
+          <input type="number" id="goal-miles" min="0" step="500" inputmode="numeric"></div>
+        <div class="field"><label for="goal-bal">目前餘額（自動帶入資產）</label>
+          <input type="number" id="goal-bal" min="0" step="1000" inputmode="numeric"></div>
+        <div class="field"><label for="goal-rate">買分／轉點成本（NT$/哩）</label>
+          <input type="number" id="goal-rate" min="0" step="0.05" inputmode="decimal"></div>
+        <div class="field"><label for="goal-earn">刷卡累積（每哩需刷 NT$）</label>
+          <input type="number" id="goal-earn" min="1" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="goal-monthly">每月刷卡額（NT$）</label>
+          <input type="number" id="goal-monthly" min="0" step="5000" inputmode="numeric"></div>
+      </div>
+      <div id="goal-out"></div>
+    </div>
+
+    <div class="card span2">
       <h3>會籍門檻追蹤（12 個月晉升標準）</h3>
       <div id="elite-rows"></div>
     </div>
@@ -968,6 +1033,28 @@ function tagHtml(a){
   return t;
 }
 
+/* 有票日期記事本（存本機） */
+function noteHtml(oCode, hubCode, dCode){
+  const nk = `${oCode}-${hubCode}-${dCode}`;
+  const n = loadLS('awardNotes', {})[nk] || {};
+  const has = n.d1 || n.d2 || n.memo;
+  return `<details class="notesfold"${has ? ' open' : ''}>
+    <summary>記錄有票日期${has ? `　<span class="hasnote">✓ ${n.d1 || '—'}｜${n.d2 || '—'}</span>` : ''}</summary>
+    <div class="notesgrid">
+      <span class="nd"><label>段 1（${oCode}→${hubCode}）有票日</label><input type="date" data-nk="${nk}" data-nf="d1" value="${n.d1 || ''}"></span>
+      <span class="nd"><label>段 2（${hubCode}→${dCode}）有票日</label><input type="date" data-nk="${nk}" data-nf="d2" value="${n.d2 || ''}"></span>
+      <span class="nm"><label>備註</label><input type="text" maxlength="60" placeholder="艙等／訂位代號…" data-nk="${nk}" data-nf="memo" value="${esc(n.memo || '')}"></span>
+    </div>
+  </details>`;
+}
+document.getElementById('results').addEventListener('input', e => {
+  const el = e.target.closest('input[data-nk]'); if (!el) return;
+  const notes = loadLS('awardNotes', {});
+  notes[el.dataset.nk] = notes[el.dataset.nk] || {};
+  notes[el.dataset.nk][el.dataset.nf] = el.value || undefined;
+  saveLS('awardNotes', notes);
+});
+
 function rowHtml(c, hubCode){
   const cab = state.cabin;
   const p = c.zone === 'sweet' ? PRICE.sweet : PRICE.high;
@@ -993,6 +1080,7 @@ function rowHtml(c, hubCode){
         <span class="tot">${fmt(c.total)} 哩</span>
         ${tagHtml(c.dest)}
       </div>
+      ${noteHtml(o.code, hubCode, c.dest.code)}
     </div>
     <div class="bp-stub">
       <div class="mi">${fmt(main)}<small>哩</small></div>
@@ -1805,6 +1893,78 @@ document.getElementById('elite-rows').addEventListener('input', e => {
   eliteRender._t = setTimeout(() => { eliteRender(); }, 600);
 });
 ['cpm-cash','cpm-tax','cpm-miles'].forEach(id => $id(id).addEventListener('input', cpmRender));
+
+/* 存哩目標 */
+function goalPresets(){
+  const out = [['', '選擇常見目標…', null, null]];
+  for (const [air, d] of Object.entries(MILE_DATA)){
+    const an = { CI:'華航', BR:'長榮', JX:'星宇' }[air];
+    for (const z of d.zones) for (const [cab, cn] of [['eco','經濟'],['pey','豪經'],['biz','商務']]){
+      if (!z[cab]) continue;
+      out.push([`${air}|${z.key}|${cab}`, `${an}｜${z.zone.replace('台灣 ⇄ ','')}｜${cn} 來回 ${fmt(z[cab].rt)}`, z[cab].rt, air]);
+    }
+  }
+  out.push(['AS|s|eco', '阿拉斯加×星宇｜亞洲 ≤1,500 哩｜經濟單程 7,500', 7500, 'AS']);
+  out.push(['AS|s|biz', '阿拉斯加×星宇｜亞洲 ≤1,500 哩｜商務單程 15,000', 15000, 'AS']);
+  out.push(['CX|short|biz', '國泰｜短途（日韓東南亞）｜商務單程 27,000 起', 27000, 'CX']);
+  out.push(['CX|long|biz', '國泰｜長途（歐美西）｜商務單程 91,000', 91000, 'CX']);
+  return out;
+}
+const GOAL_PRESETS = goalPresets();
+function goalRender(){
+  const g = loadLS('goal', {});
+  const miles = +$id('goal-miles').value || 0;
+  const bal = +$id('goal-bal').value || 0;
+  const rate = +$id('goal-rate').value || 0;
+  const earn = +$id('goal-earn').value || 0;
+  const monthly = +$id('goal-monthly').value || 0;
+  const out = $id('goal-out');
+  if (!miles){ out.innerHTML = '<p class="mnote">選一個目標或直接填目標哩程。</p>'; return; }
+  const diff = miles - bal;
+  if (diff <= 0){
+    out.innerHTML = `<div class="statrow" style="margin-top:4px"><span class="stat ok">✓ 已達標，還多 <b>${fmt(-diff)}</b> 哩</span></div>`;
+    return;
+  }
+  const buy = rate ? `<span class="stat">買分／轉點 ≈ <b>NT$ ${fmt(Math.round(diff * rate / 100) * 100)}</b></span>` : '';
+  const spend = earn ? `<span class="stat">刷卡需刷 <b>NT$ ${fmt(diff * earn)}</b></span>` : '';
+  const months = (earn && monthly) ? `<span class="stat">每月刷 ${fmt(monthly)} → 約 <b>${Math.ceil(diff * earn / monthly)}</b> 個月</span>` : '';
+  out.innerHTML = `<div class="statrow" style="margin-top:4px">
+    <span class="stat bad">還差 <b>${fmt(diff)}</b> 哩</span>${buy}${spend}${months}
+  </div>`;
+}
+function goalInit(){
+  $id('goal-preset').innerHTML = GOAL_PRESETS.map(p =>
+    `<option value="${p[0]}">${p[1]}</option>`).join('');
+  const g = loadLS('goal', {});
+  $id('goal-miles').value = g.miles ?? '';
+  $id('goal-bal').value = g.bal ?? '';
+  $id('goal-rate').value = g.rate ?? 0.35;
+  $id('goal-earn').value = g.earn ?? 20;
+  $id('goal-monthly').value = g.monthly ?? 30000;
+  if (g.preset) $id('goal-preset').value = g.preset;
+  $id('goal-preset').addEventListener('change', () => {
+    const p = GOAL_PRESETS.find(x => x[0] === $id('goal-preset').value);
+    if (p && p[2]){
+      $id('goal-miles').value = p[2];
+      const assets = loadLS('assets', {});
+      if (assets[p[3]]?.bal) $id('goal-bal').value = assets[p[3]].bal;
+      const rates = cmpRates();
+      if (rates[p[3]] != null) $id('goal-rate').value = rates[p[3]];
+    }
+    goalSave(); goalRender();
+  });
+  for (const id of ['goal-miles','goal-bal','goal-rate','goal-earn','goal-monthly'])
+    $id(id).addEventListener('input', () => { goalSave(); goalRender(); });
+  goalRender();
+}
+function goalSave(){
+  saveLS('goal', {
+    preset: $id('goal-preset').value,
+    miles: $id('goal-miles').value, bal: $id('goal-bal').value,
+    rate: $id('goal-rate').value, earn: $id('goal-earn').value, monthly: $id('goal-monthly').value,
+  });
+}
+goalInit();
 cpmRender(); assetRender(); eliteRender();
 
 /* ═════════════════════ 分享連結（URL 同步） ═════════════════════ */
@@ -1866,6 +2026,26 @@ function applyHash(){
   showView(t && VIEWS[t] ? t : 'calc');
 }
 applyHash();
+
+/* ═════════════════════ 主題切換 ═════════════════════ */
+(function(){
+  const btn = $id('themebtn');
+  const LABEL = { auto:'◐ 自動', dark:'● 深色', light:'○ 淺色' };
+  const apply = m => {
+    if (m === 'auto') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = m;
+    btn.textContent = LABEL[m];
+  };
+  let mode = loadLS('theme', null) || 'auto';
+  if (!LABEL[mode]) mode = 'auto';
+  apply(mode);
+  btn.addEventListener('click', () => {
+    mode = mode === 'auto' ? 'dark' : mode === 'dark' ? 'light' : 'auto';
+    if (mode === 'auto') { try { localStorage.removeItem('mt_theme'); } catch {} }
+    else saveLS('theme', mode);
+    apply(mode);
+  });
+})();
 
 /* ═════════════════════ PWA ═════════════════════ */
 if ('serviceWorker' in navigator && location.protocol === 'https:'){
