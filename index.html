@@ -1,6 +1,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>哩程玩家工具箱｜中停計算 × 四段票 × 哩程兌換</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#16120c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e5" media="(prefers-color-scheme: light)">
 <style>
   /* ───────── tokens ───────── */
   :root{
@@ -441,6 +444,69 @@
     .mcell small{display:block}
   }
 
+  /* ── 玩家面板 ── */
+  .dashgrid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px; padding-top:22px}
+  .dashgrid .span2{grid-column:1 / -1}
+  @media (max-width:840px){ .dashgrid{grid-template-columns:1fr; gap:14px} }
+  .card .field input{
+    width:100%; background:var(--raised); color:var(--ink);
+    border:1px solid var(--line-strong); border-radius:8px; padding:8px 10px;
+    font-family:var(--sans); font-size:13.5px;
+  }
+  .card .field input:focus-visible{outline:2px solid var(--gold); outline-offset:1px}
+  .cpmres{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-top:8px}
+  .cpmres .val{
+    font-family:var(--serif); font-size:34px; font-weight:700; color:var(--gold);
+    font-variant-numeric:tabular-nums; line-height:1.1;
+  }
+  .cpmres .unit{color:var(--muted); font-size:12px}
+  .verdict{font-size:12px; font-weight:700; border-radius:999px; padding:4px 12px; border:1px solid}
+  .verdict.good{color:var(--pass); border-color:var(--pass); background:var(--pass-bg)}
+  .verdict.mid{color:var(--warn); border-color:var(--warn); background:var(--warn-bg)}
+  .verdict.bad{color:var(--over); border-color:var(--over); background:var(--over-bg)}
+  .assetrow{
+    display:grid; grid-template-columns:minmax(58px,.6fr) 1.2fr 1.1fr minmax(72px,auto);
+    gap:8px; align-items:center; padding:9px 0; border-bottom:1px dashed var(--line);
+  }
+  .assetrow:last-child{border-bottom:0}
+  .assetrow .pn{font-size:13px; font-weight:700}
+  .assetrow .pn small{display:block; font-weight:400; font-size:10.5px; color:var(--faint)}
+  .assetrow input{
+    background:var(--raised); color:var(--ink); border:1px solid var(--line-strong);
+    border-radius:7px; padding:6px 8px; font-family:var(--sans); font-size:12.5px;
+    width:100%; min-width:0; font-variant-numeric:tabular-nums;
+  }
+  .assetrow .exps{font-size:11px; text-align:right; white-space:nowrap; color:var(--faint)}
+  .assetrow .exps.warn{color:var(--warn)}
+  .assetrow .exps.over{color:var(--over)}
+  .assetrow .exps.ok{color:var(--muted)}
+  @media (max-width:720px){
+    .assetrow{grid-template-columns:minmax(0,1fr) 1fr; row-gap:6px}
+    .assetrow .pn{grid-column:1 / -1}
+    .assetrow .exps{text-align:left}
+  }
+  .eliterow{padding:12px 0; border-bottom:1px dashed var(--line)}
+  .eliterow:last-child{border-bottom:0}
+  .elitetop{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center}
+  .elitetop .pn{font-size:13.5px; font-weight:700; min-width:9em}
+  .elitetop input{
+    background:var(--raised); color:var(--ink); border:1px solid var(--line-strong);
+    border-radius:7px; padding:6px 9px; font-family:var(--sans); font-size:12.5px;
+    width:130px; font-variant-numeric:tabular-nums;
+  }
+  .elitetop .eu{font-size:11.5px; color:var(--faint)}
+  .tierchips{display:flex; flex-wrap:wrap; gap:8px; margin-top:9px}
+  .tierchip{
+    border:1px solid var(--line-strong); border-radius:9px; padding:6px 11px;
+    font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums;
+  }
+  .tierchip b{color:var(--ink)}
+  .tierchip em{font-style:normal; display:block; font-size:10.5px; margin-top:1px}
+  .tierchip.ok{border-color:var(--pass); background:var(--pass-bg)}
+  .tierchip.ok b, .tierchip.ok em{color:var(--pass)}
+  .tierchip em.gap{color:var(--warn)}
+  .elitenote{font-size:11px; color:var(--faint); margin-top:6px}
+
   /* ── 手機優化 ── */
   @media (max-width:720px){
     body{font-size:14px}
@@ -491,6 +557,7 @@
       <button type="button" class="tab" id="tab-calc" role="tab" aria-selected="true">中停計算機</button>
       <button type="button" class="tab" id="tab-fourleg" role="tab" aria-selected="false">四段票排程器</button>
       <button type="button" class="tab" id="tab-mile" role="tab" aria-selected="false">哩程兌換</button>
+      <button type="button" class="tab" id="tab-dash" role="tab" aria-selected="false">玩家面板</button>
     </nav>
   </header>
 
@@ -672,6 +739,40 @@
   </div>
   </section><!-- /view-mile -->
 
+  <section class="view" id="view-dash" hidden>
+  <div class="viewintro">
+    <p class="sub">個人工具：算哩程價值、記各家餘額與到期、追蹤會籍 — 資料只存在你的瀏覽器。</p>
+    <div class="rulechips">
+      <span>資料存於<b>本機</b>、不上傳</span>
+      <span>餘額自動帶入<b>哩程兌換</b>分頁</span>
+    </div>
+  </div>
+
+  <div class="dashgrid">
+    <div class="card">
+      <h3>哩程價值計算（CPM）</h3>
+      <div class="field"><label for="cpm-cash">機票現金價（NT$）</label>
+        <input type="number" id="cpm-cash" min="0" placeholder="例：25000" inputmode="numeric"></div>
+      <div class="field"><label for="cpm-tax">哩程票稅金雜費（NT$）</label>
+        <input type="number" id="cpm-tax" min="0" placeholder="例：1200" inputmode="numeric"></div>
+      <div class="field"><label for="cpm-miles">所需哩程</label>
+        <input type="number" id="cpm-miles" min="0" step="500" placeholder="例：35000" inputmode="numeric"></div>
+      <div id="cpm-out"></div>
+    </div>
+
+    <div class="card">
+      <h3>哩程資產</h3>
+      <div id="asset-rows"></div>
+      <p class="mnote">長榮哩程自入帳起 36 個月；華航新制過期哩程半年內可買回；阿拉斯加不過期。</p>
+    </div>
+
+    <div class="card span2">
+      <h3>會籍門檻追蹤（12 個月晉升標準）</h3>
+      <div id="elite-rows"></div>
+    </div>
+  </div>
+  </section><!-- /view-dash -->
+
   <p class="disclaimer">
     距離為大圓計算，與航司系統或有數哩誤差；壓線組合（1,500–1,600 哩）的低價屬系統紅利，隨時可能修正。航點與哩程兌換資料整理自各航官網與公開攻略（2026/07），標「約」者為整理值；是否直飛、可否停留、兌換與升等哩程，一律以各航司官網為準。本工具僅供參考。
   </p>
@@ -831,6 +932,7 @@ function rowHtml(c, hubCode){
 }
 
 function render(){
+  syncHash();
   const intro = document.getElementById('intro');
   const box = document.getElementById('results');
   document.querySelectorAll('#picker .chip').forEach(b =>
@@ -930,17 +1032,22 @@ buildTable();
 render();
 
 /* ═════════════════════ 分頁切換 ═════════════════════ */
-const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile') };
-const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile') };
+const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), dash: document.getElementById('view-dash') };
+const TABS  = { calc: document.getElementById('tab-calc'),  fourleg: document.getElementById('tab-fourleg'),  mile: document.getElementById('tab-mile'),  dash: document.getElementById('tab-dash') };
+let currentView = 'calc';
 function showView(v){
+  currentView = v;
   for (const k of Object.keys(VIEWS)){
     VIEWS[k].hidden = (k !== v);
     TABS[k].setAttribute('aria-selected', String(k === v));
   }
+  if (v === 'mile' && typeof miPrefill === 'function') miPrefill();
+  if (typeof syncHash === 'function') syncHash();
 }
 TABS.calc.addEventListener('click', () => showView('calc'));
 TABS.fourleg.addEventListener('click', () => showView('fourleg'));
 TABS.mile.addEventListener('click', () => showView('mile'));
+TABS.dash.addEventListener('click', () => showView('dash'));
 
 /* ═════════════════════ 四段票排程器 ═════════════════════ */
 const FL_AIRLINES = {
@@ -1009,6 +1116,7 @@ function flBadge(gapDays, isTransitPair){
 }
 
 function flRender(){
+  syncHash();
   document.querySelectorAll('.fl-air').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.air === flState.air)));
   const air = FL_AIRLINES[flState.air];
@@ -1182,6 +1290,7 @@ const MILE_DATA = {
 const miState = { air:'CI', trip:'rt' };
 
 function miRender(){
+  syncHash();
   document.querySelectorAll('.mi-air').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.air === miState.air)));
   $id('mi-rt').setAttribute('aria-pressed', String(miState.trip === 'rt'));
@@ -1234,9 +1343,13 @@ function miRender(){
   okCount = 0;
 }
 
+function miPrefill(){
+  const a = loadLS('assets', {})[miState.air];
+  if (a && a.bal) { $id('mi-have').value = a.bal; miRender(); }
+}
 function miInit(){
   document.querySelectorAll('.mi-air').forEach(b =>
-    b.addEventListener('click', () => { miState.air = b.dataset.air; miRender(); }));
+    b.addEventListener('click', () => { miState.air = b.dataset.air; miPrefill(); miRender(); }));
   $id('mi-rt').addEventListener('click', () => { miState.trip = 'rt'; miRender(); });
   $id('mi-ow').addEventListener('click', () => { miState.trip = 'ow'; miRender(); });
   $id('mi-have').addEventListener('input', miRender);
@@ -1271,4 +1384,166 @@ function flInit(){
   flRender();
 }
 flInit();
+
+/* ═════════════════════ 玩家面板 ═════════════════════ */
+function loadLS(k, d){ try { return JSON.parse(localStorage.getItem('mt_' + k)) ?? d; } catch { return d; } }
+function saveLS(k, v){ try { localStorage.setItem('mt_' + k, JSON.stringify(v)); } catch {} }
+
+/* CPM 價值計算 */
+function cpmRender(){
+  const cash = +$id('cpm-cash').value || 0;
+  const tax = +$id('cpm-tax').value || 0;
+  const miles = +$id('cpm-miles').value || 0;
+  const out = $id('cpm-out');
+  if (!cash || !miles){
+    out.innerHTML = `<p class="mnote">填入現金價與哩程數即計算。公式：（現金價 − 稅金）÷ 哩程。</p>`;
+    return;
+  }
+  const v = (cash - tax) / miles;
+  const verdict = v >= 0.6 ? ['good', '超值，放心燒哩'] : v >= 0.3 ? ['mid', '合理，可換'] : ['bad', '偏低，建議付現金'];
+  out.innerHTML = `<div class="cpmres">
+      <span class="val">${v.toFixed(2)}</span><span class="unit">NT$／哩</span>
+      <span class="verdict ${verdict[0]}">${verdict[1]}</span>
+    </div>
+    <p class="mnote">參考基準：&lt;0.3 偏低・0.3–0.6 合理・&gt;0.6 超值（台灣哩程圈常用值）。</p>`;
+}
+
+/* 哩程資產 */
+const PROGRAMS = [
+  { id:'CI', name:'華航', sub:'華夏哩程' },
+  { id:'BR', name:'長榮', sub:'無限萬哩遊' },
+  { id:'JX', name:'星宇', sub:'COSMILE' },
+  { id:'AS', name:'阿拉斯加', sub:'Mileage Plan', noExp:true },
+];
+function assetRender(){
+  const assets = loadLS('assets', {});
+  const today = new Date(); today.setHours(0,0,0,0);
+  $id('asset-rows').innerHTML = PROGRAMS.map(p => {
+    const a = assets[p.id] || {};
+    let exps = '';
+    if (p.noExp) exps = '<span class="exps ok">不過期</span>';
+    else if (a.exp){
+      const days = Math.round((new Date(a.exp + 'T00:00:00') - today) / 86400000);
+      exps = days < 0 ? `<span class="exps over">已過期</span>`
+        : days <= 90 ? `<span class="exps warn">剩 ${days} 天</span>`
+        : `<span class="exps ok">剩 ${days} 天</span>`;
+    } else exps = '<span class="exps"></span>';
+    return `<div class="assetrow">
+      <span class="pn">${p.name}<small>${p.sub}</small></span>
+      <input type="number" min="0" step="1000" inputmode="numeric" placeholder="哩程餘額"
+        data-aid="${p.id}" data-f="bal" value="${a.bal ?? ''}" aria-label="${p.name}哩程餘額">
+      ${p.noExp ? '<span></span>' : `<input type="date" data-aid="${p.id}" data-f="exp" value="${a.exp ?? ''}" aria-label="${p.name}到期日">`}
+      ${exps}
+    </div>`;
+  }).join('');
+}
+document.getElementById('asset-rows').addEventListener('input', e => {
+  const el = e.target.closest('input[data-aid]'); if (!el) return;
+  const assets = loadLS('assets', {});
+  assets[el.dataset.aid] = assets[el.dataset.aid] || {};
+  assets[el.dataset.aid][el.dataset.f] = el.value || undefined;
+  saveLS('assets', assets);
+  if (el.dataset.f === 'exp') assetRender();
+});
+
+/* 會籍門檻（12 個月晉升標準，2026/07 整理） */
+const ELITE = {
+  CI: { name:'華航', unit:'會籍積分',
+    tiers:[ {t:'金卡', v:360}, {t:'翡翠卡', v:720}, {t:'晶鑽卡', v:1400} ],
+    note:'2025/11/27 積分新制；至少 50% 積分須來自華航／華信自營國際線。續卡（兩年）580／1,150／2,240。' },
+  BR: { name:'長榮', unit:'資格哩程',
+    tiers:[ {t:'銀卡', v:30000, extra:'＋4 段（或 26 段）'}, {t:'金卡', v:50000, approx:true, extra:'＋6 段（或約 50 段）'}, {t:'鑽石卡', v:120000, approx:true} ],
+    note:'12 個月內累積；續卡以兩年計、門檻不同，以官網為準。' },
+  JX: { name:'星宇', unit:'哩程',
+    tiers:[ {t:'ADVENTURER', v:30000, extra:'或 25 段'}, {t:'EXPLORER', v:50000}, {t:'INSIGHTER', v:120000} ],
+    note:'EXPLORER／INSIGHTER 須於前一等級效期內連續 12 個月達成。' },
+};
+function eliteRender(){
+  const prog = loadLS('elite', {});
+  $id('elite-rows').innerHTML = Object.entries(ELITE).map(([id, d]) => {
+    const cur = +prog[id] || 0;
+    const chips = d.tiers.map(t => {
+      const ok = cur >= t.v;
+      const approx = t.approx ? '約 ' : '';
+      const gap = ok ? '✓ 達標' : (cur ? `差 ${fmt(t.v - cur)}` : '');
+      return `<span class="tierchip${ok ? ' ok' : ''}"><b>${t.t}</b> ${approx}${fmt(t.v)}${t.extra ? '・' + t.extra : ''}
+        ${gap ? `<em class="${ok ? '' : 'gap'}">${gap}</em>` : ''}</span>`;
+    }).join('');
+    return `<div class="eliterow">
+      <div class="elitetop">
+        <span class="pn">${d.name}</span>
+        <input type="number" min="0" inputmode="numeric" placeholder="目前${d.unit}"
+          data-eid="${id}" value="${prog[id] ?? ''}" aria-label="${d.name}目前${d.unit}">
+        <span class="eu">${d.unit}（近 12 個月）</span>
+      </div>
+      <div class="tierchips">${chips}</div>
+      <p class="elitenote">${d.note}</p>
+    </div>`;
+  }).join('');
+}
+document.getElementById('elite-rows').addEventListener('input', e => {
+  const el = e.target.closest('input[data-eid]'); if (!el) return;
+  const prog = loadLS('elite', {});
+  prog[el.dataset.eid] = el.value || undefined;
+  saveLS('elite', prog);
+  clearTimeout(eliteRender._t);
+  eliteRender._t = setTimeout(() => { eliteRender(); }, 600);
+});
+['cpm-cash','cpm-tax','cpm-miles'].forEach(id => $id(id).addEventListener('input', cpmRender));
+cpmRender(); assetRender(); eliteRender();
+
+/* ═════════════════════ 分享連結（URL 同步） ═════════════════════ */
+function syncHash(){
+  if (!syncHash.ready) return;
+  try {
+    const p = new URLSearchParams();
+    if (currentView !== 'calc') p.set('t', currentView);
+    if (state.origin) p.set('o', state.origin);
+    if (state.cabin !== 'eco') p.set('c', state.cabin);
+    if (currentView === 'fourleg'){
+      p.set('fa', flState.air); p.set('fm', flState.mode);
+      p.set('a', $id('fl-a').value === '__custom' ? '~' + flSpot('a').code : $id('fl-a').value);
+      p.set('b', $id('fl-b').value === '__custom' ? '~' + flSpot('b').code : $id('fl-b').value);
+      for (const d of ['fl-d1','fl-d2','fl-d3','fl-d4']) if ($id(d).value) p.set(d.slice(3), $id(d).value);
+      if ($id('fl-nextday').checked) p.set('nd', '1');
+    }
+    if (currentView === 'mile'){
+      p.set('ma', miState.air); p.set('mt', miState.trip);
+      if ($id('mi-have').value) p.set('mh', $id('mi-have').value);
+    }
+    const h = p.toString();
+    history.replaceState(null, '', h ? '#' + h : location.pathname + location.search);
+  } catch {}
+}
+function applyHash(){
+  const p = new URLSearchParams(location.hash.slice(1));
+  if (!p.size){ syncHash.ready = true; return; }
+  const o = p.get('o'); if (o && byCode[o] && byCode[o].scope === 'asia') state.origin = o;
+  if (p.get('c') === 'biz') state.cabin = 'biz';
+  if (FL_AIRLINES[p.get('fa')]) flState.air = p.get('fa');
+  if (['out-transit','in-transit','both-transit'].includes(p.get('fm'))){
+    flState.mode = p.get('fm');
+    const r = document.querySelector(`input[name="fl-mode"][value="${flState.mode}"]`); if (r) r.checked = true;
+  }
+  for (const w of ['a','b']){
+    const v = p.get(w); if (!v) continue;
+    if (v.startsWith('~')){ $id('fl-' + w).value = '__custom'; $id(`fl-${w}-custom`).hidden = false; $id(`fl-${w}-custom`).value = v.slice(1); }
+    else if ([...$id('fl-' + w).options].some(x => x.value === v)) $id('fl-' + w).value = v;
+  }
+  for (const d of ['d1','d2','d3','d4']) if (/^\d{4}-\d{2}-\d{2}$/.test(p.get(d) || '')) $id('fl-' + d).value = p.get(d);
+  if (p.get('nd') === '1') $id('fl-nextday').checked = true;
+  if (MILE_DATA[p.get('ma')]) miState.air = p.get('ma');
+  if (['rt','ow'].includes(p.get('mt'))) miState.trip = p.get('mt');
+  if (p.get('mh')) $id('mi-have').value = p.get('mh');
+  syncHash.ready = true;
+  render(); flRender(); miRender();
+  const t = p.get('t');
+  showView(t && VIEWS[t] ? t : 'calc');
+}
+applyHash();
+
+/* ═════════════════════ PWA ═════════════════════ */
+if ('serviceWorker' in navigator && location.protocol === 'https:'){
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
 </script>
