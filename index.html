@@ -555,10 +555,18 @@
   .mapcard{
     background:var(--surface); border:1px solid var(--line); border-radius:14px;
     padding:14px 16px 8px; margin-bottom:18px; box-shadow:var(--shadow);
+    position:relative;
   }
-  .mapcard canvas{display:block; width:100%; height:300px}
-  @media (max-width:720px){ .mapcard canvas{height:220px} }
+  .mapcard canvas{display:block; width:100%; height:300px; touch-action:none; cursor:grab}
+  @media (max-width:720px){ .mapcard canvas{height:240px} }
   .maplab{font-size:10.5px; color:var(--faint); text-align:right; padding:4px 2px 2px}
+  .mapui{position:absolute; top:22px; right:24px; display:flex; flex-direction:column; gap:6px; z-index:2}
+  .mapbtn{
+    width:30px; height:30px; cursor:pointer; font-size:15px; line-height:1;
+    background:var(--surface); color:var(--ink);
+    border:1px solid var(--line-strong); border-radius:8px;
+  }
+  .mapbtn:hover{border-color:var(--gold); color:var(--gold)}
 
   /* ── 玩家面板 ── */
   .dashgrid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px; padding-top:22px}
@@ -1206,7 +1214,15 @@ function render(){
     </div>
     <p class="revnote">反向（B → 台灣 → ${o.code}）同價，改選 B 即可查看。</p>
     ${dlLine ? `<p class="dlnote">📅 ${d1v.replace(/-/g, '/')} 出發 → ${dlLine}，期限前任一天皆可。</p>` : ''}
-    <div class="mapcard reveal"><canvas id="routemap" aria-label="航線示意圖"></canvas><div class="maplab">航線示意・綠＝甜蜜區、琥珀＝壓線、灰＝爆表</div></div>`;
+    <div class="mapcard reveal">
+      <div class="mapui">
+        <button type="button" class="mapbtn" data-mz="in" aria-label="放大">＋</button>
+        <button type="button" class="mapbtn" data-mz="out" aria-label="縮小">−</button>
+        <button type="button" class="mapbtn" data-mz="reset" aria-label="重設">⟲</button>
+      </div>
+      <canvas id="routemap" aria-label="航線示意圖"></canvas>
+      <div class="maplab">拖曳移動・滾輪／雙指縮放（放大顯示更多航點名）・綠＝甜蜜、琥珀＝壓線、灰＝爆表</div>
+    </div>`;
 
   for (const [hubCode, hb] of Object.entries(r.hubs)){
     const sweetEdge = hb.list.filter(c => c.zone !== 'over');
@@ -2295,8 +2311,63 @@ function rmCurve(g, x1, y1, x2, y2){
   const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, k = 0.12;
   g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(mx - dy * k, my + dx * k, x2, y2); g.stroke();
 }
+const rmState = { o:null, r:null, zoom:1, tx:0, ty:0 };
 function drawRouteMap(o, r){
+  rmState.o = o; rmState.r = r; rmState.zoom = 1; rmState.tx = 0; rmState.ty = 0;
+  rmBind(); rmDraw();
+}
+function rmBind(){
+  const cv = document.getElementById('routemap');
+  if (!cv || cv.dataset.bound) return;
+  cv.dataset.bound = '1';
+  const ptrs = new Map();
+  let lastDist = 0;
+  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]); });
+  cv.addEventListener('pointermove', e => {
+    if (!ptrs.has(e.pointerId)) return;
+    const prev = ptrs.get(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+    if (ptrs.size === 1){
+      rmState.tx += e.clientX - prev[0]; rmState.ty += e.clientY - prev[1]; rmQueue();
+    } else if (ptrs.size === 2){
+      const [a, b] = [...ptrs.values()];
+      const dist = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      const rect = cv.getBoundingClientRect();
+      if (lastDist) rmZoomAt((a[0] + b[0]) / 2 - rect.left, (a[1] + b[1]) / 2 - rect.top, dist / lastDist);
+      lastDist = dist;
+    }
+  });
+  const up = e => { ptrs.delete(e.pointerId); if (ptrs.size < 2) lastDist = 0; };
+  cv.addEventListener('pointerup', up);
+  cv.addEventListener('pointercancel', up);
+  cv.addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect = cv.getBoundingClientRect();
+    rmZoomAt(e.clientX - rect.left, e.clientY - rect.top, Math.exp(-e.deltaY * 0.0015));
+  }, { passive: false });
+}
+function rmZoomAt(px, py, f){
   const cv = document.getElementById('routemap'); if (!cv) return;
+  const w = cv.clientWidth, h = cv.clientHeight;
+  const z1 = Math.min(8, Math.max(1, rmState.zoom * f));
+  const ff = z1 / rmState.zoom;
+  rmState.tx = (px - w / 2) - ((px - w / 2) - rmState.tx) * ff;
+  rmState.ty = (py - h / 2) - ((py - h / 2) - rmState.ty) * ff;
+  rmState.zoom = z1;
+  if (z1 === 1){ rmState.tx = 0; rmState.ty = 0; }
+  rmQueue();
+}
+let rmRaf = 0;
+function rmQueue(){ if (!rmRaf) rmRaf = requestAnimationFrame(() => { rmRaf = 0; rmDraw(); }); }
+document.getElementById('results').addEventListener('click', e => {
+  const b = e.target.closest('.mapbtn'); if (!b) return;
+  const cv = document.getElementById('routemap'); if (!cv) return;
+  if (b.dataset.mz === 'reset'){ rmState.zoom = 1; rmState.tx = 0; rmState.ty = 0; rmQueue(); }
+  else rmZoomAt(cv.clientWidth / 2, cv.clientHeight / 2, b.dataset.mz === 'in' ? 1.5 : 1 / 1.5);
+});
+function rmDraw(){
+  const o = rmState.o, r = rmState.r;
+  const cv = document.getElementById('routemap');
+  if (!cv || !o) return;
   const dpr = window.devicePixelRatio || 1;
   const w = cv.clientWidth, h = cv.clientHeight;
   if (!w) return;
@@ -2311,12 +2382,11 @@ function drawRouteMap(o, r){
   const pad = 3;
   const la0 = Math.min(...pts.map(p => p.lat)) - pad, la1 = Math.max(...pts.map(p => p.lat)) + pad;
   const lo0 = Math.min(...pts.map(p => p.lon)) - pad, lo1 = Math.max(...pts.map(p => p.lon)) + pad;
-  // 等比例投影（經度依中緯度校正），地形不變形
   const kx = Math.cos((la0 + la1) / 2 * Math.PI / 180);
-  const s = Math.min((w - 24) / ((lo1 - lo0) * kx), (h - 24) / (la1 - la0));
+  const s = Math.min((w - 24) / ((lo1 - lo0) * kx), (h - 24) / (la1 - la0)) * rmState.zoom;
   const mLon = (lo0 + lo1) / 2, mLat = (la0 + la1) / 2;
-  const X = lon => w / 2 + (lon - mLon) * kx * s;
-  const Y = lat => h / 2 - (lat - mLat) * s;
+  const X = lon => w / 2 + (lon - mLon) * kx * s + rmState.tx;
+  const Y = lat => h / 2 - (lat - mLat) * s + rmState.ty;
   g.clearRect(0, 0, w, h);
   // 陸地
   g.fillStyle = css('--mapland'); g.strokeStyle = css('--mapcoast'); g.lineWidth = 1;
@@ -2328,10 +2398,19 @@ function drawRouteMap(o, r){
     }
     g.closePath(); g.fill(); g.stroke();
   }
+  // 經緯格線
   g.strokeStyle = css('--line'); g.lineWidth = 1; g.setLineDash([]);
-  const step = (lo1 - lo0) > 40 ? 10 : 5;
-  for (let lo = Math.ceil(lo0/step)*step; lo <= lo1; lo += step){ g.beginPath(); g.moveTo(X(lo), 0); g.lineTo(X(lo), h); g.stroke(); }
-  for (let la = Math.ceil(la0/step)*step; la <= la1; la += step){ g.beginPath(); g.moveTo(0, Y(la)); g.lineTo(w, Y(la)); g.stroke(); }
+  const degSpan = (lo1 - lo0) / rmState.zoom;
+  const step = degSpan > 40 ? 10 : degSpan > 15 ? 5 : 2;
+  for (let lo = Math.floor(lo0 / step) * step - 20; lo <= lo1 + 20; lo += step){
+    const px = X(lo); if (px < 0 || px > w) continue;
+    g.beginPath(); g.moveTo(px, 0); g.lineTo(px, h); g.stroke();
+  }
+  for (let la = Math.floor(la0 / step) * step - 20; la <= la1 + 20; la += step){
+    const py = Y(la); if (py < 0 || py > h) continue;
+    g.beginPath(); g.moveTo(0, py); g.lineTo(w, py); g.stroke();
+  }
+  // 航線
   const zc = { sweet: css('--pass'), edge: css('--warn'), over: css('--faint') };
   for (const hb of Object.values(r.hubs)){
     const hx = X(hb.hub.lon), hy = Y(hb.hub.lat);
@@ -2343,20 +2422,33 @@ function drawRouteMap(o, r){
     rmCurve(g, X(o.lon), Y(o.lat), hx, hy);
   }
   g.setLineDash([]);
-  g.font = '9px sans-serif'; g.textBaseline = 'middle';
+  // 航點
   for (const p of pts){
     const x = X(p.lon), y = Y(p.lat);
-    if (p.kind === 'origin' || p.kind === 'hub'){
-      g.fillStyle = css('--gold');
-      g.beginPath(); g.arc(x, y, 4.5, 0, 7); g.fill();
+    if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
+    const isMain = p.kind === 'origin' || p.kind === 'hub';
+    g.fillStyle = isMain ? css('--gold') : zc[p.kind];
+    g.beginPath(); g.arc(x, y, isMain ? 4.5 : 3, 0, 7); g.fill();
+  }
+  // 標籤：貪婪避讓，先主點再甜蜜→壓線→爆表；放大後自動展開
+  const placed = [];
+  const fits = (x, y) => {
+    for (const q of placed) if (Math.abs(q[0] - x) < 50 && Math.abs(q[1] - y) < 15) return false;
+    placed.push([x, y]); return true;
+  };
+  const order = { origin:0, hub:1, sweet:2, edge:3, over:4 };
+  g.textBaseline = 'middle';
+  for (const p of [...pts].sort((a, b) => order[a.kind] - order[b.kind])){
+    const x = X(p.lon), y = Y(p.lat);
+    if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
+    const isMain = p.kind === 'origin' || p.kind === 'hub';
+    if (isMain){
+      placed.push([x + 8, y - 7]);
       g.font = 'bold 11px sans-serif'; g.fillStyle = css('--ink');
-      g.fillText(p.code, x + 7, y - 6);
-      g.font = '9px sans-serif';
-    } else {
-      g.fillStyle = zc[p.kind];
-      g.beginPath(); g.arc(x, y, 3, 0, 7); g.fill();
-      g.fillStyle = css('--muted');
-      g.fillText(p.code, x + 5, y - 4);
+      g.fillText(p.code, x + 7, y - 7);
+    } else if (fits(x + 6, y - 5)){
+      g.font = '9px sans-serif'; g.fillStyle = css('--muted');
+      g.fillText(p.code, x + 5, y - 5);
     }
   }
 }
