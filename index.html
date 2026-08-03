@@ -1309,6 +1309,7 @@ function buildTable(){
 document.getElementById('cab-eco').addEventListener('click', () => { state.cabin = 'eco'; render(); });
 document.getElementById('cab-biz').addEventListener('click', () => { state.cabin = 'biz'; render(); });
 document.getElementById('calc-d1').addEventListener('change', () => render());
+document.getElementById('calc-d1').min = new Date().toLocaleDateString('sv');
 document.querySelectorAll('.qp').forEach(b =>
   b.addEventListener('click', () => { state.origin = b.dataset.qp; render(); }));
 
@@ -1432,6 +1433,14 @@ function flRender(){
   if (mode === 'out-transit'){ d2 = d1 && flAdd(d1, nd); d2auto = true; d4 = flDate('fl-d4'); }
   else if (mode === 'in-transit'){ d2 = flDate('fl-d2'); d4 = d3 && flAdd(d3, nd); d4auto = true; }
   else { d2 = d1 && flAdd(d1, nd); d2auto = true; d4 = d3 && flAdd(d3, nd); d4auto = true; }
+
+  // 原生日期選擇器自動限制：後段不得早於前段、段4不得超過一年票期
+  const isoD = d => d ? d.toLocaleDateString('sv') : '';
+  $id('fl-d2').min = isoD(d1);
+  $id('fl-d3').min = d2 ? isoD(flAdd(d2, 1)) : (d1 ? isoD(flAdd(d1, 1)) : '');
+  $id('fl-d4').min = d3 ? isoD(d3) : (d2 ? isoD(d2) : '');
+  if (d1) $id('fl-d4').max = isoD(flAdd(d1, 365)); else $id('fl-d4').removeAttribute('max');
+  if (d1) $id('fl-d2').max = isoD(flAdd(d1, 300)); else $id('fl-d2').removeAttribute('max');
 
   const out = $id('fl-out');
   if (!d1 || !d2 || !d3 || !d4){
@@ -1692,6 +1701,7 @@ function flInit(){
   flBuildSelect($id('fl-a'), 'BKK');
   flBuildSelect($id('fl-b'), 'NRT');
   const today = new Date(); today.setHours(0,0,0,0);
+  $id('fl-d1').min = today.toLocaleDateString('sv');
   const d1 = flAdd(today, 60);
   $id('fl-d1').value = d1.toLocaleDateString('sv');
   $id('fl-d3').value = flAdd(d1, 8).toLocaleDateString('sv');
