@@ -1654,7 +1654,27 @@ const MILE_DATA = {
     ],
   },
 };
-const miState = { air:'CI', trip:'rt' };
+const miState = { air:'CI', trip:'rt', br:{ za:'sea', zb:'nea', cab:'eco', thru:'' } };
+
+/* 長榮效益最大化：同區最遠航點（座標即時計算）＋ 跨區經台北檢查 */
+const BR_ZONE_APTS = {
+  hkmo:['HKG','MFM'], nea:['NRT','HND','KIX','NGO','FUK','CTS','SDJ','OKA','ICN','PUS'],
+  sea:['BKK','CNX','SGN','HAN','DAD','SIN','KUL','PEN','MNL','CEB','CGK','DPS'],
+  usw:['LAX','SFO','SEA','ONT'], use:['JFK','BOS','ORD','DFW','YVR','YYZ'],
+  eur:['LHR','CDG','AMS','FRA','MXP','MAD','ZRH'],
+};
+const BR_ZONE_NAME = { hkmo:'港澳', nea:'東北亞', sea:'東南亞', usw:'美洲 A 區（美西）', use:'美洲 B 區（美東/加）', eur:'歐洲' };
+function brFarthest(key){
+  let best = null;
+  for (const c of BR_ZONE_APTS[key] || []){
+    const p = cxByCode[c] || byCode[c]; if (!p) continue;
+    const d = gcMiles(HUBS.TPE, p);
+    if (!best || d > best.d) best = { code:c, name:p.name || p.city || c, d };
+  }
+  return best;
+}
+/* 亞洲跨區（港澳/東北亞/東南亞互飛）表定參考值（整理值，可修改） */
+const BR_ASIA_X = { eco:35000, biz:50000 };
 
 function miRender(){
   syncHash();
@@ -1696,6 +1716,62 @@ function miRender(){
     return `<li><span>${u.route}</span><span class="um${cls}">${approx}${fmt(u.miles)} 哩</span></li>`;
   }).join('');
 
+  let brExtra = '';
+  if (miState.air === 'BR'){
+    const far = Object.entries(BR_ZONE_NAME).map(([k, n]) => {
+      const z = d.zones.find(z => z.key === k), f = brFarthest(k);
+      if (!z || !f) return '';
+      const eff = Math.round(f.d * 2 / (z.eco.rt) * 1000);
+      return `<li><span>${n}・經濟來回 ${fmt(z.eco.rt)}</span><span class="um">最遠 ${f.code} ${f.name}・來回 ${fmt(f.d * 2)} 飛行哩（每千哩程 ≈ ${eff} 哩）</span></li>`;
+    }).join('');
+    const b = miState.br;
+    const zoneOpts = sel => Object.entries(BR_ZONE_NAME).map(([k, n]) =>
+      `<option value="${k}"${k === sel ? ' selected' : ''}>${n}</option>`).join('');
+    const asiaPair = ['hkmo','nea','sea'].includes(b.za) && ['hkmo','nea','sea'].includes(b.zb);
+    const thru = +b.thru || (asiaPair ? BR_ASIA_X[b.cab] : 0);
+    let verdict = '<p class="mnote">選好區域後，填入官網查到的 A⇄B 跨區來回哩程即自動檢查。</p>';
+    if (b.za === b.zb) verdict = '<p class="mnote">起點區與折返區請選不同區域。</p>';
+    else if (thru){
+      const zA = d.zones.find(z => z.key === b.za), zB = d.zones.find(z => z.key === b.zb);
+      const s1 = zA?.[b.cab]?.rt, s2 = zB?.[b.cab]?.rt;
+      if (s1 && s2){
+        const ok1 = s1 <= thru, ok2 = s2 <= thru, legal = ok1 && ok2;
+        const save = s1 + s2 - thru;
+        verdict = `<div class="statrow" style="margin-top:4px">
+            <span class="stat ${legal ? 'ok' : 'bad'}">${legal ? '✓ 新制下可開' : '✗ 新制封殺'}</span>
+            <span class="stat">A⇄台灣 <b>${fmt(s1)}</b>${ok1 ? ' ≤' : ' ＞'} 跨區 ${fmt(thru)}</span>
+            <span class="stat">台灣⇄B <b>${fmt(s2)}</b>${ok2 ? ' ≤' : ' ＞'} 跨區 ${fmt(thru)}</span>
+            ${legal && save > 0 ? `<span class="stat ok">比分開換省 <b>${fmt(save)}</b> 哩</span>` : ''}
+          </div>
+          <p class="mnote">行程：${BR_ZONE_NAME[b.za]} → 台北（停留）→ ${BR_ZONE_NAME[b.zb]} → 台北（停留）→ ${BR_ZONE_NAME[b.za]}，
+          以 A⇄B 跨區${fmt(thru)}哩計價${legal && save > 0 ? '，等於一張票多玩台灣兩次' : ''}。
+          ${legal ? '' : '超過跨區價的分段依 2025/9/1 新制不可再開。'}</p>`;
+      }
+    }
+    brExtra = `
+    <div class="card reveal" style="margin-top:18px">
+      <h3>效益最大化：同區換最遠</h3>
+      <ul class="uplist">${far}</ul>
+      <p class="mnote">同區表定哩程相同，選最遠航點飛行效益最高（距離為大圓計算）。</p>
+    </div>
+    <div class="card reveal" style="margin-top:18px">
+      <h3>跨區經台北・外站哩程票檢查（2025/9/1 新制）</h3>
+      <div class="goalgrid">
+        <div class="field"><label for="br-za">起點區 A（外站）</label><select id="br-za">${zoneOpts(b.za)}</select></div>
+        <div class="field"><label for="br-zb">折返區 B</label><select id="br-zb">${zoneOpts(b.zb)}</select></div>
+        <div class="field"><label for="br-cab">艙等</label><select id="br-cab">
+          <option value="eco"${b.cab === 'eco' ? ' selected' : ''}>經濟</option>
+          <option value="biz"${b.cab === 'biz' ? ' selected' : ''}>商務</option></select></div>
+        <div class="field"><label for="br-thru">A⇄B 跨區來回哩程（官網查）</label>
+          <input type="number" id="br-thru" min="0" step="500" inputmode="numeric" value="${b.thru}"
+            placeholder="${asiaPair ? '預設約 ' + fmt(BR_ASIA_X[b.cab]) : '請查官網'}"></div>
+      </div>
+      ${verdict}
+      <p class="mnote">規則：來回票每方向可停留台北 1 次（>24h）；單程約半價；效期 36 個月；
+      機位先於官網／星盟查好再致電客服開票。亞洲跨區預設值為整理值（約），以官網為準；
+      經典案例：新加坡-台北-東京商務（舊 25,000 單程）已遭新制封殺，<b>經濟艙跨區仍多數可行</b>。</p>
+    </div>`;
+  }
   $id('mi-main').innerHTML = `
     <div class="msum reveal">
       <h2>${d.name}</h2>
@@ -1708,6 +1784,7 @@ function miRender(){
       <h3>哩程升等（單一航段）</h3>
       <ul class="uplist">${ups}</ul>
     </div>
+    ${brExtra}
     <div class="linkrow" style="margin-top:14px">
       <a href="${d.site}" target="_blank" rel="noopener">${d.siteName}</a>
     </div>`;
@@ -1724,6 +1801,13 @@ function miInit(){
   $id('mi-rt').addEventListener('click', () => { miState.trip = 'rt'; miRender(); });
   $id('mi-ow').addEventListener('click', () => { miState.trip = 'ow'; miRender(); });
   $id('mi-have').addEventListener('input', miRender);
+  $id('mi-main').addEventListener('change', e => {
+    const el = e.target;
+    if (el.id === 'br-za'){ miState.br.za = el.value; miRender(); }
+    else if (el.id === 'br-zb'){ miState.br.zb = el.value; miRender(); }
+    else if (el.id === 'br-cab'){ miState.br.cab = el.value; miRender(); }
+    else if (el.id === 'br-thru'){ miState.br.thru = el.value; miRender(); }
+  });
   miRender();
 }
 miInit();
