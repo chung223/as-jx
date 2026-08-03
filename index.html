@@ -239,6 +239,16 @@
   }
   .notesgrid .nd{flex:0 1 150px; min-width:130px}
   .notesgrid .nm{flex:1 1 140px; min-width:120px}
+  .qlinks{
+    display:flex; flex-wrap:wrap; gap:5px 6px; align-items:center;
+    margin-top:9px; font-size:11px; color:var(--faint);
+  }
+  .qlinks a{
+    font-size:11px; text-decoration:none; color:var(--gold); font-weight:700;
+    border:1px solid var(--gold-deep); border-radius:999px; padding:2px 9px;
+    white-space:nowrap;
+  }
+  .qlinks a:hover{background:var(--gold); color:var(--gold-ink)}
 
   .bp-stub{
     display:flex; flex-direction:column; justify-content:center; text-align:right;
@@ -1137,17 +1147,37 @@ function tagHtml(a){
   return t;
 }
 
+/* 外部查票連結（網址帶入，無需 API） */
+function skyUrl(o, d, date){
+  return `https://www.skyscanner.com.tw/transport/flights/${o.toLowerCase()}/${d.toLowerCase()}/${date ? date.slice(2).replace(/-/g, '') + '/' : ''}`;
+}
+function gfUrl(o, d, date){
+  return 'https://www.google.com/travel/flights?hl=zh-TW&q=' +
+    encodeURIComponent(`one way flights from ${o} to ${d}${date ? ' on ' + date : ''}`);
+}
+function asAwardUrl(o, d, date){
+  return `https://www.alaskaair.com/search/results?A=1&C=0&L=0&O=${o}&D=${d}${date ? '&OD=' + date : ''}&RT=false&ShoppingMethod=onlineaward`;
+}
+
 /* 有票日期記事本（存本機） */
 function noteHtml(oCode, hubCode, dCode){
   const nk = `${oCode}-${hubCode}-${dCode}`;
   const n = loadLS('awardNotes', {})[nk] || {};
   const has = n.d1 || n.d2 || n.memo;
+  const calcD1 = document.getElementById('calc-d1').value;
+  const s1d = n.d1 || calcD1 || '';
+  const s2d = n.d2 || (calcD1 ? flAdd(new Date(calcD1 + 'T00:00:00'), 14).toLocaleDateString('sv') : '');
   return `<details class="notesfold"${has ? ' open' : ''}>
-    <summary>記錄有票日期${has ? `　<span class="hasnote">✓ ${n.d1 || '—'}｜${n.d2 || '—'}</span>` : ''}</summary>
+    <summary>記錄有票日期・查票${has ? `　<span class="hasnote">✓ ${n.d1 || '—'}｜${n.d2 || '—'}</span>` : ''}</summary>
     <div class="notesgrid">
       <span class="nd"><label>段 1（${oCode}→${hubCode}）有票日</label><input type="date" data-nk="${nk}" data-nf="d1" value="${n.d1 || ''}"></span>
       <span class="nd"><label>段 2（${hubCode}→${dCode}）有票日</label><input type="date" data-nk="${nk}" data-nf="d2" value="${n.d2 || ''}"></span>
       <span class="nm"><label>備註</label><input type="text" maxlength="60" placeholder="艙等／訂位代號…" data-nk="${nk}" data-nf="memo" value="${esc(n.memo || '')}"></span>
+    </div>
+    <div class="qlinks">
+      段1<a href="${asAwardUrl(oCode, hubCode, s1d)}" target="_blank" rel="noopener">AS 哩程票</a><a href="${skyUrl(oCode, hubCode, s1d)}" target="_blank" rel="noopener">Skyscanner</a>
+      段2<a href="${asAwardUrl(hubCode, dCode, s2d)}" target="_blank" rel="noopener">AS 哩程票</a><a href="${skyUrl(hubCode, dCode, s2d)}" target="_blank" rel="noopener">Skyscanner</a>
+      <span>（段2 預帶最晚出發日）</span>
     </div>
   </details>`;
 }
@@ -1517,7 +1547,14 @@ function flRender(){
       <a href="https://matrix.itasoftware.com/" target="_blank" rel="noopener">ITA Matrix</a>
       <a href="https://bookwithmatrix.com/" target="_blank" rel="noopener">BookWithMatrix</a>
     </div>
-    <p class="linknote">多城市查價不支援網址帶入，複製後貼著填；提早約 360 天最甜。</p>`;
+    <div class="qlinks">
+      分段參考（Skyscanner 帶日期）
+      <a href="${skyUrl(A.code, 'TPE', flPad(d1).replace(/\//g, '-'))}" target="_blank" rel="noopener">段1</a>
+      <a href="${skyUrl('TPE', B.code, flPad(d2).replace(/\//g, '-'))}" target="_blank" rel="noopener">段2</a>
+      <a href="${skyUrl(B.code, 'TPE', flPad(d3).replace(/\//g, '-'))}" target="_blank" rel="noopener">段3</a>
+      <a href="${skyUrl('TPE', A.code, flPad(d4).replace(/\//g, '-'))}" target="_blank" rel="noopener">段4</a>
+    </div>
+    <p class="linknote">多城市總價不支援網址帶入，複製查價單貼著填；分段連結為單程現金價參考，四段票以官網多城市總價為準。提早約 360 天最甜。</p>`;
 
   $id('fl-copy').addEventListener('click', async () => {
     const btn = $id('fl-copy');
