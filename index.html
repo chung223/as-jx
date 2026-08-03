@@ -1158,6 +1158,10 @@ function gfUrl(o, d, date){
 function asAwardUrl(o, d, date){
   return `https://www.alaskaair.com/search/results?A=1&C=0&L=0&O=${o}&D=${d}${date ? '&OD=' + date : ''}&RT=false&ShoppingMethod=onlineaward`;
 }
+function kayakMultiUrl(legs){ // legs: [[起, 迄, 'YYYY-MM-DD'], ...]
+  return 'https://www.tw.kayak.com/flights/' +
+    legs.map(([o, d, dt]) => `${o}-${d}/${dt}`).join('/') + '?sort=bestflight_a';
+}
 
 /* 有票日期記事本（存本機） */
 function noteHtml(oCode, hubCode, dCode){
@@ -1177,7 +1181,8 @@ function noteHtml(oCode, hubCode, dCode){
     <div class="qlinks">
       段1<a href="${asAwardUrl(oCode, hubCode, s1d)}" target="_blank" rel="noopener">AS 哩程票</a><a href="${skyUrl(oCode, hubCode, s1d)}" target="_blank" rel="noopener">Skyscanner</a>
       段2<a href="${asAwardUrl(hubCode, dCode, s2d)}" target="_blank" rel="noopener">AS 哩程票</a><a href="${skyUrl(hubCode, dCode, s2d)}" target="_blank" rel="noopener">Skyscanner</a>
-      <span>（段2 預帶最晚出發日）</span>
+      ${s1d && s2d ? `<a href="${kayakMultiUrl([[oCode, hubCode, s1d], [hubCode, dCode, s2d]])}" target="_blank" rel="noopener">Kayak 多城市</a>` : ''}
+      <span>（段2 預帶最晚出發日；AS 哩程多城市無法網址帶入，找到票後回官網 Multi-city 開票）</span>
     </div>
   </details>`;
 }
@@ -1548,13 +1553,19 @@ function flRender(){
       <a href="https://bookwithmatrix.com/" target="_blank" rel="noopener">BookWithMatrix</a>
     </div>
     <div class="qlinks">
-      分段參考（Skyscanner 帶日期）
+      <a href="${kayakMultiUrl([
+        [A.code, 'TPE', flPad(d1).replace(/\//g, '-')],
+        ['TPE', B.code, flPad(d2).replace(/\//g, '-')],
+        [B.code, 'TPE', flPad(d3).replace(/\//g, '-')],
+        ['TPE', A.code, flPad(d4).replace(/\//g, '-')],
+      ])}" target="_blank" rel="noopener">Kayak 多城市（四段一鍵）</a>
+      分段 Skyscanner
       <a href="${skyUrl(A.code, 'TPE', flPad(d1).replace(/\//g, '-'))}" target="_blank" rel="noopener">段1</a>
       <a href="${skyUrl('TPE', B.code, flPad(d2).replace(/\//g, '-'))}" target="_blank" rel="noopener">段2</a>
       <a href="${skyUrl(B.code, 'TPE', flPad(d3).replace(/\//g, '-'))}" target="_blank" rel="noopener">段3</a>
       <a href="${skyUrl('TPE', A.code, flPad(d4).replace(/\//g, '-'))}" target="_blank" rel="noopener">段4</a>
     </div>
-    <p class="linknote">多城市總價不支援網址帶入，複製查價單貼著填；分段連結為單程現金價參考，四段票以官網多城市總價為準。提早約 360 天最甜。</p>`;
+    <p class="linknote">Kayak 可一鍵帶入四段多城市；航司官網多城市無網址參數，開票時複製查價單貼著填（四段票總價以官網為準）。提早約 360 天最甜。</p>`;
 
   $id('fl-copy').addEventListener('click', async () => {
     const btn = $id('fl-copy');
