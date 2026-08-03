@@ -899,6 +899,7 @@
         <button type="button" class="mi-air" data-air="BR" aria-pressed="false">長榮</button>
         <button type="button" class="mi-air" data-air="JX" aria-pressed="false">星宇</button>
         <button type="button" class="mi-air" data-air="CX" aria-pressed="false">國泰</button>
+        <button type="button" class="mi-air" data-air="NH" aria-pressed="false">ANA</button>
         <button type="button" class="mi-air" data-air="CMP" aria-pressed="false">比較</button>
       </div>
 
@@ -1654,7 +1655,7 @@ const MILE_DATA = {
     ],
   },
 };
-const miState = { air:'CI', trip:'rt', br:{ za:'sea', zb:'nea', cab:'eco', thru:'' } };
+const miState = { air:'CI', trip:'rt', br:{ za:'sea', zb:'nea', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'' } };
 
 /* 長榮效益最大化：同區最遠航點（座標即時計算）＋ 跨區經台北檢查 */
 const BR_ZONE_APTS = {
@@ -1686,6 +1687,7 @@ function miRender(){
   $id('mi-cmp-fields').hidden = (miState.air !== 'CMP');
   if (miState.air === 'CX'){ cxRenderInto($id('mi-main')); return; }
   if (miState.air === 'CMP'){ cmpRenderInto($id('mi-main')); return; }
+  if (miState.air === 'NH'){ nhRenderInto($id('mi-main')); return; }
 
   const d = MILE_DATA[miState.air];
   const have = parseInt($id('mi-have').value, 10) || 0;
@@ -1807,6 +1809,7 @@ function miInit(){
     else if (el.id === 'br-zb'){ miState.br.zb = el.value; miRender(); }
     else if (el.id === 'br-cab'){ miState.br.cab = el.value; miRender(); }
     else if (el.id === 'br-thru'){ miState.br.thru = el.value; miRender(); }
+    else if (el.id && el.id.startsWith('nh-')){ miState.nh[el.id.slice(3)] = el.value; miRender(); }
   });
   miRender();
 }
@@ -1985,6 +1988,70 @@ cxBuildSelect($id('cx-to'), 'TPE');
 $id('cx-from').addEventListener('change', () => miRender());
 $id('cx-to').addEventListener('change', () => miRender());
 
+/* ═════════════════════ ANA 1.5 段票組合器 ═════════════════════
+   台日來回＋加掛一段日本→台灣單程（開口＋台灣停留），
+   經濟 20,000→23,000、商務 40,000→43,000（整理值，星盟長榮/ANA 航班）。 */
+const NH_JP = [['NRT','東京成田'],['HND','東京羽田'],['KIX','大阪關西'],['NGO','名古屋'],['FUK','福岡'],['CTS','札幌'],['OKA','沖繩'],['SDJ','仙台']];
+const NH_TW = [['TPE','台北'],['KHH','高雄']];
+const NH_PRICE = { two:{ eco:20000, biz:40000 }, three:{ eco:23000, biz:43000 } };
+function nhRenderInto(main){
+  const s = miState.nh;
+  const opt = (list, sel) => list.map(([c, n]) => `<option value="${c}"${c === sel ? ' selected' : ''}>${c} ${n}</option>`).join('');
+  const p2 = NH_PRICE.two[s.cab], p3 = NH_PRICE.three[s.cab];
+  const have = parseInt($id('mi-have').value, 10) || 0;
+  const warns = [];
+  if (s.jy === s.jx) warns.push('加掛段的日本出發點需與去程目的地不同城市（開口），請改選（如去程關西、加段東京）。');
+  if (s.d1 && s.d2 && s.d2 < s.d1) warns.push('回程日期需在去程之後。');
+  if (s.d2 && s.d3 && s.d3 < s.d2) warns.push('加掛段日期需在回程之後（中間停留台灣）。');
+  if (s.d1 && s.d3){
+    const days = Math.round((new Date(s.d3 + 'T00:00:00') - new Date(s.d1 + 'T00:00:00')) / 86400000);
+    if (days > 365) warns.push(`全程 ${days} 天超過一年票期，加掛段最晚須在去程後 365 天內。`);
+  }
+  const st = have ? (have >= p3 ? `<span class="stat ok">✓ 哩程足夠</span>` : `<span class="stat bad">差 ${fmt(p3 - have)} 哩</span>`) : '';
+  main.innerHTML = `
+    <div class="msum reveal">
+      <h2>ANA・1.5 段票組合器</h2>
+      <span class="counts">台日來回＋3,000 哩多一段日本→台灣</span>
+    </div>
+    <div class="card reveal">
+      <h3>行程設定（星盟長榮／ANA 航班）</h3>
+      <div class="goalgrid">
+        <div class="field"><label for="nh-ta">段 1 出發（台灣）</label><select id="nh-ta">${opt(NH_TW, s.ta)}</select></div>
+        <div class="field"><label for="nh-jx">段 1–2 目的地（日本）</label><select id="nh-jx">${opt(NH_JP, s.jx)}</select></div>
+        <div class="field"><label for="nh-cab">艙等</label><select id="nh-cab">
+          <option value="eco"${s.cab === 'eco' ? ' selected' : ''}>經濟</option>
+          <option value="biz"${s.cab === 'biz' ? ' selected' : ''}>商務</option></select></div>
+        <div class="field"><label for="nh-jy">加掛段出發（日本，需開口）</label><select id="nh-jy">${opt(NH_JP, s.jy)}</select></div>
+        <div class="field"><label for="nh-tb">加掛段抵達（台灣）</label><select id="nh-tb">${opt(NH_TW, s.tb)}</select></div>
+        <div class="field"></div>
+        <div class="field"><label for="nh-d1">段 1 日期（去程）</label><input type="date" id="nh-d1" value="${s.d1}"></div>
+        <div class="field"><label for="nh-d2">段 2 日期（回台）</label><input type="date" id="nh-d2" value="${s.d2}"${s.d1 ? ` min="${s.d1}"` : ''}></div>
+        <div class="field"><label for="nh-d3">段 3 日期（再飛日本後回台）</label><input type="date" id="nh-d3" value="${s.d3}"${s.d2 ? ` min="${s.d2}"` : ''}></div>
+      </div>
+      ${warns.length ? `<ul class="warns">${warns.map(w => `<li>${w}</li>`).join('')}</ul>` : ''}
+      <div class="statrow" style="margin-top:6px">
+        <span class="stat">兩段來回 <b>${fmt(p2)}</b> 哩</span>
+        <span class="stat ok">1.5 段票 <b>${fmt(p3)}</b> 哩（+${fmt(p3 - p2)}）</span>
+        <span class="stat">多換到 <b>${s.jy} → ${s.tb}</b> 單程一段</span>
+        ${st}
+      </div>
+      <ol class="timeline" style="margin-top:14px">
+        <li><div class="tl-top"><span class="tl-leg">段 1</span>${s.d1 ? `<span class="tl-date">${s.d1.replace(/-/g, '/')}</span>` : ''}<span class="tl-route">${s.ta} → ${s.jx}</span></div></li>
+        <li><div class="tl-top"><span class="tl-leg">段 2</span>${s.d2 ? `<span class="tl-date">${s.d2.replace(/-/g, '/')}</span>` : ''}<span class="tl-route">${s.jx} → ${s.ta}</span><span class="tl-badge">回台停留（下次旅行前）</span></div></li>
+        <li class="dashed"><div class="tl-top"><span class="tl-leg">接駁</span><span class="tl-route">自行前往 ${s.jy}（自費或另張票）</span></div><div class="derived">開口段：台灣 ${s.ta} 抵、日本 ${s.jy} 出</div></li>
+        <li><div class="tl-top"><span class="tl-leg">段 3</span>${s.d3 ? `<span class="tl-date">${s.d3.replace(/-/g, '/')}</span>` : ''}<span class="tl-route">${s.jy} → ${s.tb}</span><span class="tl-badge">+3,000 哩加掛段</span></div></li>
+      </ol>
+      <p class="mnote">原理：ANA 來回票允許開口＋停留，多加一段只補區間差額。
+      哩程數為社群實測整理值（經濟 23,000／商務 43,000，換長榮或 ANA 航班）；
+      稅金約多 NT$1,000+；票期一年；ANA 哩程效期 36 個月（Marriott 3:1 可轉入）；
+      機位先查星盟酬賓有位再於 ANA 官網開票，一律以官網為準。</p>
+      <div class="linkrow">
+        <a href="https://www.ana.co.jp/zh/tw/" target="_blank" rel="noopener">ANA 官網</a>
+        <a href="https://www.ana.co.jp/en/us/amc/reference/tukau/award/star/" target="_blank" rel="noopener">星盟兌換表</a>
+      </div>
+    </div>`;
+}
+
 /* ═════════════════════ 跨計畫比價 ═════════════════════
    同一目的地比較五個計畫所需哩程；zone key 對應 MILE_DATA。 */
 const CMP_DESTS = {
@@ -2152,6 +2219,7 @@ const PROGRAMS = [
   { id:'BR', name:'長榮', sub:'無限萬哩遊' },
   { id:'JX', name:'星宇', sub:'COSMILE' },
   { id:'CX', name:'國泰', sub:'亞洲萬里通' },
+  { id:'NH', name:'ANA', sub:'Mileage Club' },
   { id:'AS', name:'阿拉斯加', sub:'Mileage Plan', noExp:true },
 ];
 function assetRender(){
@@ -2347,7 +2415,7 @@ function applyHash(){
   }
   for (const d of ['d1','d2','d3','d4']) if (/^\d{4}-\d{2}-\d{2}$/.test(p.get(d) || '')) $id('fl-' + d).value = p.get(d);
   if (p.get('nd') === '1') $id('fl-nextday').checked = true;
-  if (MILE_DATA[p.get('ma')] || ['CX','CMP'].includes(p.get('ma'))) miState.air = p.get('ma');
+  if (MILE_DATA[p.get('ma')] || ['CX','CMP','NH'].includes(p.get('ma'))) miState.air = p.get('ma');
   if (p.get('cd') && [...$id('cmp-dest').options].some(o => o.value === p.get('cd'))) $id('cmp-dest').value = p.get('cd');
   if (['rt','ow'].includes(p.get('mt'))) miState.trip = p.get('mt');
   if (p.get('mh')) $id('mi-have').value = p.get('mh');
