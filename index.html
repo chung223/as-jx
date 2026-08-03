@@ -1151,9 +1151,25 @@ function tagHtml(a){
 function skyUrl(o, d, date){
   return `https://www.skyscanner.com.tw/transport/flights/${o.toLowerCase()}/${d.toLowerCase()}/${date ? date.slice(2).replace(/-/g, '') + '/' : ''}`;
 }
-function gfUrl(o, d, date){
-  return 'https://www.google.com/travel/flights?hl=zh-TW&q=' +
-    encodeURIComponent(`one way flights from ${o} to ${d}${date ? ' on ' + date : ''}`);
+/* Google Flights tfs 參數（protobuf）：legs=[[起,迄,'YYYY-MM-DD'],…]，seat 1=經濟 3=商務 */
+function gfMultiUrl(legs, seat){
+  const vint = n => { const o = []; while (n > 127){ o.push((n & 127) | 128); n >>= 7; } o.push(n); return o; };
+  const pbStr = (f, s) => { const b = Array.from(new TextEncoder().encode(s)); return [...vint(f << 3 | 2), b.length, ...b]; };
+  const pbMsg = (f, bytes) => [...vint(f << 3 | 2), bytes.length, ...bytes];
+  const pbNum = (f, v) => [...vint(f << 3), ...vint(v)];
+  const info = [];
+  for (const [o, d, dt] of legs){
+    info.push(...pbMsg(3, [
+      ...pbStr(2, dt),
+      ...pbMsg(13, pbStr(2, o)),
+      ...pbMsg(14, pbStr(2, d)),
+    ]));
+  }
+  info.push(...pbNum(8, 1));                          // 1 位成人
+  info.push(...pbNum(9, seat || 1));                  // 艙等
+  info.push(...pbNum(19, legs.length > 1 ? 3 : 2));   // 多城市／單程
+  const b64 = btoa(String.fromCharCode(...info)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return `https://www.google.com/travel/flights?tfs=${b64}&hl=zh-TW&curr=TWD`;
 }
 function asAwardUrl(o, d, date){
   return `https://www.alaskaair.com/search/results?A=1&C=0&L=0&O=${o}&D=${d}${date ? '&OD=' + date : ''}&RT=false&ShoppingMethod=onlineaward`;
@@ -1181,7 +1197,8 @@ function noteHtml(oCode, hubCode, dCode){
     <div class="qlinks">
       段1<a href="${asAwardUrl(oCode, hubCode, s1d)}" target="_blank" rel="noopener">AS 哩程票</a><a href="${skyUrl(oCode, hubCode, s1d)}" target="_blank" rel="noopener">Skyscanner</a>
       段2<a href="${asAwardUrl(hubCode, dCode, s2d)}" target="_blank" rel="noopener">AS 哩程票</a><a href="${skyUrl(hubCode, dCode, s2d)}" target="_blank" rel="noopener">Skyscanner</a>
-      ${s1d && s2d ? `<a href="${kayakMultiUrl([[oCode, hubCode, s1d], [hubCode, dCode, s2d]])}" target="_blank" rel="noopener">Kayak 多城市</a>` : ''}
+      ${s1d && s2d ? `<a href="${kayakMultiUrl([[oCode, hubCode, s1d], [hubCode, dCode, s2d]])}" target="_blank" rel="noopener">Kayak 多城市</a>
+      <a href="${gfMultiUrl([[oCode, hubCode, s1d], [hubCode, dCode, s2d]], state.cabin === 'biz' ? 3 : 1)}" target="_blank" rel="noopener">GF 多城市</a>` : ''}
       <span>（段2 預帶最晚出發日；AS 哩程多城市無法網址帶入，找到票後回官網 Multi-city 開票）</span>
     </div>
   </details>`;
@@ -1548,7 +1565,12 @@ function flRender(){
     </div>
     <div class="linkrow">
       <a href="${air.site}" target="_blank" rel="noopener">${air.siteName}</a>
-      <a href="https://www.google.com/travel/flights?hl=zh-TW" target="_blank" rel="noopener">Google Flights 多城市</a>
+      <a href="${gfMultiUrl([
+        [A.code, 'TPE', flPad(d1).replace(/\//g, '-')],
+        ['TPE', B.code, flPad(d2).replace(/\//g, '-')],
+        [B.code, 'TPE', flPad(d3).replace(/\//g, '-')],
+        ['TPE', A.code, flPad(d4).replace(/\//g, '-')],
+      ])}" target="_blank" rel="noopener">Google Flights 多城市（帶四段）</a>
       <a href="https://matrix.itasoftware.com/" target="_blank" rel="noopener">ITA Matrix</a>
       <a href="https://bookwithmatrix.com/" target="_blank" rel="noopener">BookWithMatrix</a>
     </div>
