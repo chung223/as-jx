@@ -1655,7 +1655,7 @@ const MILE_DATA = {
     ],
   },
 };
-const miState = { air:'CI', trip:'rt', br:{ za:'sea', zb:'nea', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'' } };
+const miState = { air:'CI', trip:'rt', br:{ za:'sea', zb:'nea', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'', da:'HND', db:'CTS' } };
 
 /* 長榮效益最大化：同區最遠航點（座標即時計算）＋ 跨區經台北檢查 */
 const BR_ZONE_APTS = {
@@ -1992,6 +1992,21 @@ $id('cx-to').addEventListener('change', () => miRender());
    台日來回＋加掛一段日本→台灣單程（開口＋台灣停留），
    經濟 20,000→23,000、商務 40,000→43,000（整理值，星盟長榮/ANA 航班）。 */
 const NH_JP = [['NRT','東京成田'],['HND','東京羽田'],['KIX','大阪關西'],['NGO','名古屋'],['FUK','福岡'],['CTS','札幌'],['OKA','沖繩'],['SDJ','仙台']];
+/* ANA 國內線：距離帶（2024/10/27 新制，最低 6,000 起，依 L/R/H 季節浮動） */
+const NH_DOM_APTS = [
+  ['HND','東京羽田',35.5494,139.7798],['NRT','東京成田',35.7720,140.3929],['ITM','大阪伊丹',34.7855,135.4382],
+  ['KIX','大阪關西',34.4342,135.2441],['NGO','名古屋',34.8584,136.8049],['FUK','福岡',33.5859,130.4508],
+  ['CTS','札幌',42.7752,141.6923],['SDJ','仙台',38.1397,140.9169],['HKD','函館',41.7700,140.8219],
+  ['KMJ','熊本',32.8373,130.8551],['TAK','高松',34.2142,134.0156],['OKA','沖繩那霸',26.1958,127.6459],
+  ['ISG','石垣',24.3968,124.2450],['SHI','宮古下地島',24.8267,125.1447],
+];
+const NH_DOM_BANDS = [
+  { name:'0–300 哩', max:300, lo:'6,000', hi:'約 9,000', sure:true },
+  { name:'301–800 哩', max:800, lo:'約 7,000', hi:'約 11,000' },
+  { name:'801–1,000 哩', max:1000, lo:'約 8,000', hi:'約 12,000' },
+  { name:'1,001–2,000 哩', max:2000, lo:'約 9,500', hi:'約 13,500' },
+  { name:'2,001 哩以上', max:Infinity, lo:'約 11,000', hi:'約 15,000' },
+];
 const NH_TW = [['TPE','台北'],['KHH','高雄']];
 const NH_PRICE = { two:{ eco:20000, biz:40000 }, three:{ eco:23000, biz:43000 } };
 function nhRenderInto(main){
@@ -2049,7 +2064,42 @@ function nhRenderInto(main){
         <a href="https://www.ana.co.jp/zh/tw/" target="_blank" rel="noopener">ANA 官網</a>
         <a href="https://www.ana.co.jp/en/us/amc/reference/tukau/award/star/" target="_blank" rel="noopener">星盟兌換表</a>
       </div>
-    </div>`;
+    </div>
+    ${nhDomHtml(s)}`;
+}
+function nhDomHtml(s){
+  const opt = sel => NH_DOM_APTS.map(([c, n]) => `<option value="${c}"${c === sel ? ' selected' : ''}>${c} ${n}</option>`).join('');
+  const A = NH_DOM_APTS.find(x => x[0] === s.da), B = NH_DOM_APTS.find(x => x[0] === s.db);
+  let body = '<p class="mnote">出發與抵達請選不同機場。</p>';
+  if (A && B && A !== B){
+    const dist = gcMiles({ lat:A[2], lon:A[3] }, { lat:B[2], lon:B[3] });
+    const band = NH_DOM_BANDS.find(b => dist <= b.max);
+    body = `
+      <div class="cxdist" style="margin-bottom:10px">
+        <span><span class="dv" style="font-size:24px">${fmt(dist)}</span> <span class="du">哩（大圓概略）・${band.name}區間</span></span>
+      </div>
+      <div class="bandbar" role="img" aria-label="距離帶：${band.name}">
+        ${NH_DOM_BANDS.map(b => `<span class="bandseg${b === band ? ' active' : ''}">${b.name.replace(' 哩', '')}</span>`).join('')}
+      </div>
+      <div class="statrow" style="margin-top:12px">
+        <span class="stat">單程 <b>${band.lo}</b> ～ <b>${band.hi}</b> 哩（依 L/R/H 季節）</span>
+      </div>`;
+  }
+  return `<div class="card reveal" style="margin-top:18px">
+    <h3>ANA 日本國內線速查</h3>
+    <div class="goalgrid">
+      <div class="field"><label for="nh-da">出發</label><select id="nh-da">${opt(s.da)}</select></div>
+      <div class="field"><label for="nh-db">抵達</label><select id="nh-db">${opt(s.db)}</select></div>
+    </div>
+    ${body}
+    <p class="mnote">2024/10/27 起最低 6,000 哩／段、依季節浮動（0–300 哩區間官方確認 6,000 起，
+    其餘為整理區間值，以官網「季節與所需哩程表」為準）。省哩技巧：
+    每週「國內線特價獎勵」最低 3,000 哩起；國際線酬賓票可免費串聯 24 小時內轉機的國內段
+    （如 台北→東京→札幌 一段計）；UA 換 ANA 國內線改制後常比 ANA 自家貴，先比價再出手。</p>
+    <div class="linkrow">
+      <a href="https://www.ana.co.jp/zh/tw/amc/domestic-flight-awards/" target="_blank" rel="noopener">官方國內線兌換表</a>
+    </div>
+  </div>`;
 }
 
 /* ═════════════════════ 跨計畫比價 ═════════════════════
