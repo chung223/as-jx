@@ -1,5 +1,5 @@
 {
- "scanned_at": "2026-08-04T08:58:45Z",
+ "scanned_at": "2026-08-04T22:07:00Z",
  "env": "google-flights",
  "mode": "two-rt",
  "dates": {
@@ -16,26 +16,26 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "price": 31751.0,
-    "raw": "NT$31,751",
+    "price": 32075.0,
+    "raw": "NT$32,075",
     "airline": "香港快運航空＋台灣虎航",
     "parts": {
      "out": {
       "airline": "香港快運航空",
-      "price": 20739.0,
-      "raw": "NT$20,739"
+      "price": 20803.0,
+      "raw": "NT$20,803"
      },
      "inn": {
       "airline": "台灣虎航",
-      "price": 11012.0,
-      "raw": "NT$11,012"
+      "price": 11272.0,
+      "raw": "NT$11,272"
      }
     }
    },
    "bench": {
     "airline": "台灣虎航",
-    "price": 11012.0,
-    "raw": "NT$11,012"
+    "price": 11272.0,
+    "raw": "NT$11,272"
    }
   },
   {
@@ -45,27 +45,27 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "price": 67345.0,
-    "raw": "NT$67,345",
-    "airline": "星宇航空／菲律賓航空＋韓亞航空",
+    "price": 70036.0,
+    "raw": "NT$70,036",
+    "airline": "中華航空／菲律賓航空＋韓亞航空",
     "parts": {
      "out": {
-      "price": 33336.0,
-      "raw": "NT$33,336（單程相加）",
-      "airline": "星宇航空／菲律賓航空",
+      "price": 32784.0,
+      "raw": "NT$32,784（單程相加）",
+      "airline": "中華航空／菲律賓航空",
       "basis": "ow-sum"
      },
      "inn": {
       "airline": "韓亞航空",
-      "price": 34009.0,
-      "raw": "NT$34,009"
+      "price": 37252.0,
+      "raw": "NT$37,252"
      }
     }
    },
    "bench": {
     "airline": "韓亞航空",
-    "price": 34009.0,
-    "raw": "NT$34,009"
+    "price": 37252.0,
+    "raw": "NT$37,252"
    }
   },
   {
@@ -75,26 +75,28 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "price": 32909.0,
-    "raw": "NT$32,909",
-    "airline": "香港快運航空＋樂桃航空",
+    "price": 30822.0,
+    "raw": "NT$30,822",
+    "airline": "香港快運航空＋捷星日本航空／樂桃航空",
     "parts": {
      "out": {
       "airline": "香港快運航空",
-      "price": 20739.0,
-      "raw": "NT$20,739"
+      "price": 20803.0,
+      "raw": "NT$20,803"
      },
      "inn": {
-      "airline": "樂桃航空",
-      "price": 12170.0,
-      "raw": "NT$12,170"
+      "price": 10019.0,
+      "raw": "NT$10,019（單程相加）",
+      "airline": "捷星日本航空／樂桃航空",
+      "basis": "ow-sum"
      }
     }
    },
    "bench": {
-    "airline": "樂桃航空",
-    "price": 12170.0,
-    "raw": "NT$12,170"
+    "price": 10019.0,
+    "raw": "NT$10,019（單程相加）",
+    "airline": "捷星日本航空／樂桃航空",
+    "basis": "ow-sum"
    }
   },
   {
@@ -104,14 +106,14 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "price": 64222.0,
-    "raw": "NT$64,222",
-    "airline": "星宇航空／菲律賓航空＋韓亞航空",
+    "price": 63670.0,
+    "raw": "NT$63,670",
+    "airline": "中華航空／菲律賓航空＋韓亞航空",
     "parts": {
      "out": {
-      "price": 33336.0,
-      "raw": "NT$33,336（單程相加）",
-      "airline": "星宇航空／菲律賓航空",
+      "price": 32784.0,
+      "raw": "NT$32,784（單程相加）",
+      "airline": "中華航空／菲律賓航空",
       "basis": "ow-sum"
      },
      "inn": {
@@ -134,144 +136,146 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "price": 19913.0,
-    "raw": "NT$19,913",
-    "airline": "酷航＋台灣虎航",
-    "parts": {
-     "out": {
-      "airline": "酷航",
-      "price": 8901.0,
-      "raw": "NT$8,901"
-     },
-     "inn": {
-      "airline": "台灣虎航",
-      "price": 11012.0,
-      "raw": "NT$11,012"
-     }
-    }
-   },
-   "bench": {
-    "airline": "台灣虎航",
-    "price": 11012.0,
-    "raw": "NT$11,012"
-   }
-  },
-  {
-   "a": "SGN",
-   "an": "胡志明市",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "BUSINESS",
-   "four": {
-    "price": 67182.0,
-    "raw": "NT$67,182",
-    "airline": "中華航空＋韓亞航空",
-    "parts": {
-     "out": {
-      "price": 33173.0,
-      "raw": "NT$33,173（單程相加）",
-      "airline": "中華航空",
-      "basis": "ow-sum"
-     },
-     "inn": {
-      "airline": "韓亞航空",
-      "price": 34009.0,
-      "raw": "NT$34,009"
-     }
-    }
-   },
-   "bench": {
-    "airline": "韓亞航空",
-    "price": 34009.0,
-    "raw": "NT$34,009"
-   }
-  },
-  {
-   "a": "SGN",
-   "an": "胡志明市",
-   "b": "KIX",
-   "bn": "大阪關西",
-   "cabin": "ECONOMY",
-   "four": {
-    "price": 21071.0,
-    "raw": "NT$21,071",
-    "airline": "酷航＋樂桃航空",
-    "parts": {
-     "out": {
-      "airline": "酷航",
-      "price": 8901.0,
-      "raw": "NT$8,901"
-     },
-     "inn": {
-      "airline": "樂桃航空",
-      "price": 12170.0,
-      "raw": "NT$12,170"
-     }
-    }
-   },
-   "bench": {
-    "airline": "樂桃航空",
-    "price": 12170.0,
-    "raw": "NT$12,170"
-   }
-  },
-  {
-   "a": "SGN",
-   "an": "胡志明市",
-   "b": "KIX",
-   "bn": "大阪關西",
-   "cabin": "BUSINESS",
-   "four": {
-    "price": 64059.0,
-    "raw": "NT$64,059",
-    "airline": "中華航空＋韓亞航空",
-    "parts": {
-     "out": {
-      "price": 33173.0,
-      "raw": "NT$33,173（單程相加）",
-      "airline": "中華航空",
-      "basis": "ow-sum"
-     },
-     "inn": {
-      "airline": "韓亞航空",
-      "price": 30886.0,
-      "raw": "NT$30,886"
-     }
-    }
-   },
-   "bench": {
-    "airline": "韓亞航空",
-    "price": 30886.0,
-    "raw": "NT$30,886"
-   }
-  },
-  {
-   "a": "CGK",
-   "an": "雅加達",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "ECONOMY",
-   "four": {
-    "price": 25375.0,
-    "raw": "NT$25,375",
+    "price": 18738.0,
+    "raw": "NT$18,738",
     "airline": "越捷航空＋台灣虎航",
     "parts": {
      "out": {
       "airline": "越捷航空",
-      "price": 14363.0,
-      "raw": "NT$14,363"
+      "price": 7466.0,
+      "raw": "NT$7,466"
      },
      "inn": {
       "airline": "台灣虎航",
-      "price": 11012.0,
-      "raw": "NT$11,012"
+      "price": 11272.0,
+      "raw": "NT$11,272"
      }
     }
    },
    "bench": {
     "airline": "台灣虎航",
-    "price": 11012.0,
-    "raw": "NT$11,012"
+    "price": 11272.0,
+    "raw": "NT$11,272"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "four": {
+    "price": 73165.0,
+    "raw": "NT$73,165",
+    "airline": "中華航空／國泰航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 35913.0,
+      "raw": "NT$35,913（單程相加）",
+      "airline": "中華航空／國泰航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 37252.0,
+      "raw": "NT$37,252"
+     }
+    }
+   },
+   "bench": {
+    "airline": "韓亞航空",
+    "price": 37252.0,
+    "raw": "NT$37,252"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "ECONOMY",
+   "four": {
+    "price": 17485.0,
+    "raw": "NT$17,485",
+    "airline": "越捷航空＋捷星日本航空／樂桃航空",
+    "parts": {
+     "out": {
+      "airline": "越捷航空",
+      "price": 7466.0,
+      "raw": "NT$7,466"
+     },
+     "inn": {
+      "price": 10019.0,
+      "raw": "NT$10,019（單程相加）",
+      "airline": "捷星日本航空／樂桃航空",
+      "basis": "ow-sum"
+     }
+    }
+   },
+   "bench": {
+    "price": 10019.0,
+    "raw": "NT$10,019（單程相加）",
+    "airline": "捷星日本航空／樂桃航空",
+    "basis": "ow-sum"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "BUSINESS",
+   "four": {
+    "price": 66799.0,
+    "raw": "NT$66,799",
+    "airline": "中華航空／國泰航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 35913.0,
+      "raw": "NT$35,913（單程相加）",
+      "airline": "中華航空／國泰航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 30886.0,
+      "raw": "NT$30,886"
+     }
+    }
+   },
+   "bench": {
+    "airline": "韓亞航空",
+    "price": 30886.0,
+    "raw": "NT$30,886"
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "ECONOMY",
+   "four": {
+    "price": 25663.0,
+    "raw": "NT$25,663",
+    "airline": "越捷航空＋台灣虎航",
+    "parts": {
+     "out": {
+      "airline": "越捷航空",
+      "price": 14391.0,
+      "raw": "NT$14,391"
+     },
+     "inn": {
+      "airline": "台灣虎航",
+      "price": 11272.0,
+      "raw": "NT$11,272"
+     }
+    }
+   },
+   "bench": {
+    "airline": "台灣虎航",
+    "price": 11272.0,
+    "raw": "NT$11,272"
    }
   },
   {
@@ -281,27 +285,27 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "price": 64983.0,
-    "raw": "NT$64,983",
+    "price": 68254.0,
+    "raw": "NT$68,254",
     "airline": "菲律賓航空＋韓亞航空",
     "parts": {
      "out": {
-      "price": 30974.0,
-      "raw": "NT$30,974（單程相加）",
+      "price": 31002.0,
+      "raw": "NT$31,002（單程相加）",
       "airline": "菲律賓航空",
       "basis": "ow-sum"
      },
      "inn": {
       "airline": "韓亞航空",
-      "price": 34009.0,
-      "raw": "NT$34,009"
+      "price": 37252.0,
+      "raw": "NT$37,252"
      }
     }
    },
    "bench": {
     "airline": "韓亞航空",
-    "price": 34009.0,
-    "raw": "NT$34,009"
+    "price": 37252.0,
+    "raw": "NT$37,252"
    }
   },
   {
@@ -311,26 +315,28 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "price": 26533.0,
-    "raw": "NT$26,533",
-    "airline": "越捷航空＋樂桃航空",
+    "price": 24410.0,
+    "raw": "NT$24,410",
+    "airline": "越捷航空＋捷星日本航空／樂桃航空",
     "parts": {
      "out": {
       "airline": "越捷航空",
-      "price": 14363.0,
-      "raw": "NT$14,363"
+      "price": 14391.0,
+      "raw": "NT$14,391"
      },
      "inn": {
-      "airline": "樂桃航空",
-      "price": 12170.0,
-      "raw": "NT$12,170"
+      "price": 10019.0,
+      "raw": "NT$10,019（單程相加）",
+      "airline": "捷星日本航空／樂桃航空",
+      "basis": "ow-sum"
      }
     }
    },
    "bench": {
-    "airline": "樂桃航空",
-    "price": 12170.0,
-    "raw": "NT$12,170"
+    "price": 10019.0,
+    "raw": "NT$10,019（單程相加）",
+    "airline": "捷星日本航空／樂桃航空",
+    "basis": "ow-sum"
    }
   },
   {
@@ -340,13 +346,13 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "price": 61860.0,
-    "raw": "NT$61,860",
+    "price": 61888.0,
+    "raw": "NT$61,888",
     "airline": "菲律賓航空＋韓亞航空",
     "parts": {
      "out": {
-      "price": 30974.0,
-      "raw": "NT$30,974（單程相加）",
+      "price": 31002.0,
+      "raw": "NT$31,002（單程相加）",
       "airline": "菲律賓航空",
       "basis": "ow-sum"
      },
