@@ -872,6 +872,7 @@
 
     <section>
       <div id="fl-rulecard" class="rulecard"></div>
+      <div id="fl-scan"></div>
       <div id="fl-out" class="flout"></div>
     </section>
   </div>
@@ -1854,6 +1855,47 @@ function flSuggestApply(sg, n){
   flRender();
 }
 
+/* 四段票甜度掃描結果（GitHub Actions + Amadeus，讀靜態 fares.json） */
+function flScanSetupHtml(){
+  return `<div class="card" style="margin-bottom:16px">
+    <h3>甜度掃描（未啟用）</h3>
+    <p class="mnote" style="margin-bottom:8px">啟用後每天自動用 Amadeus 查「四段總價 vs 台北直飛來回」找甜票，三步設定：</p>
+    <ol style="padding-left:20px; color:var(--muted); font-size:13px; margin:0">
+      <li>到 <a href="https://developers.amadeus.com" target="_blank" rel="noopener" style="color:var(--gold)">developers.amadeus.com</a> 免費註冊並建立 App，取得 API Key／Secret。</li>
+      <li>GitHub repo → Settings → Secrets and variables → Actions：新增 Secret <b>AMADEUS_API_KEY</b> 與 <b>AMADEUS_API_SECRET</b>（要用正式票價再加 Variable <b>AMADEUS_ENV</b>＝production）。</li>
+      <li>Actions → 「Scan 4-leg fares」→ Run workflow 手動跑第一次，之後每天 05:00 自動掃描。</li>
+    </ol>
+  </div>`;
+}
+async function flScanLoad(){
+  const box = $id('fl-scan');
+  try {
+    const j = await fetch('fares.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); });
+    if (!j.scanned_at || !j.results?.length){ box.innerHTML = flScanSetupHtml(); return; }
+    const rows = j.results.filter(r => !r.four?.error).map(r => {
+      const okB = r.bench && !r.bench.error;
+      const ratio = okB ? Math.round(r.four.price / r.bench.price * 100) : null;
+      const sweet = ratio != null && ratio <= 110;
+      return `<div class="mrow">
+        <div class="mzone"><b>${r.an} ⇄ ${r.bn}</b><small>${r.cabin === 'ECONOMY' ? '經濟' : '商務'}・${r.four.carrier || '—'} 四段</small></div>
+        <div class="mcell"><small>四段總價</small><b>NT$ ${fmt(Math.round(r.four.price))}</b></div>
+        <div class="mcell"><small>台北直飛來回</small><b>${okB ? 'NT$ ' + fmt(Math.round(r.bench.price)) : '—'}</b></div>
+        <div class="mcell${sweet ? ' ok' : ''}"><small>四段／直飛</small><b>${ratio != null ? ratio + '%' : '—'}</b>${sweet ? '<em>✓ 甜（多兩段還更省）</em>' : ''}</div>
+      </div>`;
+    }).join('');
+    const failed = j.results.filter(r => r.four?.error).length;
+    box.innerHTML = `<div class="card" style="margin-bottom:16px">
+      <h3>甜度掃描（每日自動）</h3>
+      <div class="mhead"><span>組合</span><span>四段總價</span><span>直飛來回</span><span>比例</span></div>
+      <div class="mrows">${rows || '<p class="mnote">本次掃描沒有取得可用報價。</p>'}</div>
+      <p class="mnote">掃描時間 ${j.scanned_at.slice(0, 16).replace('T', ' ')} UTC・
+      ${j.env === 'test' ? '⚠ Amadeus 測試環境（非真實票價，僅驗證管線；切 production 取得實價）' : 'Amadeus 正式資料'}・
+      日期樣板：出發 +60 天、B 停 7 天、台灣停 30 天${failed ? `・${failed} 組無報價` : ''}。
+      比例 ≤110% 標為甜（四段比直飛來回多兩段航程）。價格隨時變動，以官網為準。</p>
+    </div>`;
+  } catch { box.innerHTML = flScanSetupHtml(); }
+}
+
 function flInit(){
   flBuildSelect($id('fl-a'), 'BKK');
   flBuildSelect($id('fl-b'), 'NRT');
@@ -1884,6 +1926,7 @@ function flInit(){
     flSuggestApply(b.dataset.sg, b.dataset.n);
   });
   flRender();
+  flScanLoad();
 }
 flInit();
 

@@ -1,0 +1,53 @@
+name: Scan 4-leg fares
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 每天 05:00 台北時間
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run scanner
+        env:
+          AMADEUS_API_KEY: ${{ secrets.AMADEUS_API_KEY }}
+          AMADEUS_API_SECRET: ${{ secrets.AMADEUS_API_SECRET }}
+          AMADEUS_ENV: ${{ vars.AMADEUS_ENV }}
+        run: node scripts/scan-fares.mjs
+      - name: Commit results
+        id: commit
+        run: |
+          if git diff --quiet fares.json 2>/dev/null; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "fares-scanner"
+            git config user.email "github-actions@users.noreply.github.com"
+            git add fares.json
+            git commit -m "chore: 更新四段票甜度掃描結果"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.commit.outputs.changed == 'true'
+        uses: actions/configure-pages@v5
+      - if: steps.commit.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - if: steps.commit.outputs.changed == 'true'
+        uses: actions/deploy-pages@v4
