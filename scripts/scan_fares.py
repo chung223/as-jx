@@ -18,13 +18,20 @@ def to_num(p):
         return None
 
 
+def air_names(f):
+    # 3.0 的 airlines 依查詢型態可能是字串或 Airline 物件
+    names = []
+    for a in (getattr(f, "airlines", None) or [])[:2]:
+        names.append(a if isinstance(a, str) else (getattr(a, "name", "") or getattr(a, "code", "")))
+    return "／".join(n for n in names if n)
+
+
 def best(results):
     out = []
     for f in results or []:
         pr = to_num(getattr(f, "price", None))
         if pr:
-            names = "／".join(a.name for a in (getattr(f, "airlines", None) or [])[:2])
-            out.append({"airline": names, "price": pr, "raw": f"NT${pr:,.0f}"})
+            out.append({"airline": air_names(f), "price": pr, "raw": f"NT${pr:,.0f}"})
     out.sort(key=lambda x: x["price"])
     return out[0] if out else None
 
@@ -43,7 +50,11 @@ def q(legs, seat, trip):
             if b_:
                 return b_
         except Exception as e:  # noqa: BLE001
-            last_err = str(e)[:200]
+            tb = e.__traceback__
+            while tb and tb.tb_next:
+                tb = tb.tb_next
+            loc = f" @ {tb.tb_frame.f_code.co_filename.rsplit('/', 1)[-1]}:{tb.tb_lineno}" if tb else ""
+            last_err = f"{type(e).__name__}: {e}{loc}"[:200]
         time.sleep(5)
     return {"error": last_err}
 

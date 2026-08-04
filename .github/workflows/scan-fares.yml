@@ -26,6 +26,24 @@ jobs:
           python-version: '3.12'
       - name: Install fast-flights
         run: pip install fast-flights typing_extensions
+      - name: Debug multi-city payload (dispatch only)
+        if: github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: python scripts/debug_multicity.py
+      - name: Probe keyless API CORS (dispatch only)
+        if: github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: |
+          for u in \
+            "https://api.adsb.lol/v2/point/25.08/121.23/100" \
+            "https://api.airplanes.live/v2/point/25.08/121.23/100" \
+            "https://metar.vatsim.net/RCTP" \
+            "https://hexdb.io/api/v1/aircraft/899000" \
+            "https://opensky-network.org/api/states/all?lamin=21.5&lamax=25.5&lomin=119&lomax=123"; do
+            echo "===== $u"
+            curl -s -m 20 -D - -o /tmp/body -H "Origin: https://chung223.github.io" "$u" | grep -iE "^(HTTP|access-control|content-type)" || true
+            head -c 200 /tmp/body; echo
+          done
       - name: Run scanner
         run: python scripts/scan_fares.py
       - name: Commit results
