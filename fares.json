@@ -1,5 +1,5 @@
 {
- "scanned_at": "2026-08-04T07:35:34Z",
+ "scanned_at": "2026-08-04T07:45:55Z",
  "env": "google-flights",
  "dates": {
   "d1": "2026-10-03",
@@ -15,10 +15,12 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "台灣虎航",
+    "price": 11013.0,
+    "raw": "NT$11,013"
    }
   },
   {
@@ -28,10 +30,12 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "韓亞航空",
+    "price": 34009.0,
+    "raw": "NT$34,009"
    }
   },
   {
@@ -41,10 +45,12 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "樂桃航空",
+    "price": 12170.0,
+    "raw": "NT$12,170"
    }
   },
   {
@@ -54,10 +60,12 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "韓亞航空",
+    "price": 30886.0,
+    "raw": "NT$30,886"
    }
   },
   {
@@ -67,10 +75,12 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "台灣虎航",
+    "price": 11013.0,
+    "raw": "NT$11,013"
    }
   },
   {
@@ -80,10 +90,12 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "韓亞航空",
+    "price": 34009.0,
+    "raw": "NT$34,009"
    }
   },
   {
@@ -93,10 +105,12 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "樂桃航空",
+    "price": 12170.0,
+    "raw": "NT$12,170"
    }
   },
   {
@@ -106,10 +120,12 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "韓亞航空",
+    "price": 30886.0,
+    "raw": "NT$30,886"
    }
   },
   {
@@ -119,10 +135,12 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "台灣虎航",
+    "price": 11013.0,
+    "raw": "NT$11,013"
    }
   },
   {
@@ -132,10 +150,12 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "韓亞航空",
+    "price": 34009.0,
+    "raw": "NT$34,009"
    }
   },
   {
@@ -145,10 +165,12 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "樂桃航空",
+    "price": 12170.0,
+    "raw": "NT$12,170"
    }
   },
   {
@@ -158,10 +180,12 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "list index out of range"
+    "error": "IndexError: list index out of range @ parser.py:48"
    },
    "bench": {
-    "error": "'str' object has no attribute 'name'"
+    "airline": "韓亞航空",
+    "price": 30886.0,
+    "raw": "NT$30,886"
    }
   }
  ]
