@@ -1,5 +1,5 @@
 {
- "scanned_at": "2026-08-04T08:49:57Z",
+ "scanned_at": "2026-08-04T08:58:45Z",
  "env": "google-flights",
  "mode": "two-rt",
  "dates": {
@@ -45,7 +45,22 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "查無報價（Google 未回結果）"
+    "price": 67345.0,
+    "raw": "NT$67,345",
+    "airline": "星宇航空／菲律賓航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 33336.0,
+      "raw": "NT$33,336（單程相加）",
+      "airline": "星宇航空／菲律賓航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 34009.0,
+      "raw": "NT$34,009"
+     }
+    }
    },
    "bench": {
     "airline": "韓亞航空",
@@ -89,7 +104,22 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "查無報價（Google 未回結果）"
+    "price": 64222.0,
+    "raw": "NT$64,222",
+    "airline": "星宇航空／菲律賓航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 33336.0,
+      "raw": "NT$33,336（單程相加）",
+      "airline": "星宇航空／菲律賓航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 30886.0,
+      "raw": "NT$30,886"
+     }
+    }
    },
    "bench": {
     "airline": "韓亞航空",
@@ -133,7 +163,22 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "查無報價（Google 未回結果）"
+    "price": 67182.0,
+    "raw": "NT$67,182",
+    "airline": "中華航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 33173.0,
+      "raw": "NT$33,173（單程相加）",
+      "airline": "中華航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 34009.0,
+      "raw": "NT$34,009"
+     }
+    }
    },
    "bench": {
     "airline": "韓亞航空",
@@ -177,7 +222,22 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "查無報價（Google 未回結果）"
+    "price": 64059.0,
+    "raw": "NT$64,059",
+    "airline": "中華航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 33173.0,
+      "raw": "NT$33,173（單程相加）",
+      "airline": "中華航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 30886.0,
+      "raw": "NT$30,886"
+     }
+    }
    },
    "bench": {
     "airline": "韓亞航空",
@@ -221,7 +281,22 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "查無報價（Google 未回結果）"
+    "price": 64983.0,
+    "raw": "NT$64,983",
+    "airline": "菲律賓航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 30974.0,
+      "raw": "NT$30,974（單程相加）",
+      "airline": "菲律賓航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 34009.0,
+      "raw": "NT$34,009"
+     }
+    }
    },
    "bench": {
     "airline": "韓亞航空",
@@ -265,7 +340,22 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "查無報價（Google 未回結果）"
+    "price": 61860.0,
+    "raw": "NT$61,860",
+    "airline": "菲律賓航空＋韓亞航空",
+    "parts": {
+     "out": {
+      "price": 30974.0,
+      "raw": "NT$30,974（單程相加）",
+      "airline": "菲律賓航空",
+      "basis": "ow-sum"
+     },
+     "inn": {
+      "airline": "韓亞航空",
+      "price": 30886.0,
+      "raw": "NT$30,886"
+     }
+    }
    },
    "bench": {
     "airline": "韓亞航空",
