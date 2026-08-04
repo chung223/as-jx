@@ -1,6 +1,7 @@
 {
- "scanned_at": "2026-08-04T07:56:44Z",
+ "scanned_at": "2026-08-04T08:06:50Z",
  "env": "google-flights",
+ "mode": "two-rt",
  "dates": {
   "d1": "2026-10-03",
   "d2": "2026-10-04",
@@ -15,7 +16,21 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "price": 31745.0,
+    "raw": "NT$31,745",
+    "airline": "香港快運航空＋台灣虎航",
+    "parts": {
+     "out": {
+      "airline": "香港快運航空",
+      "price": 20732.0,
+      "raw": "NT$20,732"
+     },
+     "inn": {
+      "airline": "台灣虎航",
+      "price": 11013.0,
+      "raw": "NT$11,013"
+     }
+    }
    },
    "bench": {
     "airline": "台灣虎航",
@@ -30,7 +45,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -45,7 +60,21 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "price": 32902.0,
+    "raw": "NT$32,902",
+    "airline": "香港快運航空＋樂桃航空",
+    "parts": {
+     "out": {
+      "airline": "香港快運航空",
+      "price": 20732.0,
+      "raw": "NT$20,732"
+     },
+     "inn": {
+      "airline": "樂桃航空",
+      "price": 12170.0,
+      "raw": "NT$12,170"
+     }
+    }
    },
    "bench": {
     "airline": "樂桃航空",
@@ -60,7 +89,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -75,7 +104,21 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "price": 19906.0,
+    "raw": "NT$19,906",
+    "airline": "酷航＋台灣虎航",
+    "parts": {
+     "out": {
+      "airline": "酷航",
+      "price": 8893.0,
+      "raw": "NT$8,893"
+     },
+     "inn": {
+      "airline": "台灣虎航",
+      "price": 11013.0,
+      "raw": "NT$11,013"
+     }
+    }
    },
    "bench": {
     "airline": "台灣虎航",
@@ -90,7 +133,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -105,7 +148,21 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "price": 21063.0,
+    "raw": "NT$21,063",
+    "airline": "酷航＋樂桃航空",
+    "parts": {
+     "out": {
+      "airline": "酷航",
+      "price": 8893.0,
+      "raw": "NT$8,893"
+     },
+     "inn": {
+      "airline": "樂桃航空",
+      "price": 12170.0,
+      "raw": "NT$12,170"
+     }
+    }
    },
    "bench": {
     "airline": "樂桃航空",
@@ -120,7 +177,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -135,7 +192,21 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "price": 25366.0,
+    "raw": "NT$25,366",
+    "airline": "越捷航空＋台灣虎航",
+    "parts": {
+     "out": {
+      "airline": "越捷航空",
+      "price": 14353.0,
+      "raw": "NT$14,353"
+     },
+     "inn": {
+      "airline": "台灣虎航",
+      "price": 11013.0,
+      "raw": "NT$11,013"
+     }
+    }
    },
    "bench": {
     "airline": "台灣虎航",
@@ -150,7 +221,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -165,7 +236,21 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "price": 26523.0,
+    "raw": "NT$26,523",
+    "airline": "越捷航空＋樂桃航空",
+    "parts": {
+     "out": {
+      "airline": "越捷航空",
+      "price": 14353.0,
+      "raw": "NT$14,353"
+     },
+     "inn": {
+      "airline": "樂桃航空",
+      "price": 12170.0,
+      "raw": "NT$12,170"
+     }
+    }
    },
    "bench": {
     "airline": "樂桃航空",
@@ -180,7 +265,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "IndexError: list index out of range @ parser.py:48"
+    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
    },
    "bench": {
     "airline": "韓亞航空",
