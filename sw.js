@@ -1,4 +1,4 @@
-const CACHE = 'miles-toolbox-v1';
+const CACHE = 'miles-toolbox-v2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -10,9 +10,13 @@ self.addEventListener('activate', e => {
     Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))));
   self.clients.claim();
 });
-// network-first：確保更新即時，離線時退回快取
+// network-first：確保更新即時，離線時退回快取。
+// 只攔同源請求——外部 API 與瀏覽器擴充功能（chrome-extension: 等）交給瀏覽器原生處理。
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  let u;
+  try { u = new URL(e.request.url); } catch { return; }
+  if (u.origin !== self.location.origin) return;
   e.respondWith(
     fetch(e.request).then(r => {
       const clone = r.clone();

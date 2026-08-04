@@ -19,7 +19,7 @@
 - **班機追蹤・機隊觀察**：輸入航班號（IATA 自動轉 ICAO 呼號，如 JX2→SJX2）、註冊號或機型代碼，
   全球定位畫在世界地圖（Natural Earth 110m）上，跨換日線自動處理，30 秒更新＋航跡
 
-- **匯率**（frankfurter.app，免金鑰）：USD/JPY/HKD/EUR 兌台幣現價＋USD 近 30 天走勢圖；
+- **匯率**（frankfurter.dev，免金鑰；open.er-api.com 後備）：USD/JPY/HKD/EUR 兌台幣現價＋USD 近 30 天走勢圖；
   「AS 買分價換算器」把美分/哩即時換成 NT$/哩，一鍵套用到比價費率
 - **機場天氣**（open-meteo.com，免金鑰）：任選航點（預設 TPE）看現況（氣溫、體感、濕度、
   風向羅盤與風速節數）＋未來 7 天氣溫區間與降雨機率圖

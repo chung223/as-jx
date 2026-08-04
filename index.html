@@ -1019,7 +1019,7 @@
     <div class="rulechips">
       <span>資料存於<b>本機</b>、不上傳</span>
       <span>餘額自動帶入<b>哩程兌換</b>分頁</span>
-      <span>匯率 <b>frankfurter.app</b>・免金鑰</span>
+      <span>匯率 <b>frankfurter.dev</b>・免金鑰</span>
     </div>
   </div>
 
@@ -2608,23 +2608,40 @@ async function fxLoad(){
   try {
     const end = new Date(), start = new Date(); start.setDate(start.getDate() - 30);
     const iso = d => d.toLocaleDateString('sv');
-    const [latest, series] = await Promise.all([
-      fetch('https://api.frankfurter.app/latest?from=TWD&to=USD,JPY,HKD,EUR').then(r => r.json()),
-      fetch(`https://api.frankfurter.app/${iso(start)}..${iso(end)}?from=USD&to=TWD`).then(r => r.json()),
-    ]);
-    const inv = c => 1 / latest.rates[c];
-    fxState.usdtwd = inv('USD');
-    const pills = [
-      ['美元 USD', inv('USD').toFixed(2)],
-      ['日圓 JPY×100', (inv('JPY') * 100).toFixed(2)],
-      ['港幣 HKD', inv('HKD').toFixed(2)],
-      ['歐元 EUR', inv('EUR').toFixed(2)],
-    ].map(([n, v]) => `<span class="fxpill">${n}<b>${v}</b></span>`).join('');
-    const pts = Object.entries(series.rates).map(([d, r]) => [d, r.TWD]).sort((a, b) => a[0] < b[0] ? -1 : 1);
-    out.innerHTML = `<div class="fxstrip">${pills}</div>
-      <p class="charttitle">USD → TWD・近 30 天</p>
-      <div class="chartbox">${fxSpark(pts)}</div>
-      <p class="livestamp">資料日期 ${latest.date}（歐洲央行牌價，週末不更新）</p>`;
+    let pills, stamp, pts = null;
+    try {
+      const [latest, series] = await Promise.all([
+        fetch('https://api.frankfurter.dev/v1/latest?from=TWD&to=USD,JPY,HKD,EUR').then(r => { if (!r.ok) throw 0; return r.json(); }),
+        fetch(`https://api.frankfurter.dev/v1/${iso(start)}..${iso(end)}?from=USD&to=TWD`).then(r => { if (!r.ok) throw 0; return r.json(); }),
+      ]);
+      const inv = c => 1 / latest.rates[c];
+      fxState.usdtwd = inv('USD');
+      pills = [
+        ['美元 USD', inv('USD').toFixed(2)],
+        ['日圓 JPY×100', (inv('JPY') * 100).toFixed(2)],
+        ['港幣 HKD', inv('HKD').toFixed(2)],
+        ['歐元 EUR', inv('EUR').toFixed(2)],
+      ];
+      pts = Object.entries(series.rates).map(([d, r]) => [d, r.TWD]).sort((a, b) => a[0] < b[0] ? -1 : 1);
+      stamp = `資料日期 ${latest.date}（frankfurter.dev・歐洲央行牌價，週末不更新）`;
+    } catch {
+      // 後備來源：open.er-api.com（免金鑰、開 CORS；無歷史序列，略過走勢圖）
+      const d = await fetch('https://open.er-api.com/v6/latest/USD').then(r => r.json());
+      if (d.result !== 'success') throw 0;
+      const R = d.rates;
+      fxState.usdtwd = R.TWD;
+      pills = [
+        ['美元 USD', R.TWD.toFixed(2)],
+        ['日圓 JPY×100', (R.TWD / R.JPY * 100).toFixed(2)],
+        ['港幣 HKD', (R.TWD / R.HKD).toFixed(2)],
+        ['歐元 EUR', (R.TWD / R.EUR).toFixed(2)],
+      ];
+      stamp = `後備來源 open.er-api.com・${(d.time_last_update_utc || '').slice(0, 16)}`;
+    }
+    const pillHtml = pills.map(([n, v]) => `<span class="fxpill">${n}<b>${v}</b></span>`).join('');
+    out.innerHTML = `<div class="fxstrip">${pillHtml}</div>` +
+      (pts ? `<p class="charttitle">USD → TWD・近 30 天</p><div class="chartbox">${fxSpark(pts)}</div>` : '') +
+      `<p class="livestamp">${stamp}</p>`;
     fxAsRender();
   } catch {
     out.innerHTML = `<div class="liveerr">⚠ 無法取得匯率 — 此環境可能封鎖外部連線，或 API 暫時無回應。</div>`;
