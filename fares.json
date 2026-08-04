@@ -1,1 +1,168 @@
-{ "scanned_at": null, "results": [] }
+{
+ "scanned_at": "2026-08-04T07:35:34Z",
+ "env": "google-flights",
+ "dates": {
+  "d1": "2026-10-03",
+  "d2": "2026-10-04",
+  "d3": "2026-10-11",
+  "d4": "2026-11-10"
+ },
+ "results": [
+  {
+   "a": "BKK",
+   "an": "曼谷",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "ECONOMY",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "BKK",
+   "an": "曼谷",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "BKK",
+   "an": "曼谷",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "ECONOMY",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "BKK",
+   "an": "曼谷",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "BUSINESS",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "ECONOMY",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "ECONOMY",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "SGN",
+   "an": "胡志明市",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "BUSINESS",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "ECONOMY",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "ECONOMY",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "BUSINESS",
+   "four": {
+    "error": "list index out of range"
+   },
+   "bench": {
+    "error": "'str' object has no attribute 'name'"
+   }
+  }
+ ]
+}
