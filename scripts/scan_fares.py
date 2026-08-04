@@ -1,42 +1,52 @@
 # 四段票甜度掃描（免金鑰版）：以 fast-flights 解析 Google Flights
 # 多城市總價與台北直飛來回基準，輸出 fares.json 供網站顯示。
-import json, re, time, datetime
-from fast_flights import FlightData, Passengers, get_flights
+import datetime
+import json
+import re
+import time
 
-def parse_price(p):
-    n = re.sub(r"[^\d.]", "", p or "")
+from fast_flights import FlightQuery, Passengers, create_query, get_flights
+
+
+def to_num(p):
+    if isinstance(p, (int, float)):
+        return float(p) if p > 0 else None
+    n = re.sub(r"[^\d.]", "", str(p or ""))
     try:
         return float(n) if n else None
     except ValueError:
         return None
 
-def best(flights):
+
+def best(results):
     out = []
-    for f in flights or []:
-        pr = parse_price(getattr(f, "price", None))
+    for f in results or []:
+        pr = to_num(getattr(f, "price", None))
         if pr:
-            out.append({"airline": getattr(f, "name", ""), "price": pr, "raw": f.price})
+            names = "／".join(a.name for a in (getattr(f, "airlines", None) or [])[:2])
+            out.append({"airline": names, "price": pr, "raw": f"NT${pr:,.0f}"})
     out.sort(key=lambda x: x["price"])
     return out[0] if out else None
 
+
 def q(legs, seat, trip):
     last_err = "no offers"
-    for mode in ("common", "fallback"):
+    for _ in range(2):
         try:
-            r = get_flights(
-                flight_data=[FlightData(date=d, from_airport=a, to_airport=b) for a, b, d in legs],
-                trip=trip,
-                seat=seat,
-                passengers=Passengers(adults=1),
-                fetch_mode=mode,
+            query = create_query(
+                flights=[FlightQuery(date=d, from_airport=a, to_airport=b)
+                         for a, b, d in legs],
+                seat=seat, trip=trip, passengers=Passengers(adults=1),
+                currency="TWD", language="zh-TW",
             )
-            b_ = best(getattr(r, "flights", None))
+            b_ = best(get_flights(query))
             if b_:
                 return b_
         except Exception as e:  # noqa: BLE001
             last_err = str(e)[:200]
-        time.sleep(2)
+        time.sleep(5)
     return {"error": last_err}
+
 
 base = datetime.date.today() + datetime.timedelta(days=60)
 D = {k: (base + datetime.timedelta(days=n)).isoformat() for k, n in

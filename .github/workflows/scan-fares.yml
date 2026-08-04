@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install fast-flights
-        run: pip install fast-flights
+        run: pip install fast-flights typing_extensions
       - name: Run scanner
         run: python scripts/scan_fares.py
       - name: Commit results
