@@ -1,5 +1,5 @@
 {
- "scanned_at": "2026-08-04T08:06:50Z",
+ "scanned_at": "2026-08-04T08:42:29Z",
  "env": "google-flights",
  "mode": "two-rt",
  "dates": {
@@ -16,26 +16,26 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "price": 31745.0,
-    "raw": "NT$31,745",
+    "price": 31751.0,
+    "raw": "NT$31,751",
     "airline": "香港快運航空＋台灣虎航",
     "parts": {
      "out": {
       "airline": "香港快運航空",
-      "price": 20732.0,
-      "raw": "NT$20,732"
+      "price": 20739.0,
+      "raw": "NT$20,739"
      },
      "inn": {
       "airline": "台灣虎航",
-      "price": 11013.0,
-      "raw": "NT$11,013"
+      "price": 11012.0,
+      "raw": "NT$11,012"
      }
     }
    },
    "bench": {
     "airline": "台灣虎航",
-    "price": 11013.0,
-    "raw": "NT$11,013"
+    "price": 11012.0,
+    "raw": "NT$11,012"
    }
   },
   {
@@ -45,7 +45,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
+    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -60,14 +60,14 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "price": 32902.0,
-    "raw": "NT$32,902",
+    "price": 32909.0,
+    "raw": "NT$32,909",
     "airline": "香港快運航空＋樂桃航空",
     "parts": {
      "out": {
       "airline": "香港快運航空",
-      "price": 20732.0,
-      "raw": "NT$20,732"
+      "price": 20739.0,
+      "raw": "NT$20,739"
      },
      "inn": {
       "airline": "樂桃航空",
@@ -89,7 +89,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
+    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -104,26 +104,26 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "price": 19906.0,
-    "raw": "NT$19,906",
+    "price": 19913.0,
+    "raw": "NT$19,913",
     "airline": "酷航＋台灣虎航",
     "parts": {
      "out": {
       "airline": "酷航",
-      "price": 8893.0,
-      "raw": "NT$8,893"
+      "price": 8901.0,
+      "raw": "NT$8,901"
      },
      "inn": {
       "airline": "台灣虎航",
-      "price": 11013.0,
-      "raw": "NT$11,013"
+      "price": 11012.0,
+      "raw": "NT$11,012"
      }
     }
    },
    "bench": {
     "airline": "台灣虎航",
-    "price": 11013.0,
-    "raw": "NT$11,013"
+    "price": 11012.0,
+    "raw": "NT$11,012"
    }
   },
   {
@@ -133,7 +133,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
+    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -148,14 +148,14 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "price": 21063.0,
-    "raw": "NT$21,063",
+    "price": 21071.0,
+    "raw": "NT$21,071",
     "airline": "酷航＋樂桃航空",
     "parts": {
      "out": {
       "airline": "酷航",
-      "price": 8893.0,
-      "raw": "NT$8,893"
+      "price": 8901.0,
+      "raw": "NT$8,901"
      },
      "inn": {
       "airline": "樂桃航空",
@@ -177,7 +177,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
+    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -192,26 +192,26 @@
    "bn": "東京成田",
    "cabin": "ECONOMY",
    "four": {
-    "price": 25366.0,
-    "raw": "NT$25,366",
+    "price": 25375.0,
+    "raw": "NT$25,375",
     "airline": "越捷航空＋台灣虎航",
     "parts": {
      "out": {
       "airline": "越捷航空",
-      "price": 14353.0,
-      "raw": "NT$14,353"
+      "price": 14363.0,
+      "raw": "NT$14,363"
      },
      "inn": {
       "airline": "台灣虎航",
-      "price": 11013.0,
-      "raw": "NT$11,013"
+      "price": 11012.0,
+      "raw": "NT$11,012"
      }
     }
    },
    "bench": {
     "airline": "台灣虎航",
-    "price": 11013.0,
-    "raw": "NT$11,013"
+    "price": 11012.0,
+    "raw": "NT$11,012"
    }
   },
   {
@@ -221,7 +221,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
+    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -236,14 +236,14 @@
    "bn": "大阪關西",
    "cabin": "ECONOMY",
    "four": {
-    "price": 26523.0,
-    "raw": "NT$26,523",
+    "price": 26533.0,
+    "raw": "NT$26,533",
     "airline": "越捷航空＋樂桃航空",
     "parts": {
      "out": {
       "airline": "越捷航空",
-      "price": 14353.0,
-      "raw": "NT$14,353"
+      "price": 14363.0,
+      "raw": "NT$14,363"
      },
      "inn": {
       "airline": "樂桃航空",
@@ -265,7 +265,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "TypeError: 'NoneType' object is not subscriptable @ parser.py:60"
+    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
    },
    "bench": {
     "airline": "韓亞航空",
