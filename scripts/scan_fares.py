@@ -1,5 +1,7 @@
-# 四段票甜度掃描（免金鑰版）：以 fast-flights 解析 Google Flights
-# 多城市總價與台北直飛來回基準，輸出 fares.json 供網站顯示。
+# 四段票甜度掃描（免金鑰版）：以 fast-flights 解析 Google Flights 來回報價。
+# 註：Google 多城市頁的初始 HTML 不含航班結果（前端動態載入），無法直接抓；
+# 改用可實際照訂的「雙來回拆票」估價：A⇄TPE（d1/d4）＋ TPE⇄B（d2/d3），
+# 另附台北直飛來回（TPE⇄B）基準，供四段票分頁比較。
 import datetime
 import json
 import re
@@ -19,7 +21,7 @@ def to_num(p):
 
 
 def air_names(f):
-    # 3.0 的 airlines 依查詢型態可能是字串或 Airline 物件
+    # airlines 依查詢型態可能是字串或 Airline 物件
     names = []
     for a in (getattr(f, "airlines", None) or [])[:2]:
         names.append(a if isinstance(a, str) else (getattr(a, "name", "") or getattr(a, "code", "")))
@@ -36,14 +38,14 @@ def best(results):
     return out[0] if out else None
 
 
-def q(legs, seat, trip):
+def q_rt(a, b, d_out, d_back, seat):
     last_err = "no offers"
     for _ in range(2):
         try:
             query = create_query(
-                flights=[FlightQuery(date=d, from_airport=a, to_airport=b)
-                         for a, b, d in legs],
-                seat=seat, trip=trip, passengers=Passengers(adults=1),
+                flights=[FlightQuery(date=d_out, from_airport=a, to_airport=b),
+                         FlightQuery(date=d_back, from_airport=b, to_airport=a)],
+                seat=seat, trip="round-trip", passengers=Passengers(adults=1),
                 currency="TWD", language="zh-TW",
             )
             b_ = best(get_flights(query))
@@ -66,21 +68,31 @@ ORIGINS = [("BKK", "曼谷"), ("SGN", "胡志明市"), ("CGK", "雅加達")]
 TURNS = [("NRT", "東京成田"), ("KIX", "大阪關西")]
 CABINS = [("economy", "ECONOMY"), ("business", "BUSINESS")]
 
-out = {"scanned_at": datetime.datetime.utcnow().isoformat(timespec="seconds") + "Z",
-       "env": "google-flights", "dates": D, "results": []}
-benches = {}
+out = {"scanned_at": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
+       "env": "google-flights", "mode": "two-rt", "dates": D, "results": []}
+benches = {}   # TPE⇄B（也是直飛基準）
 for b, bn in TURNS:
     for seat, cab in CABINS:
         time.sleep(3)
-        benches[f"{b}|{cab}"] = q([("TPE", b, D["d2"]), (b, "TPE", D["d3"])], seat, "round-trip")
+        benches[f"{b}|{cab}"] = q_rt("TPE", b, D["d2"], D["d3"], seat)
+arts = {}      # A⇄TPE（外站來回）
+for a, an in ORIGINS:
+    for seat, cab in CABINS:
+        time.sleep(3)
+        arts[f"{a}|{cab}"] = q_rt(a, "TPE", D["d1"], D["d4"], seat)
 for a, an in ORIGINS:
     for b, bn in TURNS:
         for seat, cab in CABINS:
-            time.sleep(3)
-            four = q([(a, "TPE", D["d1"]), ("TPE", b, D["d2"]),
-                      (b, "TPE", D["d3"]), ("TPE", a, D["d4"])], seat, "multi-city")
+            ra, rb = arts[f"{a}|{cab}"], benches[f"{b}|{cab}"]
+            if "error" in ra or "error" in rb:
+                four = {"error": ra.get("error") or rb.get("error")}
+            else:
+                total = ra["price"] + rb["price"]
+                four = {"price": total, "raw": f"NT${total:,.0f}",
+                        "airline": f"{ra['airline']}＋{rb['airline']}",
+                        "parts": {"out": ra, "inn": rb}}
             out["results"].append({"a": a, "an": an, "b": b, "bn": bn, "cabin": cab,
-                                   "four": four, "bench": benches[f"{b}|{cab}"]})
+                                   "four": four, "bench": rb})
 
 with open("fares.json", "w", encoding="utf-8") as f:
     json.dump(out, f, ensure_ascii=False, indent=1)

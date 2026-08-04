@@ -55,9 +55,12 @@
 ## 四段票甜度掃描器（免金鑰・Google Flights）
 
 `.github/workflows/scan-fares.yml` 每天 05:00（台北）自動執行 `scripts/scan_fares.py`：
-以 [fast-flights](https://github.com/AWeirdDev/flights)（免金鑰、免註冊）解析 Google Flights，
-查「外站×折返點×艙等」矩陣的**四段多城市總價**與「台北直飛來回」基準價，
-寫入 `fares.json` 供四段票分頁顯示（比例 ≤110% 標「甜」）。
+以 [fast-flights](https://github.com/AWeirdDev/flights)（免金鑰、免註冊）解析 Google Flights 來回票價，
+對「外站×折返點×艙等」矩陣組出**雙來回拆票估價**（A⇄TPE＋TPE⇄B，兩張票可直接照訂）
+與「台北直飛來回」基準，寫入 `fares.json` 供四段票分頁顯示
+（組合 ≤ 直飛 130% 標「甜」，另顯示「加購 A⇄TPE 的成本」）。
+註：Google 多城市頁的票價是前端動態載入，初始 HTML 抓不到，故不做單 PNR 多城市價；
+頁面附一鍵連結可到 Google Flights 多城市手動複查。
 
 不需要任何 API 金鑰或 Secrets——首次結果可至 Actions →「Scan 4-leg fares」→
 Run workflow 立即產生。Google 偶爾會暫時擋自動查詢，該格會顯示錯誤、隔天自動重試。
