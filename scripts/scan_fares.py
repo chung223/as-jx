@@ -57,6 +57,9 @@ def q_rt(a, b, d_out, d_back, seat):
                 tb = tb.tb_next
             loc = f" @ {tb.tb_frame.f_code.co_filename.rsplit('/', 1)[-1]}:{tb.tb_lineno}" if tb else ""
             last_err = f"{type(e).__name__}: {e}{loc}"[:200]
+            if "parser.py" in last_err:
+                # 解析器在無結果頁面上炸掉＝Google 沒回這個艙等的報價
+                last_err = "查無此艙等報價（Google 未回結果）"
         time.sleep(5)
     return {"error": last_err}
 
