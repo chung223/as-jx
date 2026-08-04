@@ -40,7 +40,7 @@ def best(results):
 
 def q_rt(a, b, d_out, d_back, seat):
     last_err = "no offers"
-    for _ in range(2):
+    for _ in range(3):
         try:
             query = create_query(
                 flights=[FlightQuery(date=d_out, from_airport=a, to_airport=b),
@@ -58,9 +58,9 @@ def q_rt(a, b, d_out, d_back, seat):
             loc = f" @ {tb.tb_frame.f_code.co_filename.rsplit('/', 1)[-1]}:{tb.tb_lineno}" if tb else ""
             last_err = f"{type(e).__name__}: {e}{loc}"[:200]
             if "parser.py" in last_err:
-                # 解析器在無結果頁面上炸掉＝Google 沒回這個艙等的報價
-                last_err = "查無此艙等報價（Google 未回結果）"
-        time.sleep(5)
+                # 解析器在無結果頁面上炸掉＝Google 這次沒回結果區塊
+                last_err = "Google 未回此艙等結果（可能限流，隔日自動重試）"
+        time.sleep(8)
     return {"error": last_err}
 
 
