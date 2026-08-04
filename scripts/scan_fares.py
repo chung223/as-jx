@@ -76,14 +76,13 @@ def best(flights):
     return out[0] if out else None
 
 
-def q_rt(a, b, d_out, d_back, seat):
+def q(legs, seat, trip, tries=3):
     last_err = "查無報價（Google 未回結果）"
-    for _ in range(3):
+    for _ in range(tries):
         try:
             query = create_query(
-                flights=[FlightQuery(date=d_out, from_airport=a, to_airport=b),
-                         FlightQuery(date=d_back, from_airport=b, to_airport=a)],
-                seat=seat, trip="round-trip", passengers=Passengers(adults=1),
+                flights=[FlightQuery(date=d, from_airport=a, to_airport=b) for d, a, b in legs],
+                seat=seat, trip=trip, passengers=Passengers(adults=1),
                 currency="TWD", language="zh-TW",
             )
             b_ = best(parse_flights(fetch_flights_html(query)))
@@ -97,6 +96,20 @@ def q_rt(a, b, d_out, d_back, seat):
             last_err = f"{type(e).__name__}: {e}{loc}"[:200]
         time.sleep(8)
     return {"error": last_err}
+
+
+def q_rt(a, b, d_out, d_back, seat):
+    r = q([(d_out, a, b), (d_back, b, a)], seat, "round-trip")
+    if "error" not in r:
+        return r
+    # 較薄市場（多為商務艙）的來回結果不在初始頁面：退為兩張單程相加
+    o1 = q([(d_out, a, b)], seat, "one-way", tries=2)
+    o2 = q([(d_back, b, a)], seat, "one-way", tries=2)
+    if "error" in o1 or "error" in o2:
+        return r
+    total = o1["price"] + o2["price"]
+    names = "／".join(dict.fromkeys([o1["airline"], o2["airline"]]))
+    return {"price": total, "raw": f"NT${total:,.0f}（單程相加）", "airline": names, "basis": "ow-sum"}
 
 
 base = datetime.date.today() + datetime.timedelta(days=60)
