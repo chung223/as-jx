@@ -7,7 +7,8 @@ import json
 import re
 import time
 
-from fast_flights import FlightQuery, Passengers, create_query, get_flights
+from fast_flights import FlightQuery, Passengers, create_query, fetch_flights_html
+from selectolax.lexbor import LexborHTMLParser
 
 
 def to_num(p):
@@ -20,26 +21,63 @@ def to_num(p):
         return None
 
 
-def air_names(f):
-    # airlines 依查詢型態可能是字串或 Airline 物件
-    names = []
-    for a in (getattr(f, "airlines", None) or [])[:2]:
-        names.append(a if isinstance(a, str) else (getattr(a, "name", "") or getattr(a, "code", "")))
-    return "／".join(n for n in names if n)
+def _first_price(x):
+    # 深度優先找第一個合理票價數字（保險用）
+    if isinstance(x, (int, float)) and 500 <= x <= 5_000_000:
+        return x
+    if isinstance(x, list):
+        for i in x:
+            r = _first_price(i)
+            if r is not None:
+                return r
+    return None
 
 
-def best(results):
+def parse_flights(html):
+    # 容錯版解析：只取結果區 payload[3][0]。fast-flights 內建解析器會先讀
+    # payload[7]（航司名錄 metadata），商務艙頁面該欄常為 None 導致整個炸掉。
+    p = LexborHTMLParser(html)
+    s = p.css_first(r"script.ds\:1")
+    if s is None:
+        return []
+    data = s.text().split("data:", 1)[1].rsplit(",", 1)[0]
+    if data.endswith("errorHasStatus: true"):
+        return []
+    payload = json.loads(data)
+    p3 = payload[3] if len(payload) > 3 else None
+    if not p3 or not p3[0]:
+        return []
     out = []
-    for f in results or []:
-        pr = to_num(getattr(f, "price", None))
+    for k in p3[0]:
+        try:
+            airlines = [a for a in (k[0][1] or []) if isinstance(a, str)]
+            price = None
+            try:
+                price = k[1][0][1]
+            except (IndexError, TypeError):
+                pass
+            if not to_num(price):
+                price = _first_price(k[1] if len(k) > 1 else None)
+            if to_num(price):
+                out.append({"airlines": airlines, "price": price})
+        except Exception:  # noqa: BLE001
+            continue
+    return out
+
+
+def best(flights):
+    out = []
+    for f in flights:
+        pr = to_num(f.get("price"))
         if pr:
-            out.append({"airline": air_names(f), "price": pr, "raw": f"NT${pr:,.0f}"})
+            names = "／".join(f.get("airlines", [])[:2])
+            out.append({"airline": names, "price": pr, "raw": f"NT${pr:,.0f}"})
     out.sort(key=lambda x: x["price"])
     return out[0] if out else None
 
 
 def q_rt(a, b, d_out, d_back, seat):
-    last_err = "no offers"
+    last_err = "查無報價（Google 未回結果）"
     for _ in range(3):
         try:
             query = create_query(
@@ -48,7 +86,7 @@ def q_rt(a, b, d_out, d_back, seat):
                 seat=seat, trip="round-trip", passengers=Passengers(adults=1),
                 currency="TWD", language="zh-TW",
             )
-            b_ = best(get_flights(query))
+            b_ = best(parse_flights(fetch_flights_html(query)))
             if b_:
                 return b_
         except Exception as e:  # noqa: BLE001
@@ -57,9 +95,6 @@ def q_rt(a, b, d_out, d_back, seat):
                 tb = tb.tb_next
             loc = f" @ {tb.tb_frame.f_code.co_filename.rsplit('/', 1)[-1]}:{tb.tb_lineno}" if tb else ""
             last_err = f"{type(e).__name__}: {e}{loc}"[:200]
-            if "parser.py" in last_err:
-                # 解析器在無結果頁面上炸掉＝Google 這次沒回結果區塊
-                last_err = "Google 未回此艙等結果（可能限流，隔日自動重試）"
         time.sleep(8)
     return {"error": last_err}
 
