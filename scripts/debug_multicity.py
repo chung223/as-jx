@@ -1,5 +1,5 @@
-# 臨時診斷（僅手動觸發時執行）：印出 Google Flights 多城市頁面的
-# payload 結構，用來定位 fast-flights 解析器在多城市的 IndexError。
+# 臨時診斷（僅手動觸發時執行）：定位 Google Flights 多城市頁面中
+# 航班結果實際所在的 payload 位置（ds:N script 與索引）。
 import json
 
 from fast_flights import FlightQuery, Passengers, create_query, fetch_flights_html
@@ -16,41 +16,31 @@ q = create_query(
 html = fetch_flights_html(q)
 print("html len:", len(html))
 p = LexborHTMLParser(html)
-script = p.css_first(r"script.ds\:1")
-if script is None:
-    print("no ds:1 script; classes:",
-          [s.attributes.get("class") for s in p.css("script")][:20])
-    raise SystemExit(0)
 
-js = script.text()
-data = js.split("data:", 1)[1].rsplit(",", 1)[0]
-print("errorHasStatus:", data.endswith("errorHasStatus: true"))
-payload = json.loads(data)
+# 1) 掃所有 ds:N script，看哪個含有航點代碼（結果所在處）
+cands = []
+for s in p.css("script"):
+    cls = (s.attributes.get("class") or "")
+    if not cls.startswith("ds:"):
+        continue
+    js = s.text()
+    if "data:" not in js:
+        continue
+    data = js.split("data:", 1)[1].rsplit(",", 1)[0]
+    nb, nt = data.count('"BKK"'), data.count('"TPE"')
+    print(f"{cls}: len={len(data)} BKK={nb} TPE={nt}")
+    if nb or nt:
+        cands.append((cls, data))
 
-
-def shape(x, depth=0):
-    if isinstance(x, list):
-        if depth >= 3:
-            return f"list[{len(x)}]"
-        inner = ",".join(shape(i, depth + 1) for i in x[:6])
-        return f"list[{len(x)}]({inner})" if x else "list[0]"
-    return type(x).__name__
-
-
-print("len(payload):", len(payload))
-for i in range(min(len(payload), 10)):
-    print(f"payload[{i}]:", shape(payload[i]))
-try:
-    p3 = payload[3]
-    print("payload[3][0]:", "None" if p3[0] is None else f"len {len(p3[0])}")
-    if p3[0]:
-        k = p3[0][0]
-        print("k:", shape(k))
-        print("k dump:", json.dumps(k, ensure_ascii=False)[:900])
-except Exception:
-    import traceback
-    traceback.print_exc()
-try:
-    print("payload[7][1]:", shape(payload[7][1]))
-except Exception as e:
-    print("payload[7] ERR:", e)
+# 2) 對每個候選 script 解析 payload，找出含 BKK 的頂層索引並傾印開頭
+for cls, data in cands:
+    try:
+        payload = json.loads(data)
+    except Exception as e:  # noqa: BLE001
+        print(cls, "json ERR:", str(e)[:80])
+        continue
+    print(f"--- {cls}: len(payload)={len(payload)}")
+    for i, slot in enumerate(payload):
+        d = json.dumps(slot, ensure_ascii=False)
+        if '"BKK"' in d or '"TPE"' in d:
+            print(f"[{cls}][{i}] len={len(d)} head={d[:1200]}")
