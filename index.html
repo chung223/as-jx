@@ -584,6 +584,10 @@
   .mapcard canvas{display:block; width:100%; height:300px; touch-action:none; cursor:grab}
   @media (max-width:720px){ .mapcard canvas{height:240px} }
   .maplab{font-size:10.5px; color:var(--faint); text-align:right; padding:4px 2px 2px}
+  .mtrow{display:flex; justify-content:space-between; gap:10px; padding:4px 0; border-bottom:1px dashed var(--line); font-size:13px}
+  .mtrow span{color:var(--muted)} .mtrow b{font-weight:600; text-align:right}
+  .mtraw{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; color:var(--faint); word-break:break-all; margin-top:8px}
+  .mtcat{font-size:26px; font-weight:800; letter-spacing:1px}
   .mapui{position:absolute; top:22px; right:24px; display:flex; flex-direction:column; gap:6px; z-index:2}
   .mapbtn{
     width:30px; height:30px; cursor:pointer; font-size:15px; line-height:1;
@@ -944,10 +948,12 @@
 
   <section class="view" id="view-live" hidden>
   <div class="viewintro">
-    <p class="sub">即時匯率與機場天氣 — 直連免金鑰公開 API，不經第三方伺服器。</p>
+    <p class="sub">即時匯率、機場天氣、航空氣象與台灣上空動態 — 直連免金鑰公開 API，不經第三方伺服器。</p>
     <div class="rulechips">
       <span>匯率 <b>frankfurter.app</b></span>
       <span>天氣 <b>open-meteo.com</b></span>
+      <span>METAR <b>metar.vatsim.net</b></span>
+      <span>ADS-B <b>airplanes.live</b></span>
       <span>皆<b>免金鑰</b>・瀏覽器直連</span>
     </div>
   </div>
@@ -966,6 +972,21 @@
       <h3>機場天氣</h3>
       <div class="field"><label for="wx-apt">機場</label><select id="wx-apt"></select></div>
       <div id="wx-out"><p class="mnote">載入中…</p></div>
+    </div>
+
+    <div class="card">
+      <h3>航空氣象 METAR</h3>
+      <div class="field"><label for="mt-apt">機場（真實世界即時電報）</label><select id="mt-apt"></select></div>
+      <div id="mt-out"><p class="mnote">載入中…</p></div>
+    </div>
+
+    <div class="card" style="grid-column:1/-1">
+      <h3>台灣上空即時航班 <small id="rd-n" style="font-weight:400;color:var(--faint);font-size:12px"></small></h3>
+      <div class="mapcard">
+        <canvas id="radarmap" aria-label="台灣上空即時航班雷達"></canvas>
+        <div class="maplab">點選飛機看細節・每 45 秒自動更新・資料 airplanes.live（ADS-B・非商業）</div>
+      </div>
+      <div id="rd-info" class="mnote"></div>
     </div>
   </div>
   </section><!-- /view-live -->
@@ -2525,7 +2546,7 @@ function applyHash(){
 let liveLoaded = false;
 function liveInit(){
   if (liveLoaded) return; liveLoaded = true;
-  fxLoad(); wxBuildSelect(); wxLoad();
+  fxLoad(); wxBuildSelect(); wxLoad(); mtBuildSelect(); mtLoad(); rdInit();
 }
 const fxState = { usdtwd: null };
 async function fxLoad(){
@@ -2691,6 +2712,192 @@ function rmCurve(g, x1, y1, x2, y2){
   const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, k = 0.12;
   g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(mx - dy * k, my + dx * k, x2, y2); g.stroke();
 }
+/* ---- 航空氣象 METAR（metar.vatsim.net：真實世界電報、免金鑰、CORS 開放） ---- */
+const ICAO_MAP = { TPE:'RCTP', RMQ:'RCMQ', KHH:'RCKH', HKG:'VHHH',
+  NRT:'RJAA', HND:'RJTT', KIX:'RJBB', NGO:'RJGG', FUK:'RJFF', CTS:'RJCC', OKA:'ROAH',
+  ICN:'RKSI', PUS:'RKPK', PVG:'ZSPD', PEK:'ZBAA', CAN:'ZGGG',
+  BKK:'VTBS', CNX:'VTCC', HKT:'VTSP', SGN:'VVTS', HAN:'VVNB', DAD:'VVDN',
+  SIN:'WSSS', KUL:'WMKK', PEN:'WMKP', MNL:'RPLL', CEB:'RPVM', CGK:'WIII', DPS:'WADD',
+  DEL:'VIDP', BOM:'VABB', DXB:'OMDB',
+  SYD:'YSSY', MEL:'YMML', BNE:'YBBN', PER:'YPPH', AKL:'NZAA',
+  LHR:'EGLL', CDG:'LFPG', AMS:'EHAM', FRA:'EDDF', MXP:'LIMC', MAD:'LEMD', ZRH:'LSZH',
+  LAX:'KLAX', SFO:'KSFO', SEA:'KSEA', JFK:'KJFK', BOS:'KBOS', ORD:'KORD', DFW:'KDFW', YVR:'CYVR', YYZ:'CYYZ' };
+function mtBuildSelect(){
+  const sel = $id('mt-apt'); if (!sel) return;
+  let html = `<optgroup label="台灣"><option value="TPE" selected>TPE 台北桃園</option><option value="RMQ">RMQ 台中</option><option value="KHH">KHH 高雄</option></optgroup>` +
+    `<optgroup label="港澳"><option value="HKG">HKG 香港</option></optgroup>`;
+  for (const [g, list] of Object.entries(CX_AIRPORTS)){
+    if (g === '台港澳') continue;
+    const opts = list.filter(([c]) => ICAO_MAP[c]);
+    if (opts.length) html += `<optgroup label="${g}">` + opts.map(([c, n]) => `<option value="${c}">${c} ${n}</option>`).join('') + `</optgroup>`;
+  }
+  sel.innerHTML = html;
+  sel.addEventListener('change', mtLoad);
+}
+const MT_WX = { RA:'雨', SHRA:'陣雨', TSRA:'雷雨', DZ:'毛毛雨', SN:'雪', SG:'雪粒', GR:'冰雹', GS:'小冰雹',
+  FG:'霧', BR:'靄', HZ:'霾', FU:'煙', DU:'塵', SA:'沙', TS:'雷暴', SQ:'颮', VCSH:'附近陣雨', VCTS:'附近雷暴' };
+function mtParse(raw){
+  const o = { raw, wdir:null, wvar:false, wind:null, gust:null, vis:null, cavok:false, clouds:[], wx:[], temp:null, dew:null, qnh:'', flags:[], time:'' };
+  for (const w of raw.trim().split(/\s+/).slice(1)){
+    if (w === 'RMK') break;
+    let m;
+    if ((m = w.match(/^(\d{2})(\d{2})(\d{2})Z$/))) o.time = `${m[1]} 日 ${m[2]}:${m[3]}Z`;
+    else if ((m = w.match(/^(VRB|\d{3})(\d{2,3})(?:G(\d{2,3}))?(KT|MPS)$/))){
+      const f = m[4] === 'MPS' ? 1.9438 : 1;
+      o.wvar = m[1] === 'VRB'; o.wdir = o.wvar ? null : +m[1];
+      o.wind = Math.round(+m[2] * f); o.gust = m[3] ? Math.round(+m[3] * f) : null;
+    }
+    else if (w === 'CAVOK'){ o.cavok = true; o.vis = 9999; }
+    else if (o.vis === null && /^\d{4}$/.test(w)) o.vis = +w;
+    else if ((m = w.match(/^(\d{1,2})SM$/))) o.vis = Math.min(9999, Math.round(+m[1] * 1609));
+    else if ((m = w.match(/^(FEW|SCT|BKN|OVC|VV)(\d{3})/))) o.clouds.push([m[1], +m[2] * 100]);
+    else if (['NSC', 'NCD', 'SKC', 'CLR'].includes(w)) o.clouds.push(['NSC', null]);
+    else if ((m = w.match(/^(M?\d{2})\/(M?\d{2})$/))){ o.temp = +m[1].replace('M', '-'); o.dew = +m[2].replace('M', '-'); }
+    else if ((m = w.match(/^Q(\d{3,4})$/))) o.qnh = `${+m[1]} hPa`;
+    else if ((m = w.match(/^A(\d{4})$/))){ if (!o.qnh) o.qnh = `${(+m[1] / 100).toFixed(2)} inHg`; }
+    else if (w === 'WS' || /^WS(ALL|R\d)/.test(w)) o.flags.push('風切警告');
+    else {
+      const core = w.replace(/^[+-]/, '');
+      if (MT_WX[core]) o.wx.push((w[0] === '+' ? '強' : w[0] === '-' ? '弱' : '') + MT_WX[core]);
+    }
+  }
+  const ceil = Math.min(...o.clouds.filter(c => ['BKN', 'OVC', 'VV'].includes(c[0])).map(c => c[1]), Infinity);
+  const vis = o.vis ?? 9999;
+  o.cat = (ceil < 500 || vis < 1600) ? 'LIFR' : (ceil < 1000 || vis < 4800) ? 'IFR'
+        : (ceil <= 3000 || vis <= 8000) ? 'MVFR' : 'VFR';
+  o.ceil = Number.isFinite(ceil) ? ceil : null;
+  return o;
+}
+async function mtLoad(){
+  const iata = $id('mt-apt').value, icao = ICAO_MAP[iata], out = $id('mt-out');
+  out.innerHTML = '<p class="mnote">載入中…</p>';
+  try {
+    const raw = (await fetch(`https://metar.vatsim.net/${icao}`).then(r => r.text())).trim();
+    if (!raw.startsWith(icao)) throw new Error('no metar');
+    const d = mtParse(raw);
+    const catColor = { VFR:'var(--pass)', MVFR:'var(--data-blue)', IFR:'var(--warn)', LIFR:'#d0455c' }[d.cat];
+    const catNote = { VFR:'目視飛航條件', MVFR:'邊際目視條件', IFR:'儀器飛航條件', LIFR:'低儀器飛航條件' }[d.cat];
+    const amt = { FEW:'少雲', SCT:'疏雲', BKN:'裂雲', OVC:'密雲', VV:'垂直能見度', NSC:'無顯著雲' };
+    const visTxt = d.cavok ? 'CAVOK（≥10 km・無顯著雲）' : d.vis === null ? '—'
+      : d.vis >= 9999 ? '≥10 km' : d.vis >= 1000 ? `${(d.vis / 1000).toFixed(1)} km` : `${d.vis} m`;
+    const cloudTxt = d.clouds.length
+      ? d.clouds.map(c => c[1] === null ? amt[c[0]] : `${amt[c[0]] || c[0]} ${c[1].toLocaleString()} ft`).join('、')
+      : d.cavok ? '無顯著雲' : '—';
+    const rows = [
+      ['風', d.wind === null ? '靜風' : `${d.wvar ? '不定向' : String(d.wdir).padStart(3, '0') + '°'}／${d.wind} kt${d.gust ? `・陣風 ${d.gust} kt` : ''}`],
+      ['能見度', visTxt],
+      ['雲', cloudTxt],
+      ['溫度／露點', d.temp === null ? '—' : `${d.temp}°C／${d.dew}°C`],
+      ['修正海壓 QNH', d.qnh || '—'],
+    ];
+    if (d.wx.length) rows.push(['天氣現象', d.wx.join('、')]);
+    out.innerHTML = `
+      <div class="wxnow">
+        <span class="mtcat" style="color:${catColor}">${d.cat}</span>
+        <span class="wxdesc"><b>${catNote}</b>${esc(icao)}・${d.time || '—'}</span>
+      </div>
+      ${d.flags.map(f => `<div class="liveerr">⚠ ${f}</div>`).join('')}
+      ${rows.map(([k, v]) => `<div class="mtrow"><span>${k}</span><b>${v}</b></div>`).join('')}
+      <p class="mtraw">${esc(raw)}</p>
+      <p class="livestamp">資料：VATSIM METAR（即時真實世界電報・免金鑰）</p>`;
+  } catch {
+    out.innerHTML = `<div class="liveerr">⚠ 無法取得 METAR — 此環境可能封鎖外部連線，或該場站暫無電報。</div>`;
+  }
+}
+
+/* ---- 台灣上空即時航班雷達（airplanes.live ADS-B：免金鑰、CORS 開放、非商業） ---- */
+const rdState = { ac: [], sel: null, timer: null };
+function rdInit(){
+  rdLoad();
+  rdState.timer = setInterval(() => { if (!document.hidden && !VIEWS.live.hidden) rdLoad(true); }, 45000);
+  const cv = $id('radarmap'); if (!cv) return;
+  cv.addEventListener('click', e => {
+    const rc = cv.getBoundingClientRect();
+    const mx = e.clientX - rc.left, my = e.clientY - rc.top;
+    let best = null, bd = 225;
+    for (const a of rdState.ac){
+      if (a._x === undefined) continue;
+      const dd = (a._x - mx) ** 2 + (a._y - my) ** 2;
+      if (dd < bd){ bd = dd; best = a; }
+    }
+    rdState.sel = best ? best.hex : null;
+    rdDraw(); rdInfo();
+  });
+  window.addEventListener('resize', () => { if (!VIEWS.live.hidden) rdDraw(); });
+}
+async function rdLoad(quiet){
+  try {
+    const d = await fetch('https://api.airplanes.live/v2/point/23.7/121.0/250').then(r => r.json());
+    rdState.ac = (d.ac || []).filter(a => a.lat != null && a.lon != null);
+    const n = $id('rd-n');
+    if (n) n.textContent = `${rdState.ac.length} 架・${new Date().toTimeString().slice(0, 5)} 更新`;
+    rdDraw(); rdInfo();
+  } catch {
+    if (!quiet) $id('rd-info').innerHTML = `<div class="liveerr">⚠ 無法取得航班位置 — 此環境可能封鎖外部連線，或 API 暫時無回應。</div>`;
+  }
+}
+function rdInfo(){
+  const out = $id('rd-info'); if (!out) return;
+  const a = rdState.ac.find(x => x.hex === rdState.sel);
+  if (!a){ out.textContent = rdState.ac.length ? '點選地圖上的飛機看航班細節。' : ''; return; }
+  const fl = (a.flight || '').trim() || '—';
+  out.innerHTML = `<b>${esc(fl)}</b>（${esc(a.r || a.hex)}）・${esc(a.desc || a.t || '機型不明')}` +
+    `・高度 ${a.alt_baro === 'ground' ? '地面' : `${(+a.alt_baro || 0).toLocaleString()} ft`}` +
+    `・地速 ${Math.round(a.gs ?? 0)} kt${a.track != null ? `・航向 ${Math.round(a.track)}°` : ''}`;
+}
+function rdDraw(){
+  const cv = $id('radarmap'); if (!cv || VIEWS.live.hidden) return;
+  const dpr = window.devicePixelRatio || 1;
+  const w = cv.clientWidth, h = cv.clientHeight; if (!w) return;
+  cv.width = w * dpr; cv.height = h * dpr;
+  const g = cv.getContext('2d'); g.scale(dpr, dpr);
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const la0 = 20.6, la1 = 26.6, lo0 = 117.6, lo1 = 124.6;
+  const kx = Math.cos((la0 + la1) / 2 * Math.PI / 180);
+  const s = Math.min((w - 16) / ((lo1 - lo0) * kx), (h - 16) / (la1 - la0));
+  const mLon = (lo0 + lo1) / 2, mLat = (la0 + la1) / 2;
+  const X = lon => w / 2 + (lon - mLon) * kx * s;
+  const Y = lat => h / 2 - (lat - mLat) * s;
+  g.clearRect(0, 0, w, h);
+  g.fillStyle = css('--mapland'); g.strokeStyle = css('--mapcoast'); g.lineWidth = 1;
+  for (const ring of COAST){
+    g.beginPath();
+    for (let i = 0; i < ring.length; i++){ const px = X(ring[i][0]), py = Y(ring[i][1]); i ? g.lineTo(px, py) : g.moveTo(px, py); }
+    g.closePath(); g.fill(); g.stroke();
+  }
+  g.strokeStyle = css('--line'); g.lineWidth = 1;
+  for (let lo = 118; lo <= 124; lo += 2){ const px = X(lo); g.beginPath(); g.moveTo(px, 0); g.lineTo(px, h); g.stroke(); }
+  for (let la = 21; la <= 26; la += 2){ const py = Y(la); g.beginPath(); g.moveTo(0, py); g.lineTo(w, py); g.stroke(); }
+  g.fillStyle = css('--faint'); g.font = '10px system-ui';
+  for (const [c, la, lo] of [['TPE', 25.0777, 121.2325], ['RMQ', 24.2647, 120.6210], ['KHH', 22.5771, 120.3500]]){
+    const x = X(lo), y = Y(la);
+    g.fillRect(x - 3, y - 0.75, 6, 1.5); g.fillRect(x - 0.75, y - 3, 1.5, 6);
+    g.fillText(c, x + 5, y + 3);
+  }
+  const gold = css('--gold'), selc = css('--pass');
+  const labeled = [];
+  for (const a of rdState.ac){
+    const x = X(a.lon), y = Y(a.lat);
+    a._x = undefined; a._y = undefined;
+    if (x < -8 || x > w + 8 || y < -8 || y > h + 8) continue;
+    a._x = x; a._y = y;
+    const isSel = a.hex === rdState.sel;
+    const grounded = a.alt_baro === 'ground';
+    g.save(); g.translate(x, y); g.rotate((a.track || 0) * Math.PI / 180);
+    g.fillStyle = isSel ? selc : gold;
+    g.globalAlpha = grounded ? 0.4 : 1;
+    g.beginPath(); g.moveTo(0, -5.5); g.lineTo(4, 4.5); g.lineTo(0, 2.2); g.lineTo(-4, 4.5); g.closePath(); g.fill();
+    g.restore(); g.globalAlpha = 1;
+    if (isSel){ g.strokeStyle = selc; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 9, 0, 7); g.stroke(); }
+    const fl = (a.flight || '').trim();
+    if (fl && !grounded){
+      let ok = true;
+      for (const q of labeled) if (Math.abs(q[0] - x) < 54 && Math.abs(q[1] - y) < 13){ ok = false; break; }
+      if (ok){ labeled.push([x, y]); g.fillStyle = css('--muted'); g.font = '9.5px system-ui'; g.fillText(fl, x + 7, y + 3); }
+    }
+  }
+}
+
 const rmState = { o:null, r:null, zoom:1, tx:0, ty:0 };
 function drawRouteMap(o, r){
   rmState.o = o; rmState.r = r; rmState.zoom = 1; rmState.tx = 0; rmState.ty = 0;
