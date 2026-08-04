@@ -1,5 +1,5 @@
 {
- "scanned_at": "2026-08-04T08:42:29Z",
+ "scanned_at": "2026-08-04T08:49:57Z",
  "env": "google-flights",
  "mode": "two-rt",
  "dates": {
@@ -45,7 +45,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
+    "error": "查無報價（Google 未回結果）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -89,7 +89,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
+    "error": "查無報價（Google 未回結果）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -133,7 +133,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
+    "error": "查無報價（Google 未回結果）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -177,7 +177,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
+    "error": "查無報價（Google 未回結果）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -221,7 +221,7 @@
    "bn": "東京成田",
    "cabin": "BUSINESS",
    "four": {
-    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
+    "error": "查無報價（Google 未回結果）"
    },
    "bench": {
     "airline": "韓亞航空",
@@ -265,7 +265,7 @@
    "bn": "大阪關西",
    "cabin": "BUSINESS",
    "four": {
-    "error": "Google 未回此艙等結果（可能限流，隔日自動重試）"
+    "error": "查無報價（Google 未回結果）"
    },
    "bench": {
     "airline": "韓亞航空",
