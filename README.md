@@ -48,16 +48,15 @@
 各艙等最低者標「最省」，未飛航標「—」。
 資料整理自各航官網與公開攻略（2026/07），標「約」者為整理值，以官網為準。
 
-## 四段票甜度掃描器（選用，需 Amadeus 金鑰）
+## 四段票甜度掃描器（免金鑰・Google Flights）
 
-`.github/workflows/scan-fares.yml` 每天 05:00（台北）自動執行 `scripts/scan-fares.mjs`：
-以 Amadeus Flight Offers Search 查「外站×折返點×艙等」矩陣的**四段多城市總價**與
-「台北直飛來回」基準價，寫入 `fares.json` 供四段票分頁顯示（比例 ≤110% 標「甜」）。
+`.github/workflows/scan-fares.yml` 每天 05:00（台北）自動執行 `scripts/scan_fares.py`：
+以 [fast-flights](https://github.com/AWeirdDev/flights)（免金鑰、免註冊）解析 Google Flights，
+查「外站×折返點×艙等」矩陣的**四段多城市總價**與「台北直飛來回」基準價，
+寫入 `fares.json` 供四段票分頁顯示（比例 ≤110% 標「甜」）。
 
-**啟用**：於 [developers.amadeus.com](https://developers.amadeus.com) 免費註冊取得金鑰 →
-repo Settings → Secrets 新增 `AMADEUS_API_KEY`、`AMADEUS_API_SECRET`
-（正式票價另加 Variable `AMADEUS_ENV=production`）→ Actions 手動跑一次。
-金鑰只存在 GitHub 加密 Secrets，不會出現在程式碼或網頁中；未設定時掃描自動跳過。
+不需要任何 API 金鑰或 Secrets——首次結果可至 Actions →「Scan 4-leg fares」→
+Run workflow 立即產生。Google 偶爾會暫時擋自動查詢，該格會顯示錯誤、隔天自動重試。
 
 ## 工具二：三大航四段票排程器
 

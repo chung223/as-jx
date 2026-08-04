@@ -21,15 +21,13 @@ jobs:
       name: github-pages
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-python@v5
         with:
-          node-version: 20
+          python-version: '3.12'
+      - name: Install fast-flights
+        run: pip install fast-flights
       - name: Run scanner
-        env:
-          AMADEUS_API_KEY: ${{ secrets.AMADEUS_API_KEY }}
-          AMADEUS_API_SECRET: ${{ secrets.AMADEUS_API_SECRET }}
-          AMADEUS_ENV: ${{ vars.AMADEUS_ENV }}
-        run: node scripts/scan-fares.mjs
+        run: python scripts/scan_fares.py
       - name: Commit results
         id: commit
         run: |
