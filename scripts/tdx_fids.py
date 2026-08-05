@@ -70,6 +70,8 @@ def norm(rows, kind):
             "gate": (r.get("Gate") or "").strip(),
             "term": (r.get("Terminal") or "").strip(),
             "belt": (r.get("BaggageClaim") or "").strip(),
+            # 報到櫃台（出發班機；供機捷快轉「前往機場」整合使用）
+            "ck": (r.get("CheckCounter") or r.get("CheckinCounter") or "").strip(),
             "ac": r.get("AcType") or "",
             "_t": t,
         }
