@@ -3266,7 +3266,7 @@ function fdRender(){
     const late = !r.at && r.et && r.st && r.et > r.st;
     const gate = dep ? [r.gate, r.term ? 'T' + r.term : '', r.ck ? '櫃台' + r.ck : ''].filter(Boolean).join('・') : (r.belt ? '轉盤 ' + r.belt : r.gate);
     return `<div class="mrow">
-      <div class="mzone"><b>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}</small></div>
+      <div class="mzone"><b>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}${fdState.apt === 'TPE' ? ` <a href="https://chung223.github.io/tymetrofast/#flight=${encodeURIComponent(r.f)}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;white-space:nowrap">🚇 機捷</a>` : ''}</small></div>
       <div class="mcell"><small>表定${eff && eff !== r.st ? `→${r.at ? '實際' : '預計'}` : ''}</small><b>${r.st || '—'}${eff && eff !== r.st ? ` → ${eff}` : ''}</b>${late ? '<em style="color:var(--warn)">晚於表定</em>' : ''}</div>
       <div class="mcell"><small>${dep ? '登機門' : '行李'}</small><b>${gate || '—'}</b></div>
       <div class="mcell"><small>狀態</small><b style="color:${stColor(r.rm)}">${esc(rmZh(r.rm))}</b></div>
