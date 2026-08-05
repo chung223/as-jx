@@ -1940,8 +1940,8 @@ function flScanSetupHtml(){
   return `<div class="card" style="margin-bottom:16px">
     <h3>甜度掃描（等待首次掃描）</h3>
     <p class="mnote">免金鑰、免註冊：GitHub Actions 每天 05:00（台北）自動解析 Google Flights 來回票價，
-    組出「外站雙來回拆票」估價（A⇄TPE＋TPE⇄B，可直接照訂）與台北直飛來回基準。
-    首次結果可至 repo 的 Actions →「Scan 4-leg fares」→ Run workflow 立即產生。</p>
+    鎖定星宇／長榮／華航<b>同一航司</b>組出「外站雙來回」估價（A⇄TPE＋TPE⇄B，可直接照訂），
+    對比該航司自家的台北直飛來回。首次結果可至 repo 的 Actions →「Scan 4-leg fares」→ Run workflow 立即產生。</p>
   </div>`;
 }
 async function flScanLoad(){
@@ -1949,29 +1949,43 @@ async function flScanLoad(){
   try {
     const j = await fetch('fares.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); });
     if (!j.scanned_at || !j.results?.length){ box.innerHTML = flScanSetupHtml(); return; }
-    const rows = j.results.filter(r => !r.four?.error).map(r => {
-      const okB = r.bench && !r.bench.error;
-      const diff = okB ? Math.round(r.four.price - r.bench.price) : null;
-      const ratio = okB ? Math.round(r.four.price / r.bench.price * 100) : null;
-      const sweet = ratio != null && ratio <= 130;
-      const name = r.four.airline || r.four.carrier || '—';
+    const legacy = !j.results[0]?.als;
+    const rows = j.results.map(r => {
+      let pick = null, others = [];
+      if (legacy){
+        if (!r.four || r.four.error || !r.bench || r.bench.error) return '';
+        pick = { n: r.four.airline || '任一航司', four: r.four, bench: r.bench };
+      } else {
+        for (const v of Object.values(r.als)){
+          if (!v.four) { others.push(`${v.n} —`); continue; }
+          const d = v.four.price - v.bench.price;
+          if (!pick || d < pick.four.price - pick.bench.price){
+            if (pick) others.push(`${pick.n} +${fmt(Math.round(pick.four.price - pick.bench.price))}`);
+            pick = v;
+          } else others.push(`${v.n} +${fmt(Math.round(d))}`);
+        }
+        if (!pick) return '';
+      }
+      const diff = Math.round(pick.four.price - pick.bench.price);
+      const ratio = Math.round(pick.four.price / pick.bench.price * 100);
+      const sweet = ratio <= 130;
       return `<div class="mrow">
-        <div class="mzone"><b>${r.an} ⇄ ${r.bn}</b><small>${r.cabin === 'ECONOMY' ? '經濟' : '商務'}・${esc(name)}</small></div>
-        <div class="mcell"><small>雙來回組合</small><b>${r.four.raw ? esc(r.four.raw) : 'NT$ ' + fmt(Math.round(r.four.price))}</b></div>
-        <div class="mcell"><small>台北直飛來回</small><b>${okB ? (r.bench.raw ? esc(r.bench.raw) : 'NT$ ' + fmt(Math.round(r.bench.price))) : '—'}</b></div>
-        <div class="mcell${sweet ? ' ok' : ''}"><small>加購 ${r.a}⇄TPE</small><b>${diff != null ? '+NT$ ' + fmt(diff) : '—'}</b>${sweet ? '<em>✓ 甜（加購成本極低）</em>' : ''}</div>
+        <div class="mzone"><b>${r.an} ⇄ ${r.bn}</b><small>${r.cabin === 'ECONOMY' ? '經濟' : '商務'}・${esc(pick.n)}${legacy ? '' : '（同航司）'}</small></div>
+        <div class="mcell"><small>雙來回組合</small><b>${esc(pick.four.raw || 'NT$ ' + fmt(Math.round(pick.four.price)))}</b></div>
+        <div class="mcell"><small>直飛來回（同航司）</small><b>${esc(pick.bench.raw || 'NT$ ' + fmt(Math.round(pick.bench.price)))}</b></div>
+        <div class="mcell${sweet ? ' ok' : ''}"><small>加購 ${r.a}⇄TPE</small><b>+NT$ ${fmt(diff)}</b>${sweet ? '<em>✓ 甜（加購成本極低）</em>' : others.length ? `<em>${esc(others.join('・'))}</em>` : ''}</div>
       </div>`;
-    }).join('');
-    const failed = j.results.filter(r => r.four?.error).length;
+    }).filter(Boolean).join('');
+    const failed = j.results.length - (rows ? rows.split('class="mrow"').length - 1 : 0);
     box.innerHTML = `<div class="card" style="margin-bottom:16px">
-      <h3>甜度掃描（每日自動・Google Flights 來回組合）</h3>
+      <h3>甜度掃描（每日自動・同航司來回組合）</h3>
       <div class="mhead"><span>組合</span><span>雙來回組合</span><span>直飛來回</span><span>加購成本</span></div>
       <div class="mrows">${rows || '<p class="mnote">本次掃描沒有取得可用報價（Google 可能暫時擋爬，隔日排程會再試）。</p>'}</div>
       <p class="mnote">掃描時間 ${j.scanned_at.slice(0, 16).replace('T', ' ')} UTC・
-      日期樣板：外站出發 +60 天、B 停 7 天、台灣停 30 天${failed ? `・${failed} 組無報價` : ''}。
-      「雙來回組合」＝ A⇄TPE 來回＋TPE⇄B 來回兩張票（可直接照訂）；「加購成本」＝比單買台北直飛來回多付的錢，
-      組合價 ≤ 直飛 130% 標甜。單一 PNR 的多城市開票常有機會更低，可用上方一鍵連結到 Google Flights 多城市複查。
-      顯示為各組最低價航司，價格隨時變動，以官網為準。</p>
+      日期樣板：外站出發 +60 天、B 停 7 天、台灣停 30 天${failed ? `・${failed} 組全數無報價` : ''}。
+      鎖定<b>同一航司</b>（星宇／長榮／華航）比較：該航司的 A⇄TPE＋TPE⇄B 兩張來回 vs 自家台北直飛來回 —
+      外站開票的紅利本來就來自同航司的外站計價，廉航混搭不採計。每列顯示加購成本最低的一家，其餘家列於右側。
+      組合 ≤ 直飛 130% 標甜；單一 PNR 多城市開票常更低，可用上方一鍵連結至 Google Flights 複查。價格隨時變動，以官網為準。</p>
     </div>`;
   } catch { box.innerHTML = flScanSetupHtml(); }
 }

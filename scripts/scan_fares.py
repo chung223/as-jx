@@ -1,7 +1,8 @@
 # 四段票甜度掃描（免金鑰版）：以 fast-flights 解析 Google Flights 來回報價。
-# 註：Google 多城市頁的初始 HTML 不含航班結果（前端動態載入），無法直接抓；
-# 改用可實際照訂的「雙來回拆票」估價：A⇄TPE（d1/d4）＋ TPE⇄B（d2/d3），
-# 另附台北直飛來回（TPE⇄B）基準，供四段票分頁比較。
+# 同航司比較：外站四段的紅利來自「同一家航司」的外站計價，故鎖定
+# 星宇／長榮／華航三家，各自的 A⇄TPE＋TPE⇄B 雙來回對比自家台北直飛。
+# 註：Google 多城市頁與較薄市場（多為商務艙）的來回結果不在初始 HTML，
+# 來回查無時退為兩張單程相加（一樣可照訂）。
 import datetime
 import json
 import re
@@ -22,7 +23,6 @@ def to_num(p):
 
 
 def _first_price(x):
-    # 深度優先找第一個合理票價數字（保險用）
     if isinstance(x, (int, float)) and 500 <= x <= 5_000_000:
         return x
     if isinstance(x, list):
@@ -34,8 +34,7 @@ def _first_price(x):
 
 
 def parse_flights(html):
-    # 容錯版解析：只取結果區 payload[3][0]。fast-flights 內建解析器會先讀
-    # payload[7]（航司名錄 metadata），商務艙頁面該欄常為 None 導致整個炸掉。
+    # 容錯版解析：只取結果區 payload[3][0]，不碰商務頁常缺的 metadata。
     p = LexborHTMLParser(html)
     s = p.css_first(r"script.ds\:1")
     if s is None:
@@ -65,27 +64,32 @@ def parse_flights(html):
     return out
 
 
-def best(flights):
+def best(flights, expect=None):
     out = []
     for f in flights:
         pr = to_num(f.get("price"))
-        if pr:
-            names = "／".join(f.get("airlines", [])[:2])
-            out.append({"airline": names, "price": pr, "raw": f"NT${pr:,.0f}"})
+        if not pr:
+            continue
+        names = f.get("airlines", [])
+        # 航司過濾保險：結果須含目標航司（Google 端已過濾，此為雙重確認）
+        if expect and names and not any(expect in n for n in names):
+            continue
+        out.append({"airline": "／".join(names[:2]), "price": pr, "raw": f"NT${pr:,.0f}"})
     out.sort(key=lambda x: x["price"])
     return out[0] if out else None
 
 
-def q(legs, seat, trip, tries=3):
+def q(legs, seat, trip, al=None, expect=None, tries=2):
     last_err = "查無報價（Google 未回結果）"
     for _ in range(tries):
         try:
             query = create_query(
-                flights=[FlightQuery(date=d, from_airport=a, to_airport=b) for d, a, b in legs],
+                flights=[FlightQuery(date=d, from_airport=a, to_airport=b,
+                                     airlines=[al] if al else None) for d, a, b in legs],
                 seat=seat, trip=trip, passengers=Passengers(adults=1),
                 currency="TWD", language="zh-TW",
             )
-            b_ = best(parse_flights(fetch_flights_html(query)))
+            b_ = best(parse_flights(fetch_flights_html(query)), expect)
             if b_:
                 return b_
         except Exception as e:  # noqa: BLE001
@@ -98,13 +102,12 @@ def q(legs, seat, trip, tries=3):
     return {"error": last_err}
 
 
-def q_rt(a, b, d_out, d_back, seat):
-    r = q([(d_out, a, b), (d_back, b, a)], seat, "round-trip")
+def q_rt(a, b, d_out, d_back, seat, al, expect):
+    r = q([(d_out, a, b), (d_back, b, a)], seat, "round-trip", al, expect)
     if "error" not in r:
         return r
-    # 較薄市場（多為商務艙）的來回結果不在初始頁面：退為兩張單程相加
-    o1 = q([(d_out, a, b)], seat, "one-way", tries=2)
-    o2 = q([(d_back, b, a)], seat, "one-way", tries=2)
+    o1 = q([(d_out, a, b)], seat, "one-way", al, expect)
+    o2 = q([(d_back, b, a)], seat, "one-way", al, expect)
     if "error" in o1 or "error" in o2:
         return r
     total = o1["price"] + o2["price"]
@@ -118,34 +121,41 @@ D = {k: (base + datetime.timedelta(days=n)).isoformat() for k, n in
 ORIGINS = [("BKK", "曼谷"), ("SGN", "胡志明市"), ("CGK", "雅加達")]
 TURNS = [("NRT", "東京成田"), ("KIX", "大阪關西")]
 CABINS = [("economy", "ECONOMY"), ("business", "BUSINESS")]
+AIRLINES = [("JX", "星宇", "星宇"), ("BR", "長榮", "長榮"), ("CI", "華航", "中華")]
 
-out = {"scanned_at": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
-       "env": "google-flights", "mode": "two-rt", "dates": D, "results": []}
-benches = {}   # TPE⇄B（也是直飛基準）
+now_iso = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+out = {"scanned_at": now_iso, "env": "google-flights", "mode": "same-airline", "dates": D, "results": []}
+
+benches = {}   # (b, cab, al) → 該航司 TPE⇄B 來回（直飛基準）
 for b, bn in TURNS:
     for seat, cab in CABINS:
-        time.sleep(3)
-        benches[f"{b}|{cab}"] = q_rt("TPE", b, D["d2"], D["d3"], seat)
-arts = {}      # A⇄TPE（外站來回）
+        for al, aln, expect in AIRLINES:
+            time.sleep(3)
+            benches[(b, cab, al)] = q_rt("TPE", b, D["d2"], D["d3"], seat, al, expect)
+arts = {}      # (a, cab, al) → 該航司 A⇄TPE 來回
 for a, an in ORIGINS:
     for seat, cab in CABINS:
-        time.sleep(3)
-        arts[f"{a}|{cab}"] = q_rt(a, "TPE", D["d1"], D["d4"], seat)
+        for al, aln, expect in AIRLINES:
+            time.sleep(3)
+            arts[(a, cab, al)] = q_rt(a, "TPE", D["d1"], D["d4"], seat, al, expect)
+
 for a, an in ORIGINS:
     for b, bn in TURNS:
         for seat, cab in CABINS:
-            ra, rb = arts[f"{a}|{cab}"], benches[f"{b}|{cab}"]
-            if "error" in ra or "error" in rb:
-                four = {"error": ra.get("error") or rb.get("error")}
-            else:
+            als = {}
+            for al, aln, expect in AIRLINES:
+                ra, rb = arts[(a, cab, al)], benches[(b, cab, al)]
+                if "error" in ra or "error" in rb:
+                    als[al] = {"n": aln, "error": ra.get("error") or rb.get("error")}
+                    continue
                 total = ra["price"] + rb["price"]
-                four = {"price": total, "raw": f"NT${total:,.0f}",
-                        "airline": f"{ra['airline']}＋{rb['airline']}",
-                        "parts": {"out": ra, "inn": rb}}
-            out["results"].append({"a": a, "an": an, "b": b, "bn": bn, "cabin": cab,
-                                   "four": four, "bench": rb})
+                basis = "（單程相加）" if (ra.get("basis") or rb.get("basis")) else ""
+                als[al] = {"n": aln,
+                           "four": {"price": total, "raw": f"NT${total:,.0f}{basis}"},
+                           "bench": rb}
+            out["results"].append({"a": a, "an": an, "b": b, "bn": bn, "cabin": cab, "als": als})
 
 with open("fares.json", "w", encoding="utf-8") as f:
     json.dump(out, f, ensure_ascii=False, indent=1)
-ok = sum(1 for r in out["results"] if "error" not in r["four"])
-print(f"掃描完成：{ok}/{len(out['results'])} 組取得報價")
+ok = sum(1 for r in out["results"] if any("four" in v for v in r["als"].values()))
+print(f"掃描完成：{ok}/{len(out['results'])} 組至少一家航司取得同航司報價")
