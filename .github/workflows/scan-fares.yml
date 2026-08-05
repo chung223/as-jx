@@ -40,7 +40,11 @@ jobs:
             git config user.email "github-actions@users.noreply.github.com"
             git add fares.json
             git commit -m "chore: 更新四段票甜度掃描結果"
-            git push
+            # 掃描耗時較長，main 可能已前進：rebase 後再推，最多重試三次
+            for i in 1 2 3; do
+              git push && break
+              git fetch origin main && git rebase origin/main || exit 1
+            done
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.commit.outputs.changed == 'true'
