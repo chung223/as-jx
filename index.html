@@ -725,7 +725,7 @@
     header.board{padding:8px 0}
   }
 </style>
-<script>try{const t=JSON.parse(localStorage.getItem('mt_theme'));if(t)document.documentElement.dataset.theme=t;}catch{}</script>
+<script>try{const t=localStorage.getItem('trav-theme')||JSON.parse(localStorage.getItem('mt_theme'));if(t&&t!=='auto')document.documentElement.dataset.theme=t;}catch{}</script>
 
 <div class="wrap">
   <header class="board">
@@ -2580,6 +2580,14 @@ function syncHash(){
 function applyHash(){
   const p = new URLSearchParams(location.hash.slice(1));
   if (!p.size){ syncHash.ready = true; return; }
+  // 姊妹站（機捷快轉）反向接力：#flight=班號 → 直達機場看板並高亮該班
+  const fl = p.get('flight');
+  if (fl){
+    fdState.hl = fl.toUpperCase().trim();
+    syncHash.ready = true;
+    showView('live');
+    return;
+  }
   const o = p.get('o'); if (o && byCode[o] && byCode[o].scope === 'asia') state.origin = o;
   if (p.get('c') === 'biz') state.cabin = 'biz';
   if (/^\d{4}-\d{2}-\d{2}$/.test(p.get('dd') || '')) $id('calc-d1').value = p.get('dd');
@@ -3215,7 +3223,10 @@ function trkDraw(){
 }
 
 /* ---- 機場航班看板（交通部 TDX FIDS：官方資料，GitHub Actions 每 30 分更新） ---- */
-const fdState = { apt:'TPE', dir:'dep', data:null };
+const fdState = { apt:'TPE', dir:'dep', data:null, hl:null, hlDone:false };
+// 收藏航班：與機捷快轉共用（同網域 localStorage，鍵 trav-fav-flights）
+function favFlights(){ try { return JSON.parse(localStorage.getItem('trav-fav-flights')) ?? []; } catch { return []; } }
+function favFlightsSave(a){ try { localStorage.setItem('trav-fav-flights', JSON.stringify(a.slice(0, 12))); } catch {} }
 function fdInit(){
   const bar = $id('fd-bar'); if (!bar) return;
   bar.addEventListener('click', e => {
@@ -3233,6 +3244,14 @@ async function fdLoad(){
     const d = await fetch('tdx.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); });
     fdState.data = d;
     $id('fd-n').textContent = `官方 FIDS・${d.updated_at} 更新`;
+    if (fdState.hl){
+      // 依高亮航班自動切到對的機場／方向
+      const hit = ['dep', 'arr'].find(k => (d.airports?.TPE?.[k] || []).some(r => r.f === fdState.hl || (r.cs || []).includes(fdState.hl)));
+      if (hit){ fdState.apt = 'TPE'; fdState.dir = hit; }
+      const bar = $id('fd-bar');
+      bar?.querySelectorAll('.stab[data-a]').forEach(x => x.setAttribute('aria-selected', String(x.dataset.a === fdState.apt)));
+      bar?.querySelectorAll('.stab[data-d]').forEach(x => x.setAttribute('aria-selected', String(x.dataset.d === fdState.dir)));
+    }
     fdRender();
   } catch {
     $id('fd-out').innerHTML = '<p class="mnote">看板資料尚未產生 — GitHub Actions「TDX airport boards」每 30 分鐘更新一次，首次可至 repo Actions 手動觸發。</p>';
@@ -3254,12 +3273,15 @@ function fdRender(){
   const stColor = rm => /取消|CANCEL/i.test(rm) ? '#d0455c' : /延誤|DELAY/i.test(rm) ? 'var(--warn)'
     : /登機|BOARDING|FINAL/i.test(rm) ? 'var(--gold)' : /出發|DEPART|已到|ARRIV/i.test(rm) ? 'var(--faint)' : 'var(--ink)';
   const rmZh = rm => (rm.match(/^[一-鿿]+/) || [rm || '—'])[0];
-  const rows = list.map(r => {
+  const favs = favFlights();
+  const shown = [...list].sort((a, b) => favs.includes(b.f) - favs.includes(a.f)); // 收藏置頂（穩定排序保留時間序）
+  const rows = shown.map(r => {
     const eff = r.at || r.et;
     const late = !r.at && r.et && r.st && r.et > r.st;
     const gate = dep ? [r.gate, r.term ? 'T' + r.term : '', r.ck ? '櫃台' + r.ck : ''].filter(Boolean).join('・') : (r.belt ? '轉盤 ' + r.belt : r.gate);
-    return `<div class="mrow">
-      <div class="mzone"><b>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}${fdState.apt === 'TPE' ? ` <a href="https://chung223.github.io/tymetrofast/#flight=${encodeURIComponent(r.f)}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;white-space:nowrap">🚇 機捷</a>` : ''}</small></div>
+    const hl = fdState.hl && (r.f === fdState.hl || (r.cs || []).includes(fdState.hl));
+    return `<div class="mrow"${hl ? ' data-hlrow style="outline:1.5px solid var(--gold);border-radius:8px"' : ''}>
+      <div class="mzone"><b><button type="button" class="favstar" data-ff="${esc(r.f)}" title="收藏航班（與機捷快轉互通）" style="background:none;border:0;cursor:pointer;color:var(--gold);font-size:14px;padding:0 4px 0 0">${favs.includes(r.f) ? '★' : '☆'}</button>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}${fdState.apt === 'TPE' ? ` <a href="https://chung223.github.io/tymetrofast/#flight=${encodeURIComponent(r.f)}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;white-space:nowrap">🚇 機捷</a>` : ''}</small></div>
       <div class="mcell"><small>表定${eff && eff !== r.st ? `→${r.at ? '實際' : '預計'}` : ''}</small><b>${r.st || '—'}${eff && eff !== r.st ? ` → ${eff}` : ''}</b>${late ? '<em style="color:var(--warn)">晚於表定</em>' : ''}</div>
       <div class="mcell"><small>${dep ? '登機門' : '行李'}</small><b>${gate || '—'}</b></div>
       <div class="mcell"><small>狀態</small><b style="color:${stColor(r.rm)}">${esc(rmZh(r.rm))}</b></div>
@@ -3268,7 +3290,20 @@ function fdRender(){
   out.innerHTML = `<div class="mhead"><span>航班</span><span>時間</span><span>${dep ? '登機門' : '行李'}</span><span>狀態</span></div>
     <div class="mrows">${rows}</div>
     <p class="mnote">資料：交通部 TDX 民航即時航班（FIDS）・顯示近 12 小時、共掛班號已合併、貨機已排除。
+    ☆ 收藏航班與姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 機捷快轉</a> 互通。
     金鑰僅存於 GitHub Actions Secrets（每次更新僅 6 個 API 請求、間隔 13 秒，遠低於免費帳號每分鐘 5 次限制）。</p>`;
+  out.querySelectorAll('.favstar').forEach(b => b.onclick = e => {
+    e.stopPropagation();
+    const f = b.dataset.ff, a = favFlights();
+    const i = a.indexOf(f);
+    if (i >= 0) a.splice(i, 1); else a.unshift(f);
+    favFlightsSave(a);
+    fdRender();
+  });
+  if (fdState.hl && !fdState.hlDone){
+    const row = out.querySelector('[data-hlrow]');
+    if (row){ fdState.hlDone = true; setTimeout(() => row.scrollIntoView({ block: 'center', behavior: 'smooth' }), 250); }
+  }
 }
 
 /* ---- 有票記事總覽（我的面板） ---- */
@@ -3437,13 +3472,16 @@ function rmDraw(){
     else document.documentElement.dataset.theme = m;
     btn.textContent = LABEL[m];
   };
-  let mode = loadLS('theme', null) || 'auto';
+  // trav-theme 為與姊妹站（機捷快轉）互通的共用鍵：dark/light，缺值＝自動
+  let mode = localStorage.getItem('trav-theme') || loadLS('theme', null) || 'auto';
   if (!LABEL[mode]) mode = 'auto';
   apply(mode);
   btn.addEventListener('click', () => {
     mode = mode === 'auto' ? 'dark' : mode === 'dark' ? 'light' : 'auto';
-    if (mode === 'auto') { try { localStorage.removeItem('mt_theme'); } catch {} }
-    else saveLS('theme', mode);
+    try {
+      if (mode === 'auto') { localStorage.removeItem('mt_theme'); localStorage.removeItem('trav-theme'); }
+      else { saveLS('theme', mode); localStorage.setItem('trav-theme', mode); }
+    } catch {}
     apply(mode);
     if (state.origin) render();
   });
