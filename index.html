@@ -963,9 +963,10 @@
     <p class="sub">台灣上空即時雷達、班機追蹤、進出港動態與航空氣象 — 直連免金鑰公開 API，不經第三方伺服器。</p>
     <div class="rulechips">
       <span>ADS-B <b>airplanes.live</b></span>
+      <span>機場看板 <b>交通部 TDX</b></span>
       <span>METAR <b>metar.vatsim.net</b></span>
       <span>天氣 <b>open-meteo.com</b></span>
-      <span>皆<b>免金鑰</b>・瀏覽器直連</span>
+      <span>金鑰只在 <b>GitHub Secrets</b>・不進前端</span>
     </div>
   </div>
 
@@ -977,6 +978,19 @@
         <div class="maplab">點選飛機看細節・航跡尾巴隨開啟時間累積・每 45 秒自動更新・資料 airplanes.live（ADS-B・非商業）</div>
       </div>
       <div id="rd-info" class="mnote"></div>
+    </div>
+
+    <div class="card" style="grid-column:1/-1">
+      <h3>機場航班看板 <small id="fd-n" style="font-weight:400;color:var(--faint);font-size:12px">官方 FIDS</small></h3>
+      <div class="subtabs" id="fd-bar" style="padding:2px 0 12px">
+        <button type="button" class="stab" data-a="TPE" aria-selected="true">桃園 TPE</button>
+        <button type="button" class="stab" data-a="TSA" aria-selected="false">松山 TSA</button>
+        <button type="button" class="stab" data-a="KHH" aria-selected="false">高雄 KHH</button>
+        <span style="flex:1"></span>
+        <button type="button" class="stab" data-d="dep" aria-selected="true">🛫 出發</button>
+        <button type="button" class="stab" data-d="arr" aria-selected="false">🛬 抵達</button>
+      </div>
+      <div id="fd-out"><p class="mnote">載入中…</p></div>
     </div>
 
     <div class="card">
@@ -2595,7 +2609,7 @@ function applyHash(){
 let liveLoaded = false;
 function liveInit(){
   if (liveLoaded) return; liveLoaded = true;
-  wxBuildSelect(); wxLoad(); mtBuildSelect(); mtLoad(); rdInit(); trkInit();
+  wxBuildSelect(); wxLoad(); mtBuildSelect(); mtLoad(); rdInit(); trkInit(); fdInit();
 }
 let fxLoaded = false;
 function fxInitOnce(){
@@ -3191,6 +3205,63 @@ function trkDraw(){
     g.fillStyle = css('--faint'); g.font = '12px system-ui'; g.textAlign = 'center';
     g.fillText('輸入航班號開始追蹤 ✈', w / 2, h / 2); g.textAlign = 'left';
   }
+}
+
+/* ---- 機場航班看板（交通部 TDX FIDS：官方資料，GitHub Actions 每 30 分更新） ---- */
+const fdState = { apt:'TPE', dir:'dep', data:null };
+function fdInit(){
+  const bar = $id('fd-bar'); if (!bar) return;
+  bar.addEventListener('click', e => {
+    const b = e.target.closest('.stab'); if (!b) return;
+    if (b.dataset.a) fdState.apt = b.dataset.a;
+    if (b.dataset.d) fdState.dir = b.dataset.d;
+    bar.querySelectorAll('.stab[data-a]').forEach(x => x.setAttribute('aria-selected', String(x.dataset.a === fdState.apt)));
+    bar.querySelectorAll('.stab[data-d]').forEach(x => x.setAttribute('aria-selected', String(x.dataset.d === fdState.dir)));
+    fdRender();
+  });
+  fdLoad();
+}
+async function fdLoad(){
+  try {
+    const d = await fetch('tdx.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); });
+    fdState.data = d;
+    $id('fd-n').textContent = `官方 FIDS・${d.updated_at} 更新`;
+    fdRender();
+  } catch {
+    $id('fd-out').innerHTML = '<p class="mnote">看板資料尚未產生 — GitHub Actions「TDX airport boards」每 30 分鐘更新一次，首次可至 repo Actions 手動觸發。</p>';
+  }
+}
+function fdName(code){
+  const a = byCode[code];
+  if (a && a.city) return a.city;
+  for (const list of Object.values(CX_AIRPORTS))
+    for (const it of list) if (it[0] === code) return it[1];
+  return code;
+}
+function fdRender(){
+  const out = $id('fd-out'), d = fdState.data;
+  if (!d) return;
+  const dep = fdState.dir === 'dep';
+  const list = (d.airports?.[fdState.apt]?.[fdState.dir]) || [];
+  if (!list.length){ out.innerHTML = '<p class="mnote">此時段（前 1.5 小時～後 12 小時）沒有航班。</p>'; return; }
+  const stColor = rm => /取消|CANCEL/i.test(rm) ? '#d0455c' : /延誤|DELAY/i.test(rm) ? 'var(--warn)'
+    : /登機|BOARDING|FINAL/i.test(rm) ? 'var(--gold)' : /出發|DEPART|已到|ARRIV/i.test(rm) ? 'var(--faint)' : 'var(--ink)';
+  const rmZh = rm => (rm.match(/^[一-鿿]+/) || [rm || '—'])[0];
+  const rows = list.map(r => {
+    const eff = r.at || r.et;
+    const late = !r.at && r.et && r.st && r.et > r.st;
+    const gate = dep ? [r.gate, r.term ? 'T' + r.term : ''].filter(Boolean).join('・') : (r.belt ? '轉盤 ' + r.belt : r.gate);
+    return `<div class="mrow">
+      <div class="mzone"><b>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}</small></div>
+      <div class="mcell"><small>表定${eff && eff !== r.st ? `→${r.at ? '實際' : '預計'}` : ''}</small><b>${r.st || '—'}${eff && eff !== r.st ? ` → ${eff}` : ''}</b>${late ? '<em style="color:var(--warn)">晚於表定</em>' : ''}</div>
+      <div class="mcell"><small>${dep ? '登機門' : '行李'}</small><b>${gate || '—'}</b></div>
+      <div class="mcell"><small>狀態</small><b style="color:${stColor(r.rm)}">${esc(rmZh(r.rm))}</b></div>
+    </div>`;
+  }).join('');
+  out.innerHTML = `<div class="mhead"><span>航班</span><span>時間</span><span>${dep ? '登機門' : '行李'}</span><span>狀態</span></div>
+    <div class="mrows">${rows}</div>
+    <p class="mnote">資料：交通部 TDX 民航即時航班（FIDS）・顯示近 12 小時、共掛班號已合併、貨機已排除。
+    金鑰僅存於 GitHub Actions Secrets（每次更新僅 6 個 API 請求、間隔 13 秒，遠低於免費帳號每分鐘 5 次限制）。</p>`;
 }
 
 /* ---- 有票記事總覽（我的面板） ---- */
