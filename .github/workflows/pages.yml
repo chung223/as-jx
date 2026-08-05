@@ -22,6 +22,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # tdx.json 不進版控、由 FIDS 排程產生：一般部署前抓回線上版，避免被洗掉
+      - name: 保留線上 FIDS 看板資料
+        run: curl -sf https://chung223.github.io/as-jx/tdx.json -o tdx.json || echo "（線上尚無 tdx.json）"
       - uses: actions/configure-pages@v5
         with:
           enablement: true
