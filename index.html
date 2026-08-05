@@ -964,8 +964,7 @@
     <div class="rulechips">
       <span>ADS-B <b>airplanes.live</b></span>
       <span>機場看板 <b>交通部 TDX</b></span>
-      <span>METAR <b>metar.vatsim.net</b></span>
-      <span>天氣 <b>open-meteo.com</b></span>
+      <span>天氣/METAR 移至 <b>機捷快轉</b></span>
       <span>金鑰只在 <b>GitHub Secrets</b>・不進前端</span>
     </div>
   </div>
@@ -1013,15 +1012,8 @@
     </div>
 
     <div class="card">
-      <h3>機場天氣</h3>
-      <div class="field"><label for="wx-apt">機場</label><select id="wx-apt"></select></div>
-      <div id="wx-out"><p class="mnote">載入中…</p></div>
-    </div>
-
-    <div class="card">
-      <h3>航空氣象 METAR</h3>
-      <div class="field"><label for="mt-apt">機場（真實世界即時電報）</label><select id="mt-apt"></select></div>
-      <div id="mt-out"><p class="mnote">載入中…</p></div>
+      <h3>機場天氣・METAR</h3>
+      <p class="mnote">已移交姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 機捷快轉</a> 的「✈ 航班」頁 — 桃園機場即時天氣與航空電報，搭配報到櫃台與交通規劃一次看。</p>
     </div>
 
   </div>
@@ -2624,7 +2616,7 @@ function applyHash(){
 let liveLoaded = false;
 function liveInit(){
   if (liveLoaded) return; liveLoaded = true;
-  wxBuildSelect(); wxLoad(); mtBuildSelect(); mtLoad(); rdInit(); trkInit(); fdInit();
+  rdInit(); trkInit(); fdInit();
 }
 let fxLoaded = false;
 function fxInitOnce(){
