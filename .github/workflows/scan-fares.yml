@@ -10,8 +10,10 @@ permissions:
   pages: write
   id-token: write
 
+# 獨立併發群組：與 pages/tdx 部署共用群組時，排隊中的長掃描會被
+# 較新的佇列請求擠掉（GitHub 每組僅保留一個等候中 run）。
 concurrency:
-  group: pages
+  group: scan-fares
   cancel-in-progress: false
 
 jobs:
