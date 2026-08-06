@@ -971,7 +971,7 @@
     <div class="rulechips">
       <span>ADS-B <b>airplanes.live</b></span>
       <span>機場看板 <b>交通部 TDX</b></span>
-      <span>天氣/METAR 移至 <b>機捷快轉</b></span>
+      <span>天氣/METAR 移至 <b>快轉</b></span>
       <span>金鑰只在 <b>GitHub Secrets</b>・不進前端</span>
     </div>
   </div>
@@ -1020,7 +1020,7 @@
 
     <div class="card">
       <h3>機場天氣・METAR</h3>
-      <p class="mnote">已移交姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 機捷快轉</a> 的「✈ 航班」頁 — 桃園機場即時天氣與航空電報，搭配報到櫃台與交通規劃一次看。</p>
+      <p class="mnote">已移交姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 快轉</a> 的「✈ 航班」頁 — 桃園機場即時天氣與航空電報，搭配報到櫃台與交通規劃一次看。</p>
     </div>
 
   </div>
@@ -1099,7 +1099,7 @@
 
   <p class="disclaimer">
     距離為大圓計算，與航司系統或有數哩誤差；壓線組合（1,500–1,600 哩）的低價屬系統紅利，隨時可能修正。航點與哩程兌換資料整理自各航官網與公開攻略（2026/07），標「約」者為整理值；是否直飛、可否停留、兌換與升等哩程，一律以各航司官網為準。本工具僅供參考。
-    姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 機捷快轉</a>（機場捷運轉乘・報到櫃台・接送機）。
+    姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 快轉</a>（機場捷運轉乘・報到櫃台・接送機）。
   </p>
 </div>
 
@@ -2587,7 +2587,7 @@ function syncHash(){
 function applyHash(){
   const p = new URLSearchParams(location.hash.slice(1));
   if (!p.size){ syncHash.ready = true; return; }
-  // 姊妹站（機捷快轉）反向接力：#flight=班號 → 直達機場看板並高亮該班
+  // 姊妹站（快轉）反向接力：#flight=班號 → 直達機場看板並高亮該班
   const fl = p.get('flight');
   if (fl){
     fdState.hl = fl.toUpperCase().trim();
@@ -3231,7 +3231,7 @@ function trkDraw(){
 
 /* ---- 機場航班看板（交通部 TDX FIDS：官方資料，GitHub Actions 每 30 分更新） ---- */
 const fdState = { apt:'TPE', dir:'dep', data:null, hl:null, hlDone:false };
-// 收藏航班：與機捷快轉共用（同網域 localStorage，鍵 trav-fav-flights）
+// 收藏航班：與快轉共用（同網域 localStorage，鍵 trav-fav-flights）
 function favFlights(){ try { return JSON.parse(localStorage.getItem('trav-fav-flights')) ?? []; } catch { return []; } }
 function favFlightsSave(a){ try { localStorage.setItem('trav-fav-flights', JSON.stringify(a.slice(0, 12))); } catch {} }
 function fdInit(){
@@ -3288,7 +3288,7 @@ function fdRender(){
     const gate = dep ? [r.gate, r.term ? 'T' + r.term : '', r.ck ? '櫃台' + r.ck : ''].filter(Boolean).join('・') : (r.belt ? '轉盤 ' + r.belt : r.gate);
     const hl = fdState.hl && (r.f === fdState.hl || (r.cs || []).includes(fdState.hl));
     return `<div class="mrow"${hl ? ' data-hlrow style="outline:1.5px solid var(--gold);border-radius:8px"' : ''}>
-      <div class="mzone"><b><button type="button" class="favstar" data-ff="${esc(r.f)}" title="收藏航班（與機捷快轉互通）" style="background:none;border:0;cursor:pointer;color:var(--gold);font-size:14px;padding:0 4px 0 0">${favs.includes(r.f) ? '★' : '☆'}</button>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}${fdState.apt === 'TPE' ? ` <a href="https://chung223.github.io/tymetrofast/#flight=${encodeURIComponent(r.f)}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;white-space:nowrap">🚇 機捷</a>` : ''}</small></div>
+      <div class="mzone"><b><button type="button" class="favstar" data-ff="${esc(r.f)}" title="收藏航班（與快轉互通）" style="background:none;border:0;cursor:pointer;color:var(--gold);font-size:14px;padding:0 4px 0 0">${favs.includes(r.f) ? '★' : '☆'}</button>${esc(r.f)}</b><small>${dep ? '→' : '←'} ${esc(fdName(r.o))} ${esc(r.o)}${r.ac ? '・' + esc(r.ac) : ''}${r.cs.length ? '・共掛 ' + r.cs.map(x => esc(x)).join('／') : ''}${fdState.apt === 'TPE' ? ` <a href="https://chung223.github.io/tymetrofast/#flight=${encodeURIComponent(r.f)}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;white-space:nowrap">🚇 機捷</a>` : ''}</small></div>
       <div class="mcell"><small>表定${eff && eff !== r.st ? `→${r.at ? '實際' : '預計'}` : ''}</small><b>${r.st || '—'}${eff && eff !== r.st ? ` → ${eff}` : ''}</b>${late ? '<em style="color:var(--warn)">晚於表定</em>' : ''}</div>
       <div class="mcell"><small>${dep ? '登機門' : '行李'}</small><b>${gate || '—'}</b></div>
       <div class="mcell"><small>狀態</small><b style="color:${stColor(r.rm)}">${esc(rmZh(r.rm))}</b></div>
@@ -3297,7 +3297,7 @@ function fdRender(){
   out.innerHTML = `<div class="mhead"><span>航班</span><span>時間</span><span>${dep ? '登機門' : '行李'}</span><span>狀態</span></div>
     <div class="mrows">${rows}</div>
     <p class="mnote">資料：交通部 TDX 民航即時航班（FIDS）・顯示近 12 小時、共掛班號已合併、貨機已排除。
-    ☆ 收藏航班與姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 機捷快轉</a> 互通。
+    ☆ 收藏航班與姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 快轉</a> 互通。
     金鑰僅存於 GitHub Actions Secrets（每次更新僅 6 個 API 請求、間隔 13 秒，遠低於免費帳號每分鐘 5 次限制）。</p>`;
   out.querySelectorAll('.favstar').forEach(b => b.onclick = e => {
     e.stopPropagation();
@@ -3479,7 +3479,7 @@ function rmDraw(){
     else document.documentElement.dataset.theme = m;
     btn.textContent = LABEL[m];
   };
-  // trav-theme 為與姊妹站（機捷快轉）互通的共用鍵：dark/light，缺值＝自動
+  // trav-theme 為與姊妹站（快轉）互通的共用鍵：dark/light，缺值＝自動
   let mode = localStorage.getItem('trav-theme') || loadLS('theme', null) || 'auto';
   if (!LABEL[mode]) mode = 'auto';
   apply(mode);
