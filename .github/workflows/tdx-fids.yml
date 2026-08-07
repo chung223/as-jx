@@ -2,7 +2,7 @@ name: TDX airport boards
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '15,45 * * * *'  # 錯開姊妹站快轉的 :00/:30 抓取窗口（共用 TDX 金鑰額度）
   workflow_dispatch:
 
 permissions:
