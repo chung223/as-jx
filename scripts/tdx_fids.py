@@ -5,6 +5,7 @@ import datetime
 import json
 import os
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -13,10 +14,19 @@ BASE = "https://tdx.transportdata.tw/api/basic/v2/Air/FIDS/Airport"
 APTS = ["TPE", "TSA", "KHH"]
 
 
-def http(url, data=None, headers=None):
-    req = urllib.request.Request(url, data=data, headers=headers or {})
-    with urllib.request.urlopen(req, timeout=40) as r:
-        return r.read()
+def http(url, data=None, headers=None, tries=3):
+    # 金鑰與姊妹站「快轉」共用：撞到 TDX 每分鐘限流時等 65 秒重試，而非直接失敗
+    for i in range(tries):
+        req = urllib.request.Request(url, data=data, headers=headers or {})
+        try:
+            with urllib.request.urlopen(req, timeout=40) as r:
+                return r.read()
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and i < tries - 1:
+                print("  (429 rate limited, retrying in 65s)")
+                time.sleep(65)
+                continue
+            raise
 
 
 def hm(s):
