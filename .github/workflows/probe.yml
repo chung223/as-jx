@@ -1,0 +1,17 @@
+name: Probe aviation APIs
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in \
+            "https://api.adsbdb.com/v0/callsign/CAL123" \
+            "https://api.adsbdb.com/v0/aircraft/89904E" \
+            "https://api.planespotters.net/pub/photos/hex/89904E" \
+            "https://date.nager.at/api/v3/PublicHolidays/2026/TW" \
+            "https://nasstatus.faa.gov/api/airport-status-information"; do
+            echo "===== $u"
+            curl -s -m 20 -D - -o /tmp/body -H "Origin: https://chung223.github.io" "$u" | grep -iE "^(HTTP|access-control|content-type)" || true
+            head -c 500 /tmp/body; echo
+          done
