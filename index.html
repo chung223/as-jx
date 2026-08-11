@@ -602,6 +602,12 @@
   .mtrow{display:flex; justify-content:space-between; gap:10px; padding:4px 0; border-bottom:1px dashed var(--line); font-size:13px}
   .mtrow span{color:var(--muted)} .mtrow b{font-weight:600; text-align:right}
   .mtraw{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; color:var(--faint); word-break:break-all; margin-top:8px}
+  .planecard{margin-top:10px; max-width:420px; border:1px solid var(--line-strong); border-radius:10px; overflow:hidden; background:var(--raised)}
+  .planecard img{display:block; width:100%; height:auto}
+  .planecard a{display:block; line-height:0}
+  .planecap{display:flex; justify-content:space-between; align-items:baseline; gap:8px; padding:7px 10px; font-size:11.5px; color:var(--muted); flex-wrap:wrap}
+  .planecap b{font-weight:600; color:var(--ink)}
+  .planecap span{color:var(--faint); font-size:10.5px}
   .mtcat{font-size:26px; font-weight:800; letter-spacing:1px}
   .mapui{position:absolute; top:22px; right:24px; display:flex; flex-direction:column; gap:6px; z-index:2}
   .mapbtn{
@@ -3027,7 +3033,8 @@ function rdInfo(){
     `・高度 ${a.alt_baro === 'ground' ? '地面' : `${(+a.alt_baro || 0).toLocaleString()} ft`}` +
     `・地速 ${Math.round(a.gs ?? 0)} kt${a.track != null ? `・航向 ${Math.round(a.track)}°` : ''}` +
     `<span id="rd-rt"></span><div id="rd-ph"></div>`;
-  planeExtras(out, 'rd-rt', 'rd-ph', fl === '—' ? '' : fl, a.hex, () => rdState.sel === a.hex);
+  planeExtras(out, 'rd-rt', 'rd-ph', fl === '—' ? '' : fl, a.hex, () => rdState.sel === a.hex,
+    [a.r, a.desc || a.t].filter(Boolean).join('・'));
 }
 function rdDraw(){
   const cv = $id('radarmap'); if (!cv || VIEWS.live.hidden) return;
@@ -3127,7 +3134,7 @@ async function psPhoto(hex){
   psCache.set(hex, v);
   return v;
 }
-function planeExtras(el, spanId, phId, callsign, hex, isCurrent){
+function planeExtras(el, spanId, phId, callsign, hex, isCurrent, cap){
   adsbdbRoute(callsign).then(rt => {
     const s = document.getElementById(spanId);
     if (s && rt && isCurrent()) s.textContent = `・航線 ${rt.on || rt.o} ${rt.o} → ${rt.dn || rt.d} ${rt.d}`;
@@ -3135,9 +3142,11 @@ function planeExtras(el, spanId, phId, callsign, hex, isCurrent){
   psPhoto(hex).then(ph => {
     const s = document.getElementById(phId);
     if (s && ph && isCurrent()){
-      s.innerHTML = `<a href="${esc(ph.link)}" target="_blank" rel="noopener">
-        <img src="${esc(ph.src)}" alt="機身照片" style="height:64px;border-radius:6px;display:block;margin-top:6px"></a>
-        <span style="font-size:10.5px;color:var(--faint)">© ${esc(ph.by)}・Planespotters.net</span>`;
+      s.innerHTML = `<div class="planecard">
+        <a href="${esc(ph.link)}" target="_blank" rel="noopener" title="在 Planespotters 檢視原圖">
+          <img src="${esc(ph.src)}" alt="機身照片" loading="lazy"></a>
+        <div class="planecap"><b>${esc(cap || '')}</b><span>© ${esc(ph.by)}・Planespotters.net</span></div>
+      </div>`;
     }
   });
 }
@@ -3270,7 +3279,9 @@ function trkInfoSel(){
     `・高度 ${a.alt_baro === 'ground' ? '地面' : `${fmt(+a.alt_baro || 0)} ft`}・地速 ${Math.round(a.gs ?? 0)} kt` +
     `${a.track != null ? `・航向 ${Math.round(a.track)}°` : ''}${trkState.ac.length > 1 ? `・共 ${trkState.ac.length} 架` : ''}` +
     `<span id="trk-rt"></span><div id="trk-ph"></div>`;
-  planeExtras(out, 'trk-rt', 'trk-ph', fl, a.hex, () => (trkState.ac.find(x => x.hex === trkState.sel) || trkState.ac[0])?.hex === a.hex);
+  planeExtras(out, 'trk-rt', 'trk-ph', fl, a.hex,
+    () => (trkState.ac.find(x => x.hex === trkState.sel) || trkState.ac[0])?.hex === a.hex,
+    [a.r, a.desc || a.t].filter(Boolean).join('・'));
 }
 function trkDraw(){
   const cv = $id('trkmap'); if (!cv || VIEWS.live.hidden) return;
