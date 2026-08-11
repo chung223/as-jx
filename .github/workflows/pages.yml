@@ -22,14 +22,29 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      # tdx.json 不進版控、由 FIDS 排程產生：一般部署前抓回線上版，避免被洗掉
+      # tdx.json 不進版控、由 FIDS 排程產生：一般部署前抓回線上版，避免被洗掉。
+      # 404 代表線上本來就沒有，照常部署；其他狀態代表「有、只是這次沒拿到」，
+      # 這時候部署等於永久刪檔，寧可整輪不部署（下次 push 或手動觸發即可）。
       - name: 保留線上 FIDS 看板資料
-        run: curl -sf https://chung223.github.io/as-jx/tdx.json -o tdx.json || echo "（線上尚無 tdx.json）"
+        id: keep
+        run: |
+          code=$(curl -s --retry 3 --retry-delay 2 --retry-all-errors -o tdx.json.tmp \
+            -w '%{http_code}' https://chung223.github.io/as-jx/tdx.json || echo 000)
+          if [ "$code" = "200" ]; then mv tdx.json.tmp tdx.json; echo "ok=1" >> "$GITHUB_OUTPUT"
+          elif [ "$code" = "404" ]; then rm -f tdx.json.tmp; echo "（線上尚無 tdx.json）"; echo "ok=1" >> "$GITHUB_OUTPUT"
+          else
+            rm -f tdx.json.tmp
+            echo "::warning::取不回線上 tdx.json（HTTP $code），跳過本輪部署以免洗掉看板資料"
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/configure-pages@v5
+        if: steps.keep.outputs.ok == '1'
         with:
           enablement: true
       - uses: actions/upload-pages-artifact@v3
+        if: steps.keep.outputs.ok == '1'
         with:
           path: .
       - id: deployment
+        if: steps.keep.outputs.ok == '1'
         uses: actions/deploy-pages@v4

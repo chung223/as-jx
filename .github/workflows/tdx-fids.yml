@@ -28,13 +28,32 @@ jobs:
         with:
           python-version: '3.12'
       # tdx.json 不進版控、只存在於上一次部署。額度不足時抓取會溫和跳過，
-      # 若不先取回舊檔，這輪就會部署出一個沒有看板資料的站台。
+      # 若不先取回舊檔，這輪就會部署出一個沒有看板資料的站台。重試三次擋 CDN 抖動。
       - name: 取回線上既有看板（降級時沿用）
-        run: curl -fsS -o tdx.json https://chung223.github.io/as-jx/tdx.json || echo "（線上尚無 tdx.json，略過）"
+        run: |
+          code=$(curl -s --retry 3 --retry-delay 2 --retry-all-errors -o tdx.json.tmp \
+            -w '%{http_code}' https://chung223.github.io/as-jx/tdx.json || echo 000)
+          if [ "$code" = "200" ]; then mv tdx.json.tmp tdx.json; else
+            rm -f tdx.json.tmp
+            echo "::warning::取不回線上 tdx.json（HTTP $code）"
+          fi
       - name: Fetch FIDS boards
         run: python scripts/tdx_fids.py
+      # 沒有看板資料就整輪不部署：既省一次 Pages 部署，也不會把線上既有看板洗掉
+      - name: 確認有看板資料才部署
+        id: guard
+        run: |
+          if [ -s tdx.json ]; then
+            echo "ok=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::本輪沒有看板資料（額度用罄且取不回線上版），跳過部署以保留線上站台"
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/configure-pages@v5
+        if: steps.guard.outputs.ok == '1'
       - uses: actions/upload-pages-artifact@v3
+        if: steps.guard.outputs.ok == '1'
         with:
           path: .
       - uses: actions/deploy-pages@v4
+        if: steps.guard.outputs.ok == '1'
