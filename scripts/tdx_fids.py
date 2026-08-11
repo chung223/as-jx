@@ -36,11 +36,19 @@ def hm(s):
         return ""
 
 
-tok = json.loads(http(AUTH, urllib.parse.urlencode({
-    "grant_type": "client_credentials",
-    "client_id": os.environ["TDX_ID"],
-    "client_secret": os.environ["TDX_SECRET"],
-}).encode()))["access_token"]
+# 額度用罄／金鑰停用（TDX 回 401/403）不算「壞掉」：保留線上既有 tdx.json、
+# 溫和結束，避免每小時寄一封失敗信。真正的異常仍以非零碼結束。
+try:
+    tok = json.loads(http(AUTH, urllib.parse.urlencode({
+        "grant_type": "client_credentials",
+        "client_id": os.environ["TDX_ID"],
+        "client_secret": os.environ["TDX_SECRET"],
+    }).encode()))["access_token"]
+except urllib.error.HTTPError as e:
+    if e.code in (401, 403, 429):
+        print(f"::warning::TDX token 回應 {e.code}——金鑰可能已達額度上限或被停用，本輪跳過，沿用既有資料")
+        raise SystemExit(0)
+    raise
 H = {"Authorization": f"Bearer {tok}"}
 
 now = (datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=8)).replace(tzinfo=None)
