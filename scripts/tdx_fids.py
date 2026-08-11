@@ -36,8 +36,9 @@ def hm(s):
         return ""
 
 
-# 額度用罄／金鑰停用（TDX 回 401/403）不算「壞掉」：保留線上既有 tdx.json、
-# 溫和結束，避免每小時寄一封失敗信。真正的異常仍以非零碼結束。
+# 額度用罄／金鑰停用不算「壞掉」：保留線上既有 tdx.json、溫和結束，避免每小時寄一封失敗信。
+# 金鑰有設定卻換不到 token，重跑也不會好，故所有 token 失敗一律降級。
+# （實測金鑰被停權時 TDX 回 400 invalid_client，並非 401/403，因此不挑狀態碼。）
 try:
     tok = json.loads(http(AUTH, urllib.parse.urlencode({
         "grant_type": "client_credentials",
@@ -45,10 +46,10 @@ try:
         "client_secret": os.environ["TDX_SECRET"],
     }).encode()))["access_token"]
 except urllib.error.HTTPError as e:
-    if e.code in (401, 403, 429):
-        print(f"::warning::TDX token 回應 {e.code}——金鑰可能已達額度上限或被停用，本輪跳過，沿用既有資料")
-        raise SystemExit(0)
-    raise
+    detail = " ".join((e.read().decode("utf-8", "replace") or "").split())[:160]
+    print(f"::warning::TDX token 回應 {e.code}{'：' + detail if detail else ''}"
+          "——金鑰可能已達額度上限或被停用，本輪跳過，沿用既有資料")
+    raise SystemExit(0)
 H = {"Authorization": f"Bearer {tok}"}
 
 now = (datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=8)).replace(tzinfo=None)
@@ -101,14 +102,20 @@ def norm(rows, kind):
 
 data = {"updated_at": now.strftime("%Y-%m-%d %H:%M"), "airports": {}}
 first = True
-for a in APTS:
-    d = {}
-    for kind, path in (("dep", "Departure"), ("arr", "Arrival")):
-        if not first:
-            time.sleep(13)
-        first = False
-        d[kind] = norm(json.loads(http(f"{BASE}/{path}/{a}?%24format=JSON", headers=H)), kind)
-    data["airports"][a] = d
+try:
+    for a in APTS:
+        d = {}
+        for kind, path in (("dep", "Departure"), ("arr", "Arrival")):
+            if not first:
+                time.sleep(13)
+            first = False
+            d[kind] = norm(json.loads(http(f"{BASE}/{path}/{a}?%24format=JSON", headers=H)), kind)
+        data["airports"][a] = d
+except urllib.error.HTTPError as e:
+    # 中途才撞到額度上限／上游異常：寧可整輪不寫檔，也不要部署半套看板。
+    # 工作流沿用部署步驟前取回的既有 tdx.json。
+    print(f"::warning::TDX 看板查詢回應 {e.code}——本輪跳過，沿用既有資料")
+    raise SystemExit(0)
 
 with open("tdx.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, separators=(",", ":"))

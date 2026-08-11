@@ -27,6 +27,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      # tdx.json 不進版控、只存在於上一次部署。額度不足時抓取會溫和跳過，
+      # 若不先取回舊檔，這輪就會部署出一個沒有看板資料的站台。
+      - name: 取回線上既有看板（降級時沿用）
+        run: curl -fsS -o tdx.json https://chung223.github.io/as-jx/tdx.json || echo "（線上尚無 tdx.json，略過）"
       - name: Fetch FIDS boards
         run: python scripts/tdx_fids.py
       - uses: actions/configure-pages@v5
