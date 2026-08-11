@@ -721,6 +721,90 @@
     @keyframes rise{from{opacity:0; transform:translateY(7px)} to{opacity:1; transform:none}}
     .row{transition:border-color .15s}
   }
+
+  /* ═════════ Liquid Glass ═════════
+     依 Apple「Adopting Liquid Glass」：玻璃屬導覽/控制層，內容層維持實心。
+     這裡只有浮動的篩選側欄與主題鈕是玻璃，內容卡片與列表照舊。 */
+  :root{
+    --glass-bg:rgba(40,32,21,.52); --glass-bg-2:rgba(62,50,33,.38);
+    --glass-edge:rgba(255,238,208,.26); --glass-edge-lo:rgba(255,238,208,.10);
+    --glass-shadow:0 18px 44px rgba(0,0,0,.46), 0 3px 10px rgba(0,0,0,.34);
+    --glass-blur:22px;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --glass-bg:rgba(255,252,244,.60); --glass-bg-2:rgba(255,255,255,.46);
+      --glass-edge:rgba(255,255,255,.95); --glass-edge-lo:rgba(124,95,43,.12);
+      --glass-shadow:0 16px 40px rgba(96,74,36,.15), 0 3px 10px rgba(96,74,36,.10);
+    }
+  }
+  :root[data-theme="light"]{
+    --glass-bg:rgba(255,252,244,.60); --glass-bg-2:rgba(255,255,255,.46);
+    --glass-edge:rgba(255,255,255,.95); --glass-edge-lo:rgba(124,95,43,.12);
+    --glass-shadow:0 16px 40px rgba(96,74,36,.15), 0 3px 10px rgba(96,74,36,.10);
+  }
+
+  /* 環境光斑：緩慢漂移，玻璃才有東西可折射 */
+  body::after{
+    content:""; position:fixed; inset:-25%; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(38% 30% at 20% 24%, rgba(212,175,110,.28), transparent 70%),
+      radial-gradient(34% 28% at 80% 20%, rgba(138,109,59,.22), transparent 70%),
+      radial-gradient(42% 34% at 60% 84%, rgba(140,193,160,.18), transparent 70%);
+    filter:blur(28px); animation:aurora 34s ease-in-out infinite alternate;
+  }
+  @keyframes aurora{
+    0%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(2.5%,-2%,0) scale(1.08)}
+    100%{transform:translate3d(-2%,2.5%,0) scale(1.04)}
+  }
+  .wrap, header.board{position:relative; z-index:1}
+
+  /* 導覽/控制層：浮動側欄與主題鈕用真玻璃 */
+  .panel, .themebtn{
+    background:linear-gradient(158deg, var(--glass-bg-2), var(--glass-bg));
+    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(165%);
+    backdrop-filter:blur(var(--glass-blur)) saturate(165%);
+    border:1px solid var(--glass-edge-lo);
+    box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 rgba(0,0,0,.14);
+  }
+  .panel{border-radius:20px; padding:16px}
+  /* 同心圓角：側欄 20 − 內距 16 ≈ 內部控制項 10 */
+  .chip, .seg, .qp{border-radius:10px}
+  .seg{overflow:hidden}
+  /* 內容層裡的控制項：同質感但不加模糊（不疊玻璃、行動裝置也較省） */
+  .chip, .qp, .seg button{
+    background:linear-gradient(160deg, var(--glass-bg-2), var(--glass-bg));
+    box-shadow:inset 0 1px 0 var(--glass-edge);
+  }
+  .chip[aria-pressed="true"]{
+    background:linear-gradient(160deg, rgba(255,255,255,.22), var(--gold));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45), 0 3px 12px -4px var(--gold);
+  }
+  /* 按壓：玻璃有厚度，壓下去要回彈 */
+  .chip, .qp, .seg button, .themebtn{
+    transition:transform .32s cubic-bezier(.2,1.5,.4,1), background .2s, border-color .2s, box-shadow .2s;
+  }
+  .chip:active, .qp:active, .seg button:active, .themebtn:active{transform:scale(.955)}
+
+  /* 退回策略：不支援模糊／要求降低透明度時回到實心 */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+    .panel, .themebtn{background:var(--surface)}
+    .chip, .qp, .seg button{background:var(--raised)}
+  }
+  @media (prefers-reduced-transparency: reduce){
+    .panel, .themebtn{background:var(--surface); -webkit-backdrop-filter:none; backdrop-filter:none}
+    .chip, .qp, .seg button{background:var(--raised)}
+    body::after{display:none}
+  }
+  @media (prefers-contrast: more){
+    :root{--glass-bg:rgba(28,22,14,.88); --glass-bg-2:rgba(44,35,23,.86); --glass-edge-lo:rgba(255,244,222,.34)}
+    :root[data-theme="light"]{--glass-bg:rgba(255,253,248,.94); --glass-bg-2:rgba(255,255,255,.92); --glass-edge-lo:rgba(70,52,20,.42)}
+  }
+  @media (prefers-reduced-motion: reduce){ body::after{animation:none} }
+  /* 列印：玻璃與光斑一律關閉 */
+  @media print{ body::after{display:none} .panel, .themebtn, .chip, .qp, .seg button{-webkit-backdrop-filter:none; backdrop-filter:none; box-shadow:none} }
+
   /* ── 列印 ── */
   @media print{
     :root, :root[data-theme="dark"]{
