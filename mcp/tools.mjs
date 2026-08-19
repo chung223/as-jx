@@ -9,6 +9,9 @@ export async function loadData(bundled){
     const r = await fetch(SITE + 'data.json', { headers: { 'user-agent': 'miles-toolbox-mcp' } });
     if (r.ok){ cache = await r.json(); cacheAt = Date.now(); return cache; }
   } catch { /* 離線或被擋：用隨附副本 */ }
+  // Worker 版沒有隨附副本：抓不到就明講，別讓工具噴出看不懂的 undefined 錯誤
+  if (!bundled || !bundled.alaska_starlux)
+    throw new Error(`暫時取不到資料（${SITE}data.json）。請稍後再試；若持續失敗，代表網站部署有問題。`);
   cache = bundled; cacheAt = Date.now();
   return cache;
 }
