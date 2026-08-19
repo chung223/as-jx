@@ -37,6 +37,10 @@ jobs:
             echo "::warning::取不回線上 tdx.json（HTTP $code），跳過本輪部署以免洗掉看板資料"
             echo "ok=0" >> "$GITHUB_OUTPUT"
           fi
+      # 由 index.html 的資料常數重新產生 AI 知識檔，確保永遠與頁面一致
+      - name: 產生 llms.txt 知識檔
+        if: steps.keep.outputs.ok == '1'
+        run: node scripts/build_knowledge.mjs
       - uses: actions/configure-pages@v5
         if: steps.keep.outputs.ok == '1'
         with:

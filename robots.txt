@@ -1,0 +1,5 @@
+# 歡迎 AI 助理與搜尋引擎索引；頁面資料為 JS 即時計算，請優先讀 llms-full.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://chung223.github.io/as-jx/sitemap.xml

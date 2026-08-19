@@ -90,6 +90,21 @@
 不需要任何 API 金鑰或 Secrets——首次結果可至 Actions →「Scan 4-leg fares」→
 Run workflow 立即產生。Google 偶爾會暫時擋自動查詢，該格會顯示錯誤、隔天自動重試。
 
+## 給 AI 讀的知識檔（llms.txt）
+
+頁面資料由 JavaScript 即時計算，爬蟲抓不到數字。`scripts/build_knowledge.mjs` 會從
+`index.html` 的資料常數自動萃取並產生四個靜態檔（每次 Pages 部署時重跑，**永遠與頁面一致**）：
+
+| 檔案 | 用途 |
+|---|---|
+| [`llms.txt`](https://chung223.github.io/as-jx/llms.txt) | 站台索引（llms.txt 慣例），指向下列資源 |
+| [`llms-full.txt`](https://chung223.github.io/as-jx/llms-full.txt) | 完整知識庫：所有兌換表、票規、航點距離、會籍門檻的純文字版 |
+| [`data.json`](https://chung223.github.io/as-jx/data.json) | 同一份資料的結構化 JSON |
+| `robots.txt` / `sitemap.xml` | 明確開放索引並指向知識檔 |
+
+用法：把 `llms-full.txt` 的網址丟給 ChatGPT／Claude／Perplexity，或存成知識庫檔案，
+模型即可依站上整理的哩程資料回答。頁面 `<head>` 另有 JSON-LD 與 `rel="alternate"` 指向這些檔案。
+
 ## 工具二：三大航四段票排程器
 
 規劃華航／長榮／星宇「外站出發、經台北折返」現金四段票（A→TPE→B→TPE→A）：

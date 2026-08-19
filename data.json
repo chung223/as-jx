@@ -1,0 +1,1854 @@
+{
+ "generated": "2026-08-19",
+ "site": "https://chung223.github.io/as-jx/",
+ "note": "哩程整理值，以各航空公司官網為準",
+ "alaska_starlux": {
+  "price": {
+   "sweet": {
+    "eco": 7500,
+    "biz": 15000
+   },
+   "high": {
+    "eco": 15000,
+    "biz": 50000
+   }
+  },
+  "stopover_days": 14,
+  "hubs": {
+   "TPE": {
+    "code": "TPE",
+    "name": "台北桃園",
+    "lat": 25.0777,
+    "lon": 121.2325
+   },
+   "RMQ": {
+    "code": "RMQ",
+    "name": "台中",
+    "lat": 24.2647,
+    "lon": 120.6206
+   }
+  },
+  "airports": [
+   {
+    "code": "NRT",
+    "city": "東京成田",
+    "country": "JP",
+    "lat": 35.772,
+    "lon": 140.3929,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "note": "台中線 2026/3/30 開航",
+    "tpe_miles": 1356,
+    "rmq_miles": 1421
+   },
+   {
+    "code": "KIX",
+    "city": "大阪關西",
+    "country": "JP",
+    "lat": 34.4342,
+    "lon": 135.2441,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1058,
+    "rmq_miles": null
+   },
+   {
+    "code": "UKB",
+    "city": "神戶",
+    "country": "JP",
+    "lat": 34.6328,
+    "lon": 135.2239,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1065,
+    "rmq_miles": 1131
+   },
+   {
+    "code": "NGO",
+    "city": "名古屋",
+    "country": "JP",
+    "lat": 34.8584,
+    "lon": 136.8049,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1149,
+    "rmq_miles": null
+   },
+   {
+    "code": "FUK",
+    "city": "福岡",
+    "country": "JP",
+    "lat": 33.5859,
+    "lon": 130.4508,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 808,
+    "rmq_miles": null
+   },
+   {
+    "code": "KMJ",
+    "city": "熊本",
+    "country": "JP",
+    "lat": 32.8373,
+    "lon": 130.8551,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "note": "台中線 2026/3/31 開航",
+    "tpe_miles": 790,
+    "rmq_miles": 857
+   },
+   {
+    "code": "CTS",
+    "city": "札幌新千歲",
+    "country": "JP",
+    "lat": 42.7752,
+    "lon": 141.6923,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1685,
+    "rmq_miles": null
+   },
+   {
+    "code": "SDJ",
+    "city": "仙台",
+    "country": "JP",
+    "lat": 38.1397,
+    "lon": 140.9169,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1463,
+    "rmq_miles": null
+   },
+   {
+    "code": "HKD",
+    "city": "函館",
+    "country": "JP",
+    "lat": 41.77,
+    "lon": 140.8219,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1607,
+    "rmq_miles": null
+   },
+   {
+    "code": "TAK",
+    "city": "高松",
+    "country": "JP",
+    "lat": 34.2142,
+    "lon": 134.0156,
+    "hubs": [
+     "RMQ"
+    ],
+    "scope": "asia",
+    "tpe_miles": null,
+    "rmq_miles": 1059
+   },
+   {
+    "code": "OKA",
+    "city": "沖繩那霸",
+    "country": "JP",
+    "lat": 26.1958,
+    "lon": 127.6459,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "tpe_miles": 407,
+    "rmq_miles": 459
+   },
+   {
+    "code": "SHI",
+    "city": "宮古島（下地島）",
+    "country": "JP",
+    "lat": 24.8267,
+    "lon": 125.1447,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "seasonal": true,
+    "tpe_miles": 246,
+    "rmq_miles": 287
+   },
+   {
+    "code": "PUS",
+    "city": "釜山",
+    "country": "KR",
+    "lat": 35.1795,
+    "lon": 128.9382,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "note": "2026/6/1 開航",
+    "tpe_miles": 835,
+    "rmq_miles": 903
+   },
+   {
+    "code": "HKG",
+    "city": "香港",
+    "country": "HK",
+    "lat": 22.308,
+    "lon": 113.9185,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 501,
+    "rmq_miles": null
+   },
+   {
+    "code": "MFM",
+    "city": "澳門",
+    "country": "MO",
+    "lat": 22.1496,
+    "lon": 113.5915,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "tpe_miles": 524,
+    "rmq_miles": 470
+   },
+   {
+    "code": "MNL",
+    "city": "馬尼拉",
+    "country": "PH",
+    "lat": 14.5086,
+    "lon": 121.0198,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 730,
+    "rmq_miles": null
+   },
+   {
+    "code": "CRK",
+    "city": "克拉克",
+    "country": "PH",
+    "lat": 15.186,
+    "lon": 120.56,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 685,
+    "rmq_miles": null
+   },
+   {
+    "code": "CEB",
+    "city": "宿霧",
+    "country": "PH",
+    "lat": 10.3075,
+    "lon": 123.979,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1036,
+    "rmq_miles": null
+   },
+   {
+    "code": "HAN",
+    "city": "河內",
+    "country": "VN",
+    "lat": 21.2212,
+    "lon": 105.8072,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1015,
+    "rmq_miles": null
+   },
+   {
+    "code": "DAD",
+    "city": "峴港",
+    "country": "VN",
+    "lat": 16.0439,
+    "lon": 108.1994,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1048,
+    "rmq_miles": 985
+   },
+   {
+    "code": "SGN",
+    "city": "胡志明市",
+    "country": "VN",
+    "lat": 10.8188,
+    "lon": 106.652,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1372,
+    "rmq_miles": null
+   },
+   {
+    "code": "PQC",
+    "city": "富國島",
+    "country": "VN",
+    "lat": 10.1698,
+    "lon": 103.9931,
+    "hubs": [
+     "TPE",
+     "RMQ"
+    ],
+    "scope": "asia",
+    "seasonal": true,
+    "tpe_miles": 1529,
+    "rmq_miles": 1464
+   },
+   {
+    "code": "BKK",
+    "city": "曼谷",
+    "country": "TH",
+    "lat": 13.69,
+    "lon": 100.7501,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1546,
+    "rmq_miles": null
+   },
+   {
+    "code": "CNX",
+    "city": "清邁",
+    "country": "TH",
+    "lat": 18.7668,
+    "lon": 98.9626,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1490,
+    "rmq_miles": null
+   },
+   {
+    "code": "SIN",
+    "city": "新加坡",
+    "country": "SG",
+    "lat": 1.3644,
+    "lon": 103.9915,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 2002,
+    "rmq_miles": null
+   },
+   {
+    "code": "KUL",
+    "city": "吉隆坡",
+    "country": "MY",
+    "lat": 2.7456,
+    "lon": 101.7099,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 2017,
+    "rmq_miles": null
+   },
+   {
+    "code": "PEN",
+    "city": "檳城",
+    "country": "MY",
+    "lat": 5.2971,
+    "lon": 100.277,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 1948,
+    "rmq_miles": null
+   },
+   {
+    "code": "CGK",
+    "city": "雅加達",
+    "country": "ID",
+    "lat": -6.1256,
+    "lon": 106.6559,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "asia",
+    "tpe_miles": 2368,
+    "rmq_miles": null
+   },
+   {
+    "code": "LAX",
+    "city": "洛杉磯",
+    "country": "US",
+    "lat": 33.9416,
+    "lon": -118.4085,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "longhaul",
+    "tpe_miles": 6787,
+    "rmq_miles": null
+   },
+   {
+    "code": "SFO",
+    "city": "舊金山",
+    "country": "US",
+    "lat": 37.6213,
+    "lon": -122.379,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "longhaul",
+    "tpe_miles": 6457,
+    "rmq_miles": null
+   },
+   {
+    "code": "SEA",
+    "city": "西雅圖",
+    "country": "US",
+    "lat": 47.4502,
+    "lon": -122.3088,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "longhaul",
+    "tpe_miles": 6063,
+    "rmq_miles": null
+   },
+   {
+    "code": "ONT",
+    "city": "安大略",
+    "country": "US",
+    "lat": 34.056,
+    "lon": -117.6012,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "longhaul",
+    "tpe_miles": 6818,
+    "rmq_miles": null
+   },
+   {
+    "code": "PHX",
+    "city": "鳳凰城",
+    "country": "US",
+    "lat": 33.4343,
+    "lon": -112.0116,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "longhaul",
+    "note": "2026/1/15 開航",
+    "tpe_miles": 7092,
+    "rmq_miles": null
+   },
+   {
+    "code": "PRG",
+    "city": "布拉格",
+    "country": "CZ",
+    "lat": 50.1008,
+    "lon": 14.26,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "longhaul",
+    "note": "2026/8/1 開航",
+    "tpe_miles": 5600,
+    "rmq_miles": null
+   },
+   {
+    "code": "DPS",
+    "city": "峇里島",
+    "country": "ID",
+    "lat": -8.7482,
+    "lon": 115.1672,
+    "hubs": [
+     "TPE"
+    ],
+    "scope": "future",
+    "note": "2026 年底前開航（籌備中）",
+    "tpe_miles": 2373,
+    "rmq_miles": null
+   }
+  ]
+ },
+ "award_charts": {
+  "CI": {
+   "name": "中華航空・華夏哩程",
+   "site": "https://www.china-airlines.com/tw/zh",
+   "siteName": "華航官網",
+   "newFrom": "2026-09-16",
+   "basisNote": "官方以來回計價，單程為來回的 50%。2026/9/16 起（以開票日為準）改為「三段式動態哩程」，依酬賓機位供需分充足／有限／稀少-候補三級。",
+   "oldBasisNote": "官方以來回計價，單程約半價；此為 2026/9/15（含）前開票適用之現行標準。",
+   "zones": [
+    {
+     "key": "asia1",
+     "zone": "台灣 ⇄ 亞洲（一）",
+     "sub": "香港・廈門・福州",
+     "eco": {
+      "t": [
+       18000,
+       19000,
+       20000
+      ]
+     },
+     "pey": null,
+     "biz": {
+      "t": [
+       50000,
+       50000,
+       60000
+      ]
+     }
+    },
+    {
+     "key": "asia2",
+     "zone": "台灣 ⇄ 亞洲（二）",
+     "sub": "東北亞・東南亞・中國大陸（不含一、三所列航點）",
+     "eco": {
+      "t": [
+       30000,
+       32000,
+       35000
+      ]
+     },
+     "pey": {
+      "t": [
+       40000,
+       50000,
+       60000
+      ]
+     },
+     "biz": {
+      "t": [
+       55000,
+       70000,
+       80000
+      ]
+     }
+    },
+    {
+     "key": "asia3",
+     "zone": "台灣 ⇄ 亞洲（三）",
+     "sub": "東京・大阪・札幌・首爾・曼谷・清邁・檳城・峇里島・帛琉・仰光",
+     "eco": {
+      "t": [
+       35000,
+       38000,
+       40000
+      ]
+     },
+     "pey": {
+      "t": [
+       40000,
+       50000,
+       60000
+      ]
+     },
+     "biz": {
+      "t": [
+       60000,
+       75000,
+       90000
+      ]
+     }
+    },
+    {
+     "key": "ocean",
+     "zone": "亞洲 ⇄ 紐澳",
+     "sub": "雪梨・墨爾本・布里斯本・奧克蘭",
+     "eco": {
+      "t": [
+       80000,
+       90000,
+       105000
+      ]
+     },
+     "pey": {
+      "t": [
+       110000,
+       120000,
+       130000
+      ]
+     },
+     "biz": {
+      "t": [
+       150000,
+       170000,
+       190000
+      ]
+     }
+    },
+    {
+     "key": "na",
+     "zone": "亞洲 ⇄ 北美",
+     "sub": "洛杉磯・舊金山・溫哥華…（紐約另列）",
+     "eco": {
+      "t": [
+       80000,
+       90000,
+       105000
+      ]
+     },
+     "pey": {
+      "t": [
+       120000,
+       135000,
+       150000
+      ]
+     },
+     "biz": {
+      "t": [
+       160000,
+       180000,
+       200000
+      ]
+     }
+    },
+    {
+     "key": "eu",
+     "zone": "亞洲 ⇄ 歐洲",
+     "sub": "倫敦・法蘭克福・阿姆斯特丹…",
+     "eco": {
+      "t": [
+       90000,
+       105000,
+       110000
+      ]
+     },
+     "pey": {
+      "t": [
+       120000,
+       130000,
+       140000
+      ]
+     },
+     "biz": {
+      "t": [
+       160000,
+       190000,
+       210000
+      ]
+     }
+    },
+    {
+     "key": "nyc",
+     "zone": "亞洲 ⇄ 紐約",
+     "sub": "JFK（單獨級距、高於其他北美航點）",
+     "eco": {
+      "t": [
+       90000,
+       100000,
+       110000
+      ]
+     },
+     "pey": {
+      "t": [
+       120000,
+       145000,
+       160000
+      ]
+     },
+     "biz": {
+      "t": [
+       160000,
+       190000,
+       210000
+      ]
+     }
+    }
+   ],
+   "oldZones": [
+    {
+     "key": "asia",
+     "zone": "台灣 ⇄ 亞洲短程",
+     "sub": "日韓・港澳・東南亞",
+     "eco": {
+      "rt": 35000
+     },
+     "pey": null,
+     "biz": {
+      "rt": 60000
+     }
+    },
+    {
+     "key": "long",
+     "zone": "台灣 ⇄ 歐美長程",
+     "sub": "北美・歐洲",
+     "eco": {
+      "rt": 110000,
+      "approx": true
+     },
+     "pey": null,
+     "biz": {
+      "rt": 160000
+     }
+    }
+   ],
+   "eraCompare": [
+    {
+     "route": "台灣往返亞洲（一）商務艙",
+     "old": 60000,
+     "neo": 50000
+    },
+    {
+     "route": "台灣往返亞洲（二）經濟艙",
+     "old": 35000,
+     "neo": 30000
+    },
+    {
+     "route": "亞洲往返北美 經濟艙",
+     "old": 110000,
+     "neo": 80000
+    },
+    {
+     "route": "亞洲往返歐洲 經濟艙",
+     "old": 110000,
+     "neo": 90000
+    },
+    {
+     "route": "亞洲往返紐澳 經濟艙",
+     "old": 100000,
+     "neo": 80000
+    }
+   ],
+   "upgrades": [
+    {
+     "route": "短程單段升商務（豪經票）",
+     "miles": 8000
+    },
+    {
+     "route": "短程單段升商務（高艙等經濟票）",
+     "miles": 15000
+    },
+    {
+     "route": "短程單段升商務（標準經濟票）",
+     "miles": 20000
+    },
+    {
+     "route": "長程升等依票種而異",
+     "miles": null
+    }
+   ]
+  },
+  "BR": {
+   "name": "長榮航空・無限萬哩遊",
+   "site": "https://www.evaair.com/zh-tw/infinity-mileageLands/mileage-award-program/mileage-redemption/",
+   "siteName": "長榮官網兌換表",
+   "basisNote": "官方以來回計價，單程為半價。",
+   "zones": [
+    {
+     "key": "hkmo",
+     "zone": "台灣 ⇄ 港澳",
+     "sub": "短程",
+     "eco": {
+      "rt": 20000,
+      "approx": true
+     },
+     "pey": null,
+     "biz": {
+      "rt": 40000,
+      "approx": true
+     }
+    },
+    {
+     "key": "nea",
+     "zone": "台灣 ⇄ 東北亞",
+     "sub": "日本・韓國",
+     "eco": {
+      "rt": 35000
+     },
+     "pey": {
+      "rt": 40000
+     },
+     "biz": {
+      "rt": 50000
+     }
+    },
+    {
+     "key": "sea",
+     "zone": "台灣 ⇄ 東南亞",
+     "sub": "泰・新・馬・菲・越・印尼",
+     "eco": {
+      "rt": 35000
+     },
+     "pey": {
+      "rt": 40000,
+      "approx": true
+     },
+     "biz": {
+      "rt": 55000
+     }
+    },
+    {
+     "key": "usw",
+     "zone": "台灣 ⇄ 美洲 A 區",
+     "sub": "美西（LAX/SFO/SEA…）",
+     "eco": {
+      "rt": 75000
+     },
+     "pey": {
+      "rt": 110000
+     },
+     "biz": {
+      "rt": 150000
+     }
+    },
+    {
+     "key": "use",
+     "zone": "台灣 ⇄ 美洲 B 區",
+     "sub": "美東・加拿大（JFK/ORD/YVR…）",
+     "eco": {
+      "rt": 80000,
+      "approx": true
+     },
+     "pey": {
+      "rt": 115000,
+      "approx": true
+     },
+     "biz": {
+      "rt": 160000
+     }
+    },
+    {
+     "key": "eur",
+     "zone": "台灣 ⇄ 歐洲",
+     "sub": "巴黎・倫敦・維也納…",
+     "eco": {
+      "rt": 75000,
+      "approx": true
+     },
+     "pey": {
+      "rt": 110000,
+      "approx": true
+     },
+     "biz": {
+      "rt": 150000
+     }
+    }
+   ],
+   "upgrades": [
+    {
+     "route": "依航段與訂位艙等而異；美東航線較美西約多 5,000 哩",
+     "miles": null
+    }
+   ]
+  },
+  "JX": {
+   "name": "星宇航空・COSMILE",
+   "site": "https://www.starlux-airlines.com/zh-TW",
+   "siteName": "星宇官網",
+   "basisNote": "官方以單程計價，來回 ×2。",
+   "zones": [
+    {
+     "key": "asia",
+     "zone": "亞洲區域線",
+     "sub": "日韓・港澳・東南亞",
+     "eco": {
+      "rt": 30000
+     },
+     "pey": {
+      "rt": 40000
+     },
+     "biz": {
+      "rt": 55000
+     }
+    },
+    {
+     "key": "na",
+     "zone": "台灣 ⇄ 北美",
+     "sub": "LAX/SFO/SEA/ONT/PHX",
+     "eco": {
+      "rt": 70000
+     },
+     "pey": {
+      "rt": 120000
+     },
+     "biz": {
+      "rt": 180000
+     }
+    }
+   ],
+   "upgrades": [
+    {
+     "route": "亞洲線單段升等（表定）",
+     "miles": 18000
+    },
+    {
+     "route": "亞洲線單段升等（常見促銷）",
+     "miles": 12000,
+     "approx": true
+    },
+    {
+     "route": "北美線升商務（促銷起）",
+     "miles": 30000,
+     "approx": true
+    }
+   ]
+  }
+ },
+ "ci_tiers": [
+  "充足",
+  "有限",
+  "稀少/候補"
+ ],
+ "cathay": {
+  "chart": [
+   {
+    "name": "超短途",
+    "max": 750,
+    "eco": {
+     "v": 7000
+    },
+    "pey": {
+     "v": 15000,
+     "approx": true
+    },
+    "biz": {
+     "v": 22000,
+     "approx": true
+    },
+    "fst": null
+   },
+   {
+    "name": "短途",
+    "max": 2750,
+    "eco": {
+     "lo": 11000,
+     "hi": 13000
+    },
+    "pey": {
+     "v": 18000
+    },
+    "biz": {
+     "lo": 27000,
+     "hi": 33000
+    },
+    "fst": null
+   },
+   {
+    "name": "中途",
+    "max": 5000,
+    "eco": {
+     "v": 30000,
+     "approx": true
+    },
+    "pey": {
+     "v": 42000,
+     "approx": true
+    },
+    "biz": {
+     "v": 60000
+    },
+    "fst": {
+     "v": 85000,
+     "approx": true
+    }
+   },
+   {
+    "name": "長途",
+    "max": 7500,
+    "eco": {
+     "v": 35000,
+     "approx": true
+    },
+    "pey": {
+     "v": 52000
+    },
+    "biz": {
+     "v": 91000
+    },
+    "fst": {
+     "v": 125000,
+     "approx": true
+    }
+   },
+   {
+    "name": "超長途",
+    "max": null,
+    "eco": {
+     "v": 38000
+    },
+    "pey": {
+     "v": 78000
+    },
+    "biz": {
+     "v": 119000
+    },
+    "fst": {
+     "v": 145000,
+     "approx": true
+    }
+   }
+  ],
+  "airports": {
+   "台港澳": [
+    [
+     "HKG",
+     "香港",
+     22.308,
+     113.9185
+    ],
+    [
+     "TPE",
+     "台北桃園",
+     25.0777,
+     121.2325
+    ],
+    [
+     "KHH",
+     "高雄",
+     22.5771,
+     120.35
+    ]
+   ],
+   "日本": [
+    [
+     "NRT",
+     "東京成田",
+     35.772,
+     140.3929
+    ],
+    [
+     "HND",
+     "東京羽田",
+     35.5494,
+     139.7798
+    ],
+    [
+     "KIX",
+     "大阪關西",
+     34.4342,
+     135.2441
+    ],
+    [
+     "NGO",
+     "名古屋",
+     34.8584,
+     136.8049
+    ],
+    [
+     "FUK",
+     "福岡",
+     33.5859,
+     130.4508
+    ],
+    [
+     "CTS",
+     "札幌",
+     42.7752,
+     141.6923
+    ],
+    [
+     "OKA",
+     "沖繩",
+     26.1958,
+     127.6459
+    ]
+   ],
+   "韓國・中國": [
+    [
+     "ICN",
+     "首爾仁川",
+     37.4602,
+     126.4407
+    ],
+    [
+     "PUS",
+     "釜山",
+     35.1795,
+     128.9382
+    ],
+    [
+     "PVG",
+     "上海浦東",
+     31.1443,
+     121.8083
+    ],
+    [
+     "PEK",
+     "北京首都",
+     40.0799,
+     116.6031
+    ],
+    [
+     "CAN",
+     "廣州",
+     23.3924,
+     113.2988
+    ]
+   ],
+   "東南亞・南亞": [
+    [
+     "BKK",
+     "曼谷",
+     13.69,
+     100.7501
+    ],
+    [
+     "CNX",
+     "清邁",
+     18.7668,
+     98.9626
+    ],
+    [
+     "HKT",
+     "普吉島",
+     8.1132,
+     98.3169
+    ],
+    [
+     "SGN",
+     "胡志明市",
+     10.8188,
+     106.652
+    ],
+    [
+     "HAN",
+     "河內",
+     21.2212,
+     105.8072
+    ],
+    [
+     "DAD",
+     "峴港",
+     16.0439,
+     108.1994
+    ],
+    [
+     "SIN",
+     "新加坡",
+     1.3644,
+     103.9915
+    ],
+    [
+     "KUL",
+     "吉隆坡",
+     2.7456,
+     101.7099
+    ],
+    [
+     "PEN",
+     "檳城",
+     5.2971,
+     100.277
+    ],
+    [
+     "MNL",
+     "馬尼拉",
+     14.5086,
+     121.0198
+    ],
+    [
+     "CEB",
+     "宿霧",
+     10.3075,
+     123.979
+    ],
+    [
+     "CGK",
+     "雅加達",
+     -6.1256,
+     106.6559
+    ],
+    [
+     "DPS",
+     "峇里島",
+     -8.7482,
+     115.1672
+    ],
+    [
+     "DEL",
+     "德里",
+     28.5562,
+     77.1
+    ],
+    [
+     "BOM",
+     "孟買",
+     19.0896,
+     72.8656
+    ],
+    [
+     "DXB",
+     "杜拜",
+     25.2532,
+     55.3657
+    ]
+   ],
+   "紐澳": [
+    [
+     "SYD",
+     "雪梨",
+     -33.9399,
+     151.1753
+    ],
+    [
+     "MEL",
+     "墨爾本",
+     -37.669,
+     144.841
+    ],
+    [
+     "BNE",
+     "布里斯本",
+     -27.3842,
+     153.1075
+    ],
+    [
+     "PER",
+     "伯斯",
+     -31.9385,
+     115.9672
+    ],
+    [
+     "AKL",
+     "奧克蘭",
+     -37.0082,
+     174.7917
+    ]
+   ],
+   "歐洲": [
+    [
+     "LHR",
+     "倫敦",
+     51.47,
+     -0.4543
+    ],
+    [
+     "CDG",
+     "巴黎",
+     49.0097,
+     2.5479
+    ],
+    [
+     "AMS",
+     "阿姆斯特丹",
+     52.3105,
+     4.7683
+    ],
+    [
+     "FRA",
+     "法蘭克福",
+     50.0379,
+     8.5622
+    ],
+    [
+     "MXP",
+     "米蘭",
+     45.6306,
+     8.7281
+    ],
+    [
+     "MAD",
+     "馬德里",
+     40.4983,
+     -3.5676
+    ],
+    [
+     "ZRH",
+     "蘇黎世",
+     47.4647,
+     8.5492
+    ]
+   ],
+   "北美": [
+    [
+     "LAX",
+     "洛杉磯",
+     33.9416,
+     -118.4085
+    ],
+    [
+     "SFO",
+     "舊金山",
+     37.6213,
+     -122.379
+    ],
+    [
+     "SEA",
+     "西雅圖",
+     47.4502,
+     -122.3088
+    ],
+    [
+     "JFK",
+     "紐約",
+     40.6413,
+     -73.7781
+    ],
+    [
+     "BOS",
+     "波士頓",
+     42.3656,
+     -71.0096
+    ],
+    [
+     "ORD",
+     "芝加哥",
+     41.9742,
+     -87.9073
+    ],
+    [
+     "DFW",
+     "達拉斯",
+     32.8998,
+     -97.0403
+    ],
+    [
+     "YVR",
+     "溫哥華",
+     49.1947,
+     -123.1792
+    ],
+    [
+     "YYZ",
+     "多倫多",
+     43.6777,
+     -79.6248
+    ]
+   ]
+  }
+ },
+ "ana": {
+  "price": {
+   "two": {
+    "eco": 20000,
+    "biz": 40000
+   },
+   "three": {
+    "eco": 23000,
+    "biz": 43000
+   }
+  },
+  "domestic_bands": [
+   {
+    "name": "0–300 哩",
+    "max": 300,
+    "lo": "6,000",
+    "hi": "約 9,000",
+    "sure": true
+   },
+   {
+    "name": "301–800 哩",
+    "max": 800,
+    "lo": "約 7,000",
+    "hi": "約 11,000"
+   },
+   {
+    "name": "801–1,000 哩",
+    "max": 1000,
+    "lo": "約 8,000",
+    "hi": "約 12,000"
+   },
+   {
+    "name": "1,001–2,000 哩",
+    "max": 2000,
+    "lo": "約 9,500",
+    "hi": "約 13,500"
+   },
+   {
+    "name": "2,001 哩以上",
+    "max": null,
+    "lo": "約 11,000",
+    "hi": "約 15,000"
+   }
+  ]
+ },
+ "eva_zones": {
+  "names": {
+   "hkmo": "港澳",
+   "nea": "東北亞",
+   "sea": "東南亞",
+   "usw": "美洲 A 區（美西）",
+   "use": "美洲 B 區（美東/加）",
+   "eur": "歐洲"
+  },
+  "airports": {
+   "hkmo": [
+    "HKG",
+    "MFM"
+   ],
+   "nea": [
+    "NRT",
+    "HND",
+    "KIX",
+    "NGO",
+    "FUK",
+    "CTS",
+    "SDJ",
+    "OKA",
+    "ICN",
+    "PUS"
+   ],
+   "sea": [
+    "BKK",
+    "CNX",
+    "SGN",
+    "HAN",
+    "DAD",
+    "SIN",
+    "KUL",
+    "PEN",
+    "MNL",
+    "CEB",
+    "CGK",
+    "DPS"
+   ],
+   "usw": [
+    "LAX",
+    "SFO",
+    "SEA",
+    "ONT"
+   ],
+   "use": [
+    "JFK",
+    "BOS",
+    "ORD",
+    "DFW",
+    "YVR",
+    "YYZ"
+   ],
+   "eur": [
+    "LHR",
+    "CDG",
+    "AMS",
+    "FRA",
+    "MXP",
+    "MAD",
+    "ZRH"
+   ]
+  },
+  "asia_cross": {
+   "eco": 35000,
+   "biz": 50000
+  }
+ },
+ "four_leg": {
+  "BR": {
+   "name": "長榮航空",
+   "code": "BR",
+   "rule": "2023/6/1 起新制：外站四段票預設「台北 1 次停留（>24 小時）＋ 1 次轉機（<24 小時）」，要兩次停留須加價（通常仍比分開買便宜）；短程線不可中停、長程線限中停一次。票期一年。",
+   "extra": "另有「五段票」玩法可多加一腿、多玩一國。注意：哩程版外站四段票已公告 2026/8/31 停售（現金票不受影響）。",
+   "site": "https://www.evaair.com/zh-tw/index.html",
+   "siteName": "長榮官網（訂票選「多目的地」）"
+  },
+  "CI": {
+   "name": "中華航空",
+   "code": "CI",
+   "rule": "2023/4/17 起短程線除折返點 B 外，去、回程皆不可在台北停留（兩端都須 24 小時內轉機）；長程線停留規定較寬，依各票價規則。票期一年。",
+   "extra": "選「兩端皆轉機」模式最不易踩雷；要停留建議先實際查價，確認票價未被重算再開票。",
+   "site": "https://www.china-airlines.com/tw/zh",
+   "siteName": "華航官網（訂票選「多城市」）"
+  },
+  "JX": {
+   "name": "星宇航空",
+   "code": "JX",
+   "rule": "外站四段票可開（實例：約 4 萬台幣商務艙一次玩宿霧＋仙台）；但台北停留超過 24 小時時，票價與稅金常會重新計算而變貴。票期一年。",
+   "extra": "星宇特色是商務艙加價幅度相對小；想停留台灣請比較「轉機版」與「停留版」查價差異後再決定。",
+   "site": "https://www.starlux-airlines.com/zh-TW",
+   "siteName": "星宇官網（訂票選「多行程」）"
+  }
+ },
+ "compare_destinations": {
+  "港澳": [
+   [
+    "HKG",
+    "香港",
+    {
+     "ci": "asia1",
+     "br": "hkmo",
+     "jx": "asia"
+    }
+   ]
+  ],
+  "日本": [
+   [
+    "NRT",
+    "東京成田",
+    {
+     "ci": "asia3",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "HND",
+    "東京羽田",
+    {
+     "ci": "asia3",
+     "br": "nea",
+     "jx": null
+    }
+   ],
+   [
+    "KIX",
+    "大阪",
+    {
+     "ci": "asia3",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "NGO",
+    "名古屋",
+    {
+     "ci": "asia2",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "FUK",
+    "福岡",
+    {
+     "ci": "asia2",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "CTS",
+    "札幌",
+    {
+     "ci": "asia3",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "OKA",
+    "沖繩",
+    {
+     "ci": "asia2",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ]
+  ],
+  "韓國": [
+   [
+    "ICN",
+    "首爾",
+    {
+     "ci": "asia3",
+     "br": "nea",
+     "jx": null
+    }
+   ],
+   [
+    "PUS",
+    "釜山",
+    {
+     "ci": "asia2",
+     "br": "nea",
+     "jx": "asia"
+    }
+   ]
+  ],
+  "東南亞": [
+   [
+    "BKK",
+    "曼谷",
+    {
+     "ci": "asia3",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "SGN",
+    "胡志明市",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "HAN",
+    "河內",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "DAD",
+    "峴港",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "SIN",
+    "新加坡",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "KUL",
+    "吉隆坡",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "MNL",
+    "馬尼拉",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "CEB",
+    "宿霧",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "CGK",
+    "雅加達",
+    {
+     "ci": "asia2",
+     "br": "sea",
+     "jx": "asia"
+    }
+   ],
+   [
+    "DPS",
+    "峇里島",
+    {
+     "ci": "asia3",
+     "br": "sea",
+     "jx": null
+    }
+   ]
+  ],
+  "北美": [
+   [
+    "LAX",
+    "洛杉磯",
+    {
+     "ci": "na",
+     "br": "usw",
+     "jx": "na"
+    }
+   ],
+   [
+    "SFO",
+    "舊金山",
+    {
+     "ci": "na",
+     "br": "usw",
+     "jx": "na"
+    }
+   ],
+   [
+    "SEA",
+    "西雅圖",
+    {
+     "ci": null,
+     "br": "usw",
+     "jx": "na"
+    }
+   ],
+   [
+    "JFK",
+    "紐約",
+    {
+     "ci": "nyc",
+     "br": "use",
+     "jx": null
+    }
+   ],
+   [
+    "YVR",
+    "溫哥華",
+    {
+     "ci": "na",
+     "br": "use",
+     "jx": null
+    }
+   ]
+  ],
+  "歐洲": [
+   [
+    "LHR",
+    "倫敦",
+    {
+     "ci": "eu",
+     "br": "eur",
+     "jx": null
+    }
+   ],
+   [
+    "AMS",
+    "阿姆斯特丹",
+    {
+     "ci": "eu",
+     "br": "eur",
+     "jx": null
+    }
+   ],
+   [
+    "CDG",
+    "巴黎",
+    {
+     "ci": null,
+     "br": "eur",
+     "jx": null
+    }
+   ]
+  ]
+ },
+ "mile_cost_ntd": {
+  "CI": 0.35,
+  "BR": 0.35,
+  "JX": 0.4,
+  "CX": 0.35,
+  "AS": 0.65
+ },
+ "elite": {
+  "CI": {
+   "name": "華航",
+   "unit": "會籍積分",
+   "tiers": [
+    {
+     "t": "金卡",
+     "v": 360
+    },
+    {
+     "t": "翡翠卡",
+     "v": 720
+    },
+    {
+     "t": "晶鑽卡",
+     "v": 1400
+    }
+   ],
+   "note": "2025/11/27 積分新制；至少 50% 積分須來自華航／華信自營國際線。續卡（兩年）580／1,150／2,240。"
+  },
+  "BR": {
+   "name": "長榮",
+   "unit": "資格哩程",
+   "tiers": [
+    {
+     "t": "銀卡",
+     "v": 30000,
+     "extra": "＋4 段（或 26 段）"
+    },
+    {
+     "t": "金卡",
+     "v": 50000,
+     "approx": true,
+     "extra": "＋6 段（或約 50 段）"
+    },
+    {
+     "t": "鑽石卡",
+     "v": 120000,
+     "approx": true
+    }
+   ],
+   "note": "12 個月內累積；續卡以兩年計、門檻不同，以官網為準。"
+  },
+  "JX": {
+   "name": "星宇",
+   "unit": "哩程",
+   "tiers": [
+    {
+     "t": "ADVENTURER",
+     "v": 30000,
+     "extra": "或 25 段"
+    },
+    {
+     "t": "EXPLORER",
+     "v": 50000
+    },
+    {
+     "t": "INSIGHTER",
+     "v": 120000
+    }
+   ],
+   "note": "EXPLORER／INSIGHTER 須於前一等級效期內連續 12 個月達成。"
+  }
+ },
+ "programs": [
+  {
+   "id": "CI",
+   "name": "華航",
+   "sub": "華夏哩程"
+  },
+  {
+   "id": "BR",
+   "name": "長榮",
+   "sub": "無限萬哩遊"
+  },
+  {
+   "id": "JX",
+   "name": "星宇",
+   "sub": "COSMILE"
+  },
+  {
+   "id": "CX",
+   "name": "國泰",
+   "sub": "亞洲萬里通"
+  },
+  {
+   "id": "NH",
+   "name": "ANA",
+   "sub": "Mileage Club"
+  },
+  {
+   "id": "AS",
+   "name": "阿拉斯加",
+   "sub": "Mileage Plan",
+   "noExp": true
+  }
+ ]
+}
