@@ -41,6 +41,7 @@
     ],
     "scope": "asia",
     "note": "台中線 2026/3/30 開航",
+    "country_name": "日本",
     "tpe_miles": 1356,
     "rmq_miles": 1421
    },
@@ -54,6 +55,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 1058,
     "rmq_miles": null
    },
@@ -68,6 +70,7 @@
      "RMQ"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 1065,
     "rmq_miles": 1131
    },
@@ -81,6 +84,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 1149,
     "rmq_miles": null
    },
@@ -94,6 +98,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 808,
     "rmq_miles": null
    },
@@ -109,6 +114,7 @@
     ],
     "scope": "asia",
     "note": "台中線 2026/3/31 開航",
+    "country_name": "日本",
     "tpe_miles": 790,
     "rmq_miles": 857
    },
@@ -122,6 +128,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 1685,
     "rmq_miles": null
    },
@@ -135,6 +142,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 1463,
     "rmq_miles": null
    },
@@ -148,6 +156,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 1607,
     "rmq_miles": null
    },
@@ -161,6 +170,7 @@
      "RMQ"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": null,
     "rmq_miles": 1059
    },
@@ -175,6 +185,7 @@
      "RMQ"
     ],
     "scope": "asia",
+    "country_name": "日本",
     "tpe_miles": 407,
     "rmq_miles": 459
    },
@@ -190,6 +201,7 @@
     ],
     "scope": "asia",
     "seasonal": true,
+    "country_name": "日本",
     "tpe_miles": 246,
     "rmq_miles": 287
    },
@@ -205,6 +217,7 @@
     ],
     "scope": "asia",
     "note": "2026/6/1 開航",
+    "country_name": "韓國",
     "tpe_miles": 835,
     "rmq_miles": 903
    },
@@ -218,6 +231,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "香港",
     "tpe_miles": 501,
     "rmq_miles": null
    },
@@ -232,6 +246,7 @@
      "RMQ"
     ],
     "scope": "asia",
+    "country_name": "澳門",
     "tpe_miles": 524,
     "rmq_miles": 470
    },
@@ -245,6 +260,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "菲律賓",
     "tpe_miles": 730,
     "rmq_miles": null
    },
@@ -258,6 +274,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "菲律賓",
     "tpe_miles": 685,
     "rmq_miles": null
    },
@@ -271,6 +288,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "菲律賓",
     "tpe_miles": 1036,
     "rmq_miles": null
    },
@@ -284,6 +302,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "越南",
     "tpe_miles": 1015,
     "rmq_miles": null
    },
@@ -298,6 +317,7 @@
      "RMQ"
     ],
     "scope": "asia",
+    "country_name": "越南",
     "tpe_miles": 1048,
     "rmq_miles": 985
    },
@@ -311,6 +331,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "越南",
     "tpe_miles": 1372,
     "rmq_miles": null
    },
@@ -326,6 +347,7 @@
     ],
     "scope": "asia",
     "seasonal": true,
+    "country_name": "越南",
     "tpe_miles": 1529,
     "rmq_miles": 1464
    },
@@ -339,6 +361,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "泰國",
     "tpe_miles": 1546,
     "rmq_miles": null
    },
@@ -352,6 +375,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "泰國",
     "tpe_miles": 1490,
     "rmq_miles": null
    },
@@ -365,6 +389,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "新加坡",
     "tpe_miles": 2002,
     "rmq_miles": null
    },
@@ -378,6 +403,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "馬來西亞",
     "tpe_miles": 2017,
     "rmq_miles": null
    },
@@ -391,6 +417,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "馬來西亞",
     "tpe_miles": 1948,
     "rmq_miles": null
    },
@@ -404,6 +431,7 @@
      "TPE"
     ],
     "scope": "asia",
+    "country_name": "印尼",
     "tpe_miles": 2368,
     "rmq_miles": null
    },
@@ -417,6 +445,7 @@
      "TPE"
     ],
     "scope": "longhaul",
+    "country_name": "美國",
     "tpe_miles": 6787,
     "rmq_miles": null
    },
@@ -430,6 +459,7 @@
      "TPE"
     ],
     "scope": "longhaul",
+    "country_name": "美國",
     "tpe_miles": 6457,
     "rmq_miles": null
    },
@@ -443,6 +473,7 @@
      "TPE"
     ],
     "scope": "longhaul",
+    "country_name": "美國",
     "tpe_miles": 6063,
     "rmq_miles": null
    },
@@ -456,6 +487,7 @@
      "TPE"
     ],
     "scope": "longhaul",
+    "country_name": "美國",
     "tpe_miles": 6818,
     "rmq_miles": null
    },
@@ -470,6 +502,7 @@
     ],
     "scope": "longhaul",
     "note": "2026/1/15 開航",
+    "country_name": "美國",
     "tpe_miles": 7092,
     "rmq_miles": null
    },
@@ -484,6 +517,7 @@
     ],
     "scope": "longhaul",
     "note": "2026/8/1 開航",
+    "country_name": "捷克",
     "tpe_miles": 5600,
     "rmq_miles": null
    },
@@ -498,6 +532,7 @@
     ],
     "scope": "future",
     "note": "2026 年底前開航（籌備中）",
+    "country_name": "印尼",
     "tpe_miles": 2373,
     "rmq_miles": null
    }
@@ -996,7 +1031,7 @@
    },
    {
     "name": "超長途",
-    "max": null,
+    "max": 999999,
     "eco": {
      "v": 38000
     },
@@ -1380,7 +1415,7 @@
    },
    {
     "name": "2,001 哩以上",
-    "max": null,
+    "max": 999999,
     "lo": "約 11,000",
     "hi": "約 15,000"
    }

@@ -105,6 +105,17 @@ Run workflow 立即產生。Google 偶爾會暫時擋自動查詢，該格會顯
 用法：把 `llms-full.txt` 的網址丟給 ChatGPT／Claude／Perplexity，或存成知識庫檔案，
 模型即可依站上整理的哩程資料回答。頁面 `<head>` 另有 JSON-LD 與 `rel="alternate"` 指向這些檔案。
 
+## MCP Server（讓 AI 直接查詢與計算）
+
+`mcp/` 內含零依賴的 MCP server，把站上的資料**與計算邏輯**開給 Claude 等 AI 助理：
+中停組合實算、華航新舊制兌換查詢、跨計畫比價（可換算取得成本）、國泰距離計價、
+會籍差距、每日票價掃描結果等 8 個工具。
+
+- **本機 stdio**：`claude mcp add miles-toolbox -- node /路徑/as-jx/mcp/server.mjs`（免部署、免金鑰）
+- **遠端**：`cd mcp && npx wrangler deploy` 部署到 Cloudflare Workers 免費方案，得到可分享的 `/mcp` 端點
+
+資料以線上 `data.json` 為準（隨網站部署更新），離線時退回 repo 副本。詳見 [`mcp/README.md`](mcp/README.md)。
+
 ## 工具二：三大航四段票排程器
 
 規劃華航／長榮／星宇「外站出發、經台北折返」現金四段票（A→TPE→B→TPE→A）：

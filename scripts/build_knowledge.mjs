@@ -146,7 +146,7 @@ P(``);
 P(`| 距離帶 | 上限（哩） | 經濟 | 豪經 | 商務 | 頭等 |`);
 P(`|---|---|---|---|---|---|`);
 const cxc = c => !c ? '—' : (c.v != null ? `${c.approx ? '約 ' : ''}${n(c.v)}` : `${n(c.lo)}–${n(c.hi)}`);
-for (const b of D.CX_CHART) P(`| ${b.name} | ${n(b.max)} | ${cxc(b.eco)} | ${cxc(b.pey)} | ${cxc(b.biz)} | ${cxc(b.fst)} |`);
+for (const b of D.CX_CHART) P(`| ${b.name} | ${Number.isFinite(b.max) ? n(b.max) : '不限'} | ${cxc(b.eco)} | ${cxc(b.pey)} | ${cxc(b.biz)} | ${cxc(b.fst)} |`);
 P(``);
 
 /* ── ANA ── */
@@ -160,7 +160,7 @@ P(`ANA 日本國內線（依區間哩程）：`);
 P(``);
 P(`| 區間距離 | 所需哩程（單程） |`);
 P(`|---|---|`);
-for (const b of D.NH_DOM_BANDS) P(`| ≤ ${n(b.max)} 哩 | ${n(b.eco)} |`);
+for (const b of D.NH_DOM_BANDS) P(`| ${Number.isFinite(b.max) ? '≤ ' + n(b.max) + ' 哩' : '更遠'} | ${n(b.eco)} |`);
 P(``);
 
 /* ── 3. 四段票 ── */
@@ -235,11 +235,12 @@ writeFileSync('data.json', JSON.stringify({
   generated: today, site: SITE,
   note: '哩程整理值，以各航空公司官網為準',
   alaska_starlux: { price: D.PRICE, stopover_days: 14, hubs: D.HUBS,
-    airports: D.AIRPORTS.map(a => ({ ...a, tpe_miles: a.hubs?.includes('TPE') ? gc(D.HUBS.TPE, a) : null,
+    airports: D.AIRPORTS.map(a => ({ ...a, country_name: D.COUNTRY[a.country] || a.country,
+      tpe_miles: a.hubs?.includes('TPE') ? gc(D.HUBS.TPE, a) : null,
       rmq_miles: a.hubs?.includes('RMQ') ? gc(D.HUBS.RMQ, a) : null })) },
   award_charts: D.MILE_DATA, ci_tiers: D.CI_TIER_NAME,
-  cathay: { chart: D.CX_CHART, airports: D.CX_AIRPORTS },
-  ana: { price: D.NH_PRICE, domestic_bands: D.NH_DOM_BANDS },
+  cathay: { chart: D.CX_CHART.map(b => ({ ...b, max: Number.isFinite(b.max) ? b.max : 999999 })), airports: D.CX_AIRPORTS },
+  ana: { price: D.NH_PRICE, domestic_bands: D.NH_DOM_BANDS.map(b => ({ ...b, max: Number.isFinite(b.max) ? b.max : 999999 })) },
   eva_zones: { names: D.BR_ZONE_NAME, airports: D.BR_ZONE_APTS, asia_cross: D.BR_ASIA_X },
   four_leg: D.FL_AIRLINES, compare_destinations: D.CMP_DESTS,
   mile_cost_ntd: D.CMP_RATE_DEF, elite: D.ELITE, programs: D.PROGRAMS,
