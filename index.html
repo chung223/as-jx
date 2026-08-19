@@ -609,6 +609,14 @@
   .planecap b{font-weight:600; color:var(--ink)}
   .planecap span{color:var(--faint); font-size:10.5px}
   .mtcat{font-size:26px; font-weight:800; letter-spacing:1px}
+  .cibanner{margin:14px 0 4px; padding:9px 12px; border-radius:8px; font-size:12.5px; line-height:1.65;
+    background:var(--raised); border:1px solid var(--line-strong); border-left:3px solid var(--gold); color:var(--muted)}
+  .cibanner.warn{border-left-color:var(--warn)}
+  .cibanner b{color:var(--ink); font-weight:700; margin-right:5px}
+  .tierchip{display:inline-block; margin:0 3px; padding:1px 8px; border-radius:99px;
+    border:1px dashed var(--line-strong); font-size:11.5px}
+  .tierchip.on{border:1px solid var(--gold); color:var(--gold); font-weight:700}
+  .mcell em.tt{color:var(--faint); font-size:10px; letter-spacing:.02em}
   .mapui{position:absolute; top:22px; right:24px; display:flex; flex-direction:column; gap:6px; z-index:2}
   .mapbtn{
     width:30px; height:30px; cursor:pointer; font-size:15px; line-height:1;
@@ -1027,6 +1035,22 @@
           <label class="ck"><input type="checkbox" id="cmp-cost">估算哩程取得成本（NT$）</label>
         </div>
         <div id="cmp-rates" hidden></div>
+      </div>
+
+      <div id="mi-ci-fields" hidden>
+        <p class="seglabel">兌換制度</p>
+        <div class="seg" role="group" aria-label="華航兌換制度">
+          <button type="button" class="ci-era" data-era="old" aria-pressed="true">現行</button>
+          <button type="button" class="ci-era" data-era="new" aria-pressed="false">新制 9/16</button>
+        </div>
+        <div id="ci-tier-wrap" hidden>
+          <p class="seglabel">酬賓機位級別</p>
+          <div class="seg" role="group" aria-label="酬賓機位級別">
+            <button type="button" class="ci-tier" data-t="0" aria-pressed="true">充足</button>
+            <button type="button" class="ci-tier" data-t="1" aria-pressed="false">有限</button>
+            <button type="button" class="ci-tier" data-t="2" aria-pressed="false">稀少</button>
+          </div>
+        </div>
       </div>
 
       <div id="mi-cx-fields" hidden>
@@ -1784,10 +1808,38 @@ const MILE_DATA = {
   CI: {
     name:'中華航空・華夏哩程',
     site:'https://www.china-airlines.com/tw/zh', siteName:'華航官網',
-    basisNote:'官方以來回計價，單程約半價；2026/5/1 起官方微調數字，以官網為準。',
+    newFrom:'2026-09-16',
+    basisNote:'官方以來回計價，單程為來回的 50%。2026/9/16 起（以開票日為準）改為「三段式動態哩程」，依酬賓機位供需分充足／有限／稀少-候補三級。',
+    oldBasisNote:'官方以來回計價，單程約半價；此為 2026/9/15（含）前開票適用之現行標準。',
+    /* 新制：2026/9/16 起，數值取自華航官方公告 PDF（單位：來回哩程；t = [充足, 有限, 稀少/候補]） */
     zones:[
+      { key:'asia1', zone:'台灣 ⇄ 亞洲（一）', sub:'香港・廈門・福州',
+        eco:{t:[18000,19000,20000]}, pey:null, biz:{t:[50000,50000,60000]} },
+      { key:'asia2', zone:'台灣 ⇄ 亞洲（二）', sub:'東北亞・東南亞・中國大陸（不含一、三所列航點）',
+        eco:{t:[30000,32000,35000]}, pey:{t:[40000,50000,60000]}, biz:{t:[55000,70000,80000]} },
+      { key:'asia3', zone:'台灣 ⇄ 亞洲（三）', sub:'東京・大阪・札幌・首爾・曼谷・清邁・檳城・峇里島・帛琉・仰光',
+        eco:{t:[35000,38000,40000]}, pey:{t:[40000,50000,60000]}, biz:{t:[60000,75000,90000]} },
+      { key:'ocean', zone:'亞洲 ⇄ 紐澳', sub:'雪梨・墨爾本・布里斯本・奧克蘭',
+        eco:{t:[80000,90000,105000]}, pey:{t:[110000,120000,130000]}, biz:{t:[150000,170000,190000]} },
+      { key:'na', zone:'亞洲 ⇄ 北美', sub:'洛杉磯・舊金山・溫哥華…（紐約另列）',
+        eco:{t:[80000,90000,105000]}, pey:{t:[120000,135000,150000]}, biz:{t:[160000,180000,200000]} },
+      { key:'eu', zone:'亞洲 ⇄ 歐洲', sub:'倫敦・法蘭克福・阿姆斯特丹…',
+        eco:{t:[90000,105000,110000]}, pey:{t:[120000,130000,140000]}, biz:{t:[160000,190000,210000]} },
+      { key:'nyc', zone:'亞洲 ⇄ 紐約', sub:'JFK（單獨級距、高於其他北美航點）',
+        eco:{t:[90000,100000,110000]}, pey:{t:[120000,145000,160000]}, biz:{t:[160000,190000,210000]} },
+    ],
+    /* 現行：2026/9/15 前開票適用（本站整理值） */
+    oldZones:[
       { key:'asia', zone:'台灣 ⇄ 亞洲短程', sub:'日韓・港澳・東南亞', eco:{rt:35000}, pey:null, biz:{rt:60000} },
       { key:'long', zone:'台灣 ⇄ 歐美長程', sub:'北美・歐洲', eco:{rt:110000, approx:true}, pey:null, biz:{rt:160000} },
+    ],
+    /* 官方 FAQ Q8 對照（來回哩程，僅列官方明確揭露者） */
+    eraCompare:[
+      { route:'台灣往返亞洲（一）商務艙', old:60000, neo:50000 },
+      { route:'台灣往返亞洲（二）經濟艙', old:35000, neo:30000 },
+      { route:'亞洲往返北美 經濟艙', old:110000, neo:80000 },
+      { route:'亞洲往返歐洲 經濟艙', old:110000, neo:90000 },
+      { route:'亞洲往返紐澳 經濟艙', old:100000, neo:80000 },
     ],
     upgrades:[
       { route:'短程單段升商務（豪經票）', miles:8000 },
@@ -1827,7 +1879,11 @@ const MILE_DATA = {
     ],
   },
 };
-const miState = { air:'CI', trip:'rt', br:{ za:'sea', zb:'nea', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'', da:'HND', db:'CTS' } };
+const CI_NEW2OLD = { asia1:'asia', asia2:'asia', asia3:'asia', ocean:'long', na:'long', eu:'long', nyc:'long' };
+const CI_TIER_NAME = ['充足', '有限', '稀少/候補'];
+/* 新制以開票日為準：到期前預設看現行表，之後自動切新制 */
+const ciEraDefault = () => (new Date().toLocaleDateString('sv') >= MILE_DATA.CI.newFrom ? 'new' : 'old');
+const miState = { air:'CI', trip:'rt', ciEra:ciEraDefault(), ciTier:0, br:{ za:'sea', zb:'nea', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'', da:'HND', db:'CTS' } };
 
 /* 長榮效益最大化：同區最遠航點（座標即時計算）＋ 跨區經台北檢查 */
 const BR_ZONE_APTS = {
@@ -1857,6 +1913,13 @@ function miRender(){
   $id('mi-ow').setAttribute('aria-pressed', String(miState.trip === 'ow'));
   $id('mi-cx-fields').hidden = (miState.air !== 'CX');
   $id('mi-cmp-fields').hidden = (miState.air !== 'CMP');
+  const ciNew = miState.ciEra === 'new';
+  $id('mi-ci-fields').hidden = (miState.air !== 'CI');
+  $id('ci-tier-wrap').hidden = !ciNew;
+  document.querySelectorAll('.ci-era').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.era === miState.ciEra)));
+  document.querySelectorAll('.ci-tier').forEach(b =>
+    b.setAttribute('aria-pressed', String(+b.dataset.t === miState.ciTier)));
   if (miState.air === 'CX'){ cxRenderInto($id('mi-main')); return; }
   if (miState.air === 'CMP'){ cmpRenderInto($id('mi-main')); return; }
   if (miState.air === 'NH'){ nhRenderInto($id('mi-main')); return; }
@@ -1869,16 +1932,22 @@ function miRender(){
   let okCount = 0;
   const cellHtml = (label, c) => {
     if (!c) return `<div class="mcell na"><small>${label}</small><b>—</b></div>`;
-    const need = Math.round(c.rt * factor);
+    const base = c.t ? c.t[miState.ciTier] : c.rt;
+    const need = Math.round(base * factor);
     const approx = c.approx ? '約 ' : '';
-    if (!have) return `<div class="mcell"><small>${label}</small><b>${approx}${fmt(need)}</b></div>`;
+    // 三段式：主數字為選定級別，其餘兩級列於下方
+    const others = c.t ? `<em class="tt">${c.t.map((v, i) =>
+      i === miState.ciTier ? '' : `${CI_TIER_NAME[i].replace('/候補','')} ${fmt(Math.round(v * factor))}`)
+      .filter(Boolean).join('・')}</em>` : '';
+    if (!have) return `<div class="mcell"><small>${label}</small><b>${approx}${fmt(need)}</b>${others}</div>`;
     if (have >= need){ okCount++;
-      return `<div class="mcell ok"><small>${label}</small><b>${approx}${fmt(need)}</b><em>✓ 可換</em></div>`;
+      return `<div class="mcell ok"><small>${label}</small><b>${approx}${fmt(need)}</b><em>✓ 可換</em>${others}</div>`;
     }
-    return `<div class="mcell no"><small>${label}</small><b>${approx}${fmt(need)}</b><em>差 ${fmt(need - have)}</em></div>`;
+    return `<div class="mcell no"><small>${label}</small><b>${approx}${fmt(need)}</b><em>差 ${fmt(need - have)}</em>${others}</div>`;
   };
 
-  const rows = d.zones.map(z => `<div class="mrow">
+  const zonesNow = (miState.air === 'CI' && !ciNew) ? d.oldZones : d.zones;
+  const rows = zonesNow.map(z => `<div class="mrow">
     <div class="mzone"><b>${z.zone}</b><small>${z.sub}</small></div>
     ${cellHtml('經濟', z.eco)}${cellHtml('豪經', z.pey)}${cellHtml('商務', z.biz)}
   </div>`).join('');
@@ -1946,14 +2015,41 @@ function miRender(){
       經典案例：新加坡-台北-東京商務（舊 25,000 單程）已遭新制封殺，<b>經濟艙跨區仍多數可行</b>。</p>
     </div>`;
   }
+  let ciExtra = '', ciBanner = '';
+  if (miState.air === 'CI'){
+    const f = miState.trip === 'rt' ? 1 : 0.5;
+    const days = Math.ceil((new Date(d.newFrom + 'T00:00:00') - new Date().setHours(0,0,0,0)) / 86400000);
+    ciBanner = ciNew
+      ? `<div class="cibanner"><b>新制</b>2026/9/16 起（以<b>開票日</b>為準）依機位供需分三級：
+         ${CI_TIER_NAME.map((n, i) => `<span class="tierchip${i === miState.ciTier ? ' on' : ''}">${n}</span>`).join('')}
+         目前顯示「${CI_TIER_NAME[miState.ciTier]}」級距。</div>`
+      : `<div class="cibanner warn"><b>提醒</b>華航 2026/9/16 起改三段式動態哩程${days > 0 ? `（還有 ${days} 天）` : ''}，
+         此表為現行標準（9/15 前開票適用）。切上方「新制 9/16」看新表與差異。</div>`;
+    const cmpRows = d.eraCompare.map(x => {
+      const o = Math.round(x.old * f), n = Math.round(x.neo * f), diff = n - o;
+      return `<div class="mtrow"><span>${x.route}</span>
+        <b>${fmt(o)} → <span style="color:${diff < 0 ? 'var(--pass)' : 'var(--warn)'}">${fmt(n)}</span>
+        <small style="color:var(--faint)">${diff < 0 ? '↓' : '↑'}${fmt(Math.abs(diff))}</small></b></div>`;
+    }).join('');
+    ciExtra = `
+    <div class="card reveal" style="margin-top:18px">
+      <h3>新舊對照（官方揭露值・${tripLabel}）</h3>
+      ${cmpRows}
+      <p class="mnote">以上為華航公告 FAQ 明列之「原標準 → 新制<b>充足</b>」對照：機位充足時多數航線<b>更便宜</b>，
+      但「有限／稀少」級距最高可較充足貴 3 成以上（例：亞洲往返歐洲商務 160,000 → 210,000）。
+      分公司代辦一律以「稀少/候補」計價，官網自助才看得到充足價。</p>
+    </div>`;
+  }
   $id('mi-main').innerHTML = `
     <div class="msum reveal">
       <h2>${d.name}</h2>
       <span class="counts">${have ? `${fmt(have)} 哩・${tripLabel}可換 <b>${okCount}</b> 格` : `${tripLabel}所需哩程`}</span>
     </div>
+    ${ciBanner}
     <div class="mhead"><span>區域</span><span>經濟</span><span>豪經</span><span>商務</span></div>
     <div class="mrows reveal">${rows}</div>
-    <p class="mnote">${d.basisNote}</p>
+    <p class="mnote">${miState.air === 'CI' && !ciNew ? d.oldBasisNote : d.basisNote}</p>
+    ${ciExtra}
     <div class="card reveal" style="margin-top:18px">
       <h3>哩程升等（單一航段）</h3>
       <ul class="uplist">${ups}</ul>
@@ -1975,6 +2071,10 @@ function miInit(){
   $id('mi-rt').addEventListener('click', () => { miState.trip = 'rt'; miRender(); });
   $id('mi-ow').addEventListener('click', () => { miState.trip = 'ow'; miRender(); });
   $id('mi-have').addEventListener('input', miRender);
+  document.querySelectorAll('.ci-era').forEach(b =>
+    b.addEventListener('click', () => { miState.ciEra = b.dataset.era; miRender(); }));
+  document.querySelectorAll('.ci-tier').forEach(b =>
+    b.addEventListener('click', () => { miState.ciTier = +b.dataset.t; miRender(); }));
   $id('mi-main').addEventListener('change', e => {
     const el = e.target;
     if (el.id === 'br-za'){ miState.br.za = el.value; miRender(); }
@@ -2396,42 +2496,42 @@ function nhDomHtml(s){
 /* ═════════════════════ 跨計畫比價 ═════════════════════
    同一目的地比較五個計畫所需哩程；zone key 對應 MILE_DATA。 */
 const CMP_DESTS = {
-  '港澳': [ ['HKG','香港',{ci:'asia',br:'hkmo',jx:'asia'}] ],
+  '港澳': [ ['HKG','香港',{ci:'asia1',br:'hkmo',jx:'asia'}] ],
   '日本': [
-    ['NRT','東京成田',{ci:'asia',br:'nea',jx:'asia'}],
-    ['HND','東京羽田',{ci:'asia',br:'nea',jx:null}],
-    ['KIX','大阪',{ci:'asia',br:'nea',jx:'asia'}],
-    ['NGO','名古屋',{ci:'asia',br:'nea',jx:'asia'}],
-    ['FUK','福岡',{ci:'asia',br:'nea',jx:'asia'}],
-    ['CTS','札幌',{ci:'asia',br:'nea',jx:'asia'}],
-    ['OKA','沖繩',{ci:'asia',br:'nea',jx:'asia'}],
+    ['NRT','東京成田',{ci:'asia3',br:'nea',jx:'asia'}],
+    ['HND','東京羽田',{ci:'asia3',br:'nea',jx:null}],
+    ['KIX','大阪',{ci:'asia3',br:'nea',jx:'asia'}],
+    ['NGO','名古屋',{ci:'asia2',br:'nea',jx:'asia'}],
+    ['FUK','福岡',{ci:'asia2',br:'nea',jx:'asia'}],
+    ['CTS','札幌',{ci:'asia3',br:'nea',jx:'asia'}],
+    ['OKA','沖繩',{ci:'asia2',br:'nea',jx:'asia'}],
   ],
   '韓國': [
-    ['ICN','首爾',{ci:'asia',br:'nea',jx:null}],
-    ['PUS','釜山',{ci:'asia',br:'nea',jx:'asia'}],
+    ['ICN','首爾',{ci:'asia3',br:'nea',jx:null}],
+    ['PUS','釜山',{ci:'asia2',br:'nea',jx:'asia'}],
   ],
   '東南亞': [
-    ['BKK','曼谷',{ci:'asia',br:'sea',jx:'asia'}],
-    ['SGN','胡志明市',{ci:'asia',br:'sea',jx:'asia'}],
-    ['HAN','河內',{ci:'asia',br:'sea',jx:'asia'}],
-    ['DAD','峴港',{ci:'asia',br:'sea',jx:'asia'}],
-    ['SIN','新加坡',{ci:'asia',br:'sea',jx:'asia'}],
-    ['KUL','吉隆坡',{ci:'asia',br:'sea',jx:'asia'}],
-    ['MNL','馬尼拉',{ci:'asia',br:'sea',jx:'asia'}],
-    ['CEB','宿霧',{ci:'asia',br:'sea',jx:'asia'}],
-    ['CGK','雅加達',{ci:'asia',br:'sea',jx:'asia'}],
-    ['DPS','峇里島',{ci:'asia',br:'sea',jx:null}],
+    ['BKK','曼谷',{ci:'asia3',br:'sea',jx:'asia'}],
+    ['SGN','胡志明市',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['HAN','河內',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['DAD','峴港',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['SIN','新加坡',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['KUL','吉隆坡',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['MNL','馬尼拉',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['CEB','宿霧',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['CGK','雅加達',{ci:'asia2',br:'sea',jx:'asia'}],
+    ['DPS','峇里島',{ci:'asia3',br:'sea',jx:null}],
   ],
   '北美': [
-    ['LAX','洛杉磯',{ci:'long',br:'usw',jx:'na'}],
-    ['SFO','舊金山',{ci:'long',br:'usw',jx:'na'}],
+    ['LAX','洛杉磯',{ci:'na',br:'usw',jx:'na'}],
+    ['SFO','舊金山',{ci:'na',br:'usw',jx:'na'}],
     ['SEA','西雅圖',{ci:null,br:'usw',jx:'na'}],
-    ['JFK','紐約',{ci:'long',br:'use',jx:null}],
-    ['YVR','溫哥華',{ci:'long',br:'use',jx:null}],
+    ['JFK','紐約',{ci:'nyc',br:'use',jx:null}],
+    ['YVR','溫哥華',{ci:'na',br:'use',jx:null}],
   ],
   '歐洲': [
-    ['LHR','倫敦',{ci:'long',br:'eur',jx:null}],
-    ['AMS','阿姆斯特丹',{ci:'long',br:'eur',jx:null}],
+    ['LHR','倫敦',{ci:'eu',br:'eur',jx:null}],
+    ['AMS','阿姆斯特丹',{ci:'eu',br:'eur',jx:null}],
     ['CDG','巴黎',{ci:null,br:'eur',jx:null}],
   ],
 };
@@ -2459,10 +2559,17 @@ function cmpRenderInto(main){
   const have = parseInt($id('mi-have').value, 10) || 0;
   const zf = miState.trip === 'rt' ? 1 : 0.5;
   const xf = miState.trip === 'rt' ? 2 : 1;
-  const norm = (cell, mult) => cell ? { lo:Math.round((cell.lo ?? cell.v ?? cell.rt) * mult), hi:Math.round((cell.hi ?? cell.v ?? cell.rt) * mult), approx:!!cell.approx } : null;
+  const norm = (cell, mult) => cell ? {
+    lo:Math.round((cell.t ? cell.t[0] : (cell.lo ?? cell.v ?? cell.rt)) * mult),
+    hi:Math.round((cell.t ? cell.t[2] : (cell.hi ?? cell.v ?? cell.rt)) * mult),
+    approx:!!cell.approx, dyn:!!cell.t } : null;
+  const ciOld = miState.ciEra === 'old';
   const zone = (air, key) => {
     if (!key) return null;
-    const z = MILE_DATA[air].zones.find(z => z.key === key);
+    let list = MILE_DATA[air].zones, k = key;
+    // 華航「現行」模式改查舊表，並把新制分區代碼映射回舊分區
+    if (air === 'CI' && ciOld){ list = MILE_DATA.CI.oldZones; k = CI_NEW2OLD[key] || key; }
+    const z = list.find(z => z.key === k);
     return z ? { eco:norm(z.eco, zf), pey:norm(z.pey, zf), biz:norm(z.biz, zf) } : null;
   };
   const cxDist = c === 'HKG' ? gcMiles(HUBS.TPE, coord)
@@ -2475,7 +2582,7 @@ function cmpRenderInto(main){
     asCells = { eco:{ lo:p.eco*xf, hi:p.eco*xf }, pey:null, biz:{ lo:p.biz*xf, hi:p.biz*xf } };
   }
   const rows = [
-    { id:'CI', name:'華航', sub:'華夏哩程', cells: zone('CI', av.ci) },
+    { id:'CI', name:'華航', sub:ciOld ? '華夏哩程・現行標準' : '華夏哩程・新制動態（充足–稀少）', cells: zone('CI', av.ci) },
     { id:'BR', name:'長榮', sub:'無限萬哩遊', cells: zone('BR', av.br) },
     { id:'JX', name:'星宇', sub:'COSMILE', cells: zone('JX', av.jx) },
     { id:'CX', name:'國泰', sub:`亞洲萬里通・經香港（共 ${fmt(cxDist)} 哩・${band.name}）`, cells:{ eco:norm(band.eco, xf), pey:norm(band.pey, xf), biz:norm(band.biz, xf) } },
@@ -2512,7 +2619,10 @@ function cmpRenderInto(main){
       <div class="mzone"><b>${r.name}</b><small>${r.cells ? r.sub : '未飛航／不適用'}</small></div>
       ${cellHtml(r,'eco','經濟')}${cellHtml(r,'pey','豪經')}${cellHtml(r,'biz','商務')}
     </div>`).join('')}</div>
-    <p class="mnote">— ＝ 未飛航或不適用。華航／長榮以來回表、星宇以單程表換算；國泰自台灣出發須經香港轉機、按總距離計價；「阿拉斯加 × 星宇」為以 AS 哩程兌換星宇航班（限亞洲區、需另持 AS 哩程）。${costMode ? '「最省」以取得成本（哩程 × 你設定的每哩成本）判定，成本不含稅金與燃油。' : '「最省」以哩程數判定 — 注意各家哩程取得成本不同，可勾選「估算取得成本」以台幣比較。'}標「約」與區間為整理值，一律以官網為準。</p>`;
+    <p class="mnote">— ＝ 未飛航或不適用。${ciOld
+      ? '華航目前顯示<b>現行標準</b>（2026/9/15 前開票）；切到「華航」分頁可改看 9/16 新制。'
+      : '華航為 2026/9/16 新制<b>動態三段</b>，區間即「充足–稀少/候補」，「最省」以充足值判定（實際依訂位當下機位供需）。'}
+    華航／長榮以來回表、星宇以單程表換算；國泰自台灣出發須經香港轉機、按總距離計價；「阿拉斯加 × 星宇」為以 AS 哩程兌換星宇航班（限亞洲區、需另持 AS 哩程）。${costMode ? '「最省」以取得成本（哩程 × 你設定的每哩成本）判定，成本不含稅金與燃油。' : '「最省」以哩程數判定 — 注意各家哩程取得成本不同，可勾選「估算取得成本」以台幣比較。'}標「約」與區間為整理值，一律以官網為準。</p>`;
 }
 function cmpBuildSelect(){
   $id('cmp-dest').innerHTML = Object.entries(CMP_DESTS).map(([g, list]) =>
@@ -2646,7 +2756,10 @@ function goalPresets(){
     const an = { CI:'華航', BR:'長榮', JX:'星宇' }[air];
     for (const z of d.zones) for (const [cab, cn] of [['eco','經濟'],['pey','豪經'],['biz','商務']]){
       if (!z[cab]) continue;
-      out.push([`${air}|${z.key}|${cab}`, `${an}｜${z.zone.replace('台灣 ⇄ ','')}｜${cn} 來回 ${fmt(z[cab].rt)}`, z[cab].rt, air]);
+      // 華航新制為三段式，目標以「充足」級距計（最低門檻）
+      const v = z[cab].t ? z[cab].t[0] : z[cab].rt;
+      const tag = z[cab].t ? '（充足）' : '';
+      out.push([`${air}|${z.key}|${cab}`, `${an}｜${z.zone.replace('台灣 ⇄ ','')}｜${cn} 來回 ${fmt(v)}${tag}`, v, air]);
     }
   }
   out.push(['AS|s|eco', '阿拉斯加×星宇｜亞洲 ≤1,500 哩｜經濟單程 7,500', 7500, 'AS']);
@@ -2733,6 +2846,8 @@ function syncHash(){
       if ($id('mi-have').value) p.set('mh', $id('mi-have').value);
       if (miState.air === 'CX'){ p.set('cf', $id('cx-from').value); p.set('cg', $id('cx-to').value); }
       if (miState.air === 'CMP') p.set('cd', $id('cmp-dest').value);
+      if (miState.ciEra !== ciEraDefault()) p.set('ce', miState.ciEra);
+      if (miState.ciTier) p.set('ct', String(miState.ciTier));
     }
     const h = p.toString();
     history.replaceState(null, '', h ? '#' + h : location.pathname + location.search);
@@ -2767,6 +2882,8 @@ function applyHash(){
   if (MILE_DATA[p.get('ma')] || ['CX','CMP','NH'].includes(p.get('ma'))) miState.air = p.get('ma');
   if (p.get('cd') && [...$id('cmp-dest').options].some(o => o.value === p.get('cd'))) $id('cmp-dest').value = p.get('cd');
   if (['rt','ow'].includes(p.get('mt'))) miState.trip = p.get('mt');
+  if (['old','new'].includes(p.get('ce'))) miState.ciEra = p.get('ce');
+  if (['0','1','2'].includes(p.get('ct'))) miState.ciTier = +p.get('ct');
   if (p.get('mh')) $id('mi-have').value = p.get('mh');
   if (cxByCode[p.get('cf')]) $id('cx-from').value = p.get('cf');
   if (cxByCode[p.get('cg')]) $id('cx-to').value = p.get('cg');
