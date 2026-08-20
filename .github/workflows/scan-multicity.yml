@@ -1,0 +1,47 @@
+name: Scan multi-city fares
+
+on:
+  workflow_dispatch:
+    inputs:
+      days_ahead:
+        description: '出發日為幾天後（預設 45）'
+        required: false
+        default: '45'
+
+permissions:
+  contents: write
+
+# 與拆票掃描共用群組：兩者都在打 Google，不要同時跑
+concurrency:
+  group: scan-fares
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm i -D playwright && npx playwright install --with-deps chromium
+      - name: Scan multi-city
+        env:
+          DAYS_AHEAD: ${{ inputs.days_ahead }}
+        run: node scripts/scan_multicity.mjs
+      - name: Commit results
+        run: |
+          if git diff --quiet multicity.json 2>/dev/null; then
+            echo "無變化"
+          else
+            git config user.name "fares-scanner"
+            git config user.email "github-actions@users.noreply.github.com"
+            git add multicity.json
+            git commit -m "chore: 更新單一 PNR 多城市實價"
+            for i in 1 2 3; do
+              git push && break
+              git fetch origin main && git rebase origin/main || exit 1
+            done
+          fi

@@ -125,12 +125,14 @@
     "lat": 42.7752,
     "lon": 141.6923,
     "hubs": [
-     "TPE"
+     "TPE",
+     "RMQ"
     ],
     "scope": "asia",
+    "note": "台中線 2026/10/2 開航",
     "country_name": "日本",
     "tpe_miles": 1685,
-    "rmq_miles": null
+    "rmq_miles": 1753
    },
    {
     "code": "SDJ",
