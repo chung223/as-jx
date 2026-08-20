@@ -68,15 +68,23 @@ npx wrangler login     # 開瀏覽器授權（第一次）
 npx wrangler deploy
 ```
 
-### 部署後
+### 已部署的端點
 
-會拿到 `https://miles-toolbox-mcp.<你的子網域>.workers.dev`，
+```
+https://miles-toolbox-mcp.da70168.workers.dev/mcp
+```
+
 MCP 端點是 **`/mcp`**（根目錄只回伺服器資訊，方便確認活著）。
 在支援遠端 MCP 的用戶端加入該網址即可（傳輸：Streamable HTTP）。
 
+**Claude Code**
+```bash
+claude mcp add --transport http miles-toolbox https://miles-toolbox-mcp.da70168.workers.dev/mcp
+```
+
 ```bash
 # 手動確認
-curl -X POST https://<你的網址>/mcp -H 'content-type: application/json' \
+curl -X POST https://miles-toolbox-mcp.da70168.workers.dev/mcp -H 'content-type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 

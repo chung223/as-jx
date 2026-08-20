@@ -112,7 +112,9 @@ Run workflow 立即產生。Google 偶爾會暫時擋自動查詢，該格會顯
 會籍差距、每日票價掃描結果等 8 個工具。
 
 - **本機 stdio**：`claude mcp add miles-toolbox -- node /路徑/as-jx/mcp/server.mjs`（免部署、免金鑰）
-- **遠端**：`cd mcp && npx wrangler deploy` 部署到 Cloudflare Workers 免費方案，得到可分享的 `/mcp` 端點
+- **遠端**（已上線）：`https://miles-toolbox-mcp.da70168.workers.dev/mcp`
+  — Claude Code 加入方式：`claude mcp add --transport http miles-toolbox https://miles-toolbox-mcp.da70168.workers.dev/mcp`
+  。程式碼變更時由 `.github/workflows/mcp-deploy.yml` 自動重新部署
 
 資料以線上 `data.json` 為準（隨網站部署更新），離線時退回 repo 副本。詳見 [`mcp/README.md`](mcp/README.md)。
 
