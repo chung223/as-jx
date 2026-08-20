@@ -42,17 +42,43 @@ claude mcp add miles-toolbox -- node /絕對路徑/as-jx/mcp/server.mjs
 
 ## 用法 B：遠端 Worker（可分享給別人用）
 
-Cloudflare Workers 免費方案即可（每日 10 萬次請求）。
+Cloudflare Workers 免費方案即可（每日 10 萬次請求）。兩種部署方式擇一。
+
+### B-1：用 GitHub Actions 部署（不必在本機裝東西）
+
+1. 到 [Cloudflare 儀表板](https://dash.cloudflare.com) 註冊／登入（免費）
+2. 右上角頭像 →「My Profile」→「API Tokens」→「Create Token」
+   → 選範本 **Edit Cloudflare Workers** → 帳號選自己的 → 建立後複製那串 token（只顯示一次）
+3. 回儀表板「Workers & Pages」，右側可看到 **Account ID**，複製起來
+4. 到本 repo 的 Settings → Secrets and variables → **Actions** → New repository secret，新增兩筆：
+   - `CLOUDFLARE_API_TOKEN`＝第 2 步的 token
+   - `CLOUDFLARE_ACCOUNT_ID`＝第 3 步的 Account ID
+5. Actions 分頁 →「Deploy MCP worker」→ **Run workflow**
+
+跑完會在摘要看到「MCP server 上線，回報 8 個工具 — 端點 https://….workers.dev/mcp」。
+之後只要 `mcp/` 有變更就會自動重新部署；沒設金鑰時會安靜跳過，不會寄失敗信。
+
+### B-2：本機 wrangler
+
+需要 Node 18+ 並先 clone 本 repo。
 
 ```bash
-npm i -g wrangler          # 或用 npx
-cd mcp && npx wrangler deploy
+cd mcp
+npx wrangler login     # 開瀏覽器授權（第一次）
+npx wrangler deploy
 ```
 
-部署後會拿到 `https://miles-toolbox-mcp.<你的帳號>.workers.dev`，
-在支援遠端 MCP 的用戶端加入 `https://.../mcp` 即可（傳輸方式：Streamable HTTP）。
+### 部署後
 
-`GET /` 會回傳伺服器資訊，方便確認部署成功。
+會拿到 `https://miles-toolbox-mcp.<你的子網域>.workers.dev`，
+MCP 端點是 **`/mcp`**（根目錄只回伺服器資訊，方便確認活著）。
+在支援遠端 MCP 的用戶端加入該網址即可（傳輸：Streamable HTTP）。
+
+```bash
+# 手動確認
+curl -X POST https://<你的網址>/mcp -H 'content-type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
 
 ## 測試
 

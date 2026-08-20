@@ -1,0 +1,50 @@
+name: Deploy MCP worker
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['mcp/**']
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # 尚未設定金鑰時溫和跳過：避免每次動到 mcp/ 就寄一封失敗信
+      - name: 檢查 Cloudflare 金鑰
+        id: guard
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then echo "ok=1" >> "$GITHUB_OUTPUT"; else
+            echo "::warning::尚未設定 CLOUDFLARE_API_TOKEN，跳過部署（見 mcp/README.md）"
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+          fi
+      - name: 部署到 Cloudflare Workers
+        id: dep
+        if: steps.guard.outputs.ok == '1'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: mcp
+      # 部署完直接打一次 MCP 協定，確認端點真的活著
+      - name: 驗證端點
+        if: steps.guard.outputs.ok == '1'
+        run: |
+          URL="${{ steps.dep.outputs.deployment-url }}"
+          [ -z "$URL" ] && URL="https://miles-toolbox-mcp.${{ secrets.CLOUDFLARE_SUBDOMAIN }}.workers.dev"
+          echo "端點：$URL/mcp"
+          sleep 5
+          n=$(curl -s -m 20 -X POST "$URL/mcp" -H 'content-type: application/json' \
+                -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' \
+              | python3 -c 'import json,sys; print(len(json.load(sys.stdin)["result"]["tools"]))' 2>/dev/null || echo 0)
+          if [ "$n" -gt 0 ]; then
+            echo "::notice::MCP server 上線，回報 $n 個工具 — 端點 $URL/mcp"
+          else
+            echo "::error::端點無回應，請檢查 wrangler 輸出"; exit 1
+          fi
