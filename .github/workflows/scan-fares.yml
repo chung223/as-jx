@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 21 * * *'   # 每天 05:00 台北時間
   workflow_dispatch:
+    inputs:
+      days_ahead:
+        description: '出發日為幾天後（規劃實際行程時可改，預設 60）'
+        required: false
+        default: '60'
 
 permissions:
   contents: write
@@ -29,6 +34,8 @@ jobs:
       - name: Install fast-flights
         run: pip install fast-flights typing_extensions
       - name: Run scanner
+        env:
+          DAYS_AHEAD: ${{ inputs.days_ahead }}
         run: python scripts/scan_fares.py
       - name: Commit results
         id: commit

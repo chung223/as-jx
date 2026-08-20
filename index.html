@@ -2190,7 +2190,7 @@ async function flScanLoad(){
       <div class="mhead"><span>組合</span><span>雙來回組合</span><span>直飛來回</span><span>加購成本</span></div>
       <div class="mrows">${rows || '<p class="mnote">本次掃描沒有取得可用報價（Google 可能暫時擋爬，隔日排程會再試）。</p>'}</div>
       <p class="mnote">掃描時間 ${j.scanned_at.slice(0, 16).replace('T', ' ')} UTC・
-      日期樣板：外站出發 +60 天、B 停 7 天、台灣停 30 天${failed ? `・${failed} 組全數無報價` : ''}。
+      日期樣板：外站出發 +${j.days_ahead || 60} 天、B 停 7 天、台灣停 30 天${failed ? `・${failed} 組全數無報價` : ''}。
       鎖定<b>同一航司</b>（星宇／長榮／華航）比較：該航司的 A⇄TPE＋TPE⇄B 兩張來回 vs 自家台北直飛來回 —
       外站開票的紅利本來就來自同航司的外站計價，廉航混搭不採計。每列顯示加購成本最低的一家，其餘家列於右側。
       組合 ≤ 直飛 130% 標甜；單一 PNR 多城市開票常更低，可用上方一鍵連結至 Google Flights 複查。價格隨時變動，以官網為準。</p>

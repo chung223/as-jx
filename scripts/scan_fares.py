@@ -5,6 +5,7 @@
 # 來回查無時退為兩張單程相加（一樣可照訂）。
 import datetime
 import json
+import os
 import re
 import time
 
@@ -115,16 +116,20 @@ def q_rt(a, b, d_out, d_back, seat, al, expect):
     return {"price": total, "raw": f"NT${total:,.0f}（單程相加）", "airline": names, "basis": "ow-sum"}
 
 
-base = datetime.date.today() + datetime.timedelta(days=60)
+# 出發日可由工作流輸入覆寫（規劃實際行程時用），預設 60 天後
+AHEAD = int(os.environ.get("DAYS_AHEAD") or 60)
+base = datetime.date.today() + datetime.timedelta(days=AHEAD)
 D = {k: (base + datetime.timedelta(days=n)).isoformat() for k, n in
      {"d1": 0, "d2": 1, "d3": 8, "d4": 38}.items()}
-ORIGINS = [("BKK", "曼谷"), ("SGN", "胡志明市"), ("CGK", "雅加達")]
+ORIGINS = [("BKK", "曼谷"), ("SGN", "胡志明市"), ("CGK", "雅加達"),
+           ("HKG", "香港"), ("MFM", "澳門")]
 TURNS = [("NRT", "東京成田"), ("KIX", "大阪關西")]
 CABINS = [("economy", "ECONOMY"), ("business", "BUSINESS")]
 AIRLINES = [("JX", "星宇", "星宇"), ("BR", "長榮", "長榮"), ("CI", "華航", "中華")]
 
 now_iso = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
-out = {"scanned_at": now_iso, "env": "google-flights", "mode": "same-airline", "dates": D, "results": []}
+out = {"scanned_at": now_iso, "env": "google-flights", "mode": "same-airline",
+       "days_ahead": AHEAD, "dates": D, "results": []}
 
 benches = {}   # (b, cab, al) → 該航司 TPE⇄B 來回（直飛基準）
 for b, bn in TURNS:
