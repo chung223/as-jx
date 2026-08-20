@@ -1,0 +1,29 @@
+name: Probe MCP endpoint
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          U="https://miles-toolbox-mcp.da70168.workers.dev"
+          echo "===== GET / （伺服器資訊）"
+          curl -s -m 20 "$U/" ; echo
+          echo "===== initialize"
+          curl -s -m 20 -X POST "$U/mcp" -H 'content-type: application/json' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"probe","version":"1"}}}' ; echo
+          echo "===== tools/list（只印名稱）"
+          curl -s -m 20 -X POST "$U/mcp" -H 'content-type: application/json' \
+            -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); print(len(d["result"]["tools"]), "個：", ", ".join(t["name"] for t in d["result"]["tools"]))'
+          echo "===== tools/call：香港中停組合（實算）"
+          curl -s -m 30 -X POST "$U/mcp" -H 'content-type: application/json' \
+            -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"stopover_combos","arguments":{"origin":"HKG"}}}' \
+            | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"]["content"][0]["text"][:700])'
+          echo "===== tools/call：華航新制飛紐約"
+          curl -s -m 30 -X POST "$U/mcp" -H 'content-type: application/json' \
+            -d '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"award_price","arguments":{"program":"CI","destination":"JFK"}}}' \
+            | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"]["content"][0]["text"][:500])'
+          echo "===== tools/call：每日票價掃描（驗證能抓線上 fares.json）"
+          curl -s -m 30 -X POST "$U/mcp" -H 'content-type: application/json' \
+            -d '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"latest_fare_scan","arguments":{"cabin":"BUSINESS"}}}' \
+            | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"]["content"][0]["text"][:400])'
