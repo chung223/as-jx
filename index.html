@@ -335,6 +335,16 @@
   td.na{color:var(--faint)}
   tr.inactive td{color:var(--faint)}
   .legendnote{color:var(--faint); font-size:12px; margin-top:10px}
+  /* 尚未開航的據點：表頭與中停區塊都標一行，避免看成既有航線 */
+  .thnote{display:block; font-weight:400; font-size:11px; color:var(--faint); letter-spacing:0}
+  .hubplan{font-size:12px; color:var(--faint); border:1px dashed var(--line);
+    border-radius:999px; padding:2px 8px; margin-left:8px}
+  .planbox{margin-top:14px; padding:12px 14px; border:1px dashed var(--line); border-radius:10px}
+  .planhead{margin:0 0 8px; font-weight:600; font-size:14px}
+  .planlist{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .planlist li{display:flex; flex-wrap:wrap; gap:4px 14px; align-items:baseline; font-size:13px}
+  .planlist li span{color:var(--faint); font-variant-numeric:tabular-nums}
+  .planfoot{margin:10px 0 0; color:var(--faint); font-size:12px}
 
   .disclaimer{
     margin-top:26px; color:var(--faint); font-size:12px; line-height:1.9;
@@ -934,13 +944,11 @@
     <div class="card tablecard">
       <h3>星宇航點距離總表（2026/07）</h3>
       <div class="tscroll"><table id="dtable">
-        <thead><tr>
-          <th>航點</th><th>國家／地區</th>
-          <th class="num">距台北 TPE（哩）</th><th class="num">距台中 RMQ（哩）</th><th>備註</th>
-        </tr></thead>
+        <thead><tr id="dthead"></tr></thead>
         <tbody></tbody>
       </table></div>
-      <p class="legendnote">— 為未飛航。北美、歐洲另計價不參與配對；高雄 KHH 航線未定案暫未納入。</p>
+      <p class="legendnote">— 為未飛航。北美、歐洲另計價不參與配對。高雄 KHH 為星宇第 3 據點（南部辦公室／櫃台／貴賓室 2026 Q2 完成）；首波神戶、沖繩兩線傳 2027/1/1 開航，星宇尚未官宣。兩點同屬日本，暫無法組成跨國中停配對。</p>
+      <div id="planroutes"></div>
     </div>
   </div>
   </section><!-- /view-calc -->
@@ -1241,15 +1249,23 @@
    note / seasonal / since: 顯示於標籤
    scope: 'asia' 參與配對；'longhaul' 僅列於距離表 */
 const HUBS = {
-  TPE: { code:'TPE', name:'台北桃園', lat:25.0777, lon:121.2325 },
-  RMQ: { code:'RMQ', name:'台中',     lat:24.2647, lon:120.6206 },
+  TPE: { code:'TPE', name:'台北桃園', short:'台北', lat:25.0777, lon:121.2325 },
+  RMQ: { code:'RMQ', name:'台中',     short:'台中', lat:24.2647, lon:120.6206 },
+  // 第 3 據點：南部辦公室／櫃台／貴賓室 2026 Q2 完成，首波航線傳 2027/1/1
+  // 開航（神戶、沖繩）。星宇尚未官方公布，故標為 planned。
+  KHH: { code:'KHH', name:'高雄',     short:'高雄', lat:22.5771, lon:120.3500, planned:'2027/1 起',
+    // 首波班表出自立委許智傑披露的時刻，星宇官方尚未發布，開賣後以官網為準
+    plannedRoutes:[
+      { to:'UKB', name:'神戶',     out:'KHH 08:25 → UKB 12:15', back:'UKB 13:15 → KHH 16:00', freq:'每日 1 班' },
+      { to:'OKA', name:'沖繩那霸', out:'KHH 17:15 → OKA 20:00', back:'OKA 21:00 → KHH 22:05', freq:'每日 1 班' },
+    ] },
 };
 
 const AIRPORTS = [
   // 日本
   { code:'NRT', city:'東京成田',       country:'JP', lat:35.7720, lon:140.3929, hubs:['TPE','RMQ'], scope:'asia', note:'台中線 2026/3/30 開航' },
   { code:'KIX', city:'大阪關西',       country:'JP', lat:34.4342, lon:135.2441, hubs:['TPE'],       scope:'asia' },
-  { code:'UKB', city:'神戶',           country:'JP', lat:34.6328, lon:135.2239, hubs:['TPE','RMQ'], scope:'asia' },
+  { code:'UKB', city:'神戶',           country:'JP', lat:34.6328, lon:135.2239, hubs:['TPE','RMQ','KHH'], scope:'asia', note:'高雄線 2027/1/1 開航（傳，未官宣）' },
   { code:'NGO', city:'名古屋',         country:'JP', lat:34.8584, lon:136.8049, hubs:['TPE'],       scope:'asia' },
   { code:'FUK', city:'福岡',           country:'JP', lat:33.5859, lon:130.4508, hubs:['TPE'],       scope:'asia' },
   { code:'KMJ', city:'熊本',           country:'JP', lat:32.8373, lon:130.8551, hubs:['TPE','RMQ'], scope:'asia', note:'台中線 2026/3/31 開航' },
@@ -1257,7 +1273,7 @@ const AIRPORTS = [
   { code:'SDJ', city:'仙台',           country:'JP', lat:38.1397, lon:140.9169, hubs:['TPE'],       scope:'asia' },
   { code:'HKD', city:'函館',           country:'JP', lat:41.7700, lon:140.8219, hubs:['TPE'],       scope:'asia' },
   { code:'TAK', city:'高松',           country:'JP', lat:34.2142, lon:134.0156, hubs:['RMQ'],       scope:'asia' },
-  { code:'OKA', city:'沖繩那霸',       country:'JP', lat:26.1958, lon:127.6459, hubs:['TPE','RMQ'], scope:'asia' },
+  { code:'OKA', city:'沖繩那霸',       country:'JP', lat:26.1958, lon:127.6459, hubs:['TPE','RMQ','KHH'], scope:'asia', note:'高雄線 2027/1/1 開航（傳，未官宣）' },
   { code:'SHI', city:'宮古島（下地島）', country:'JP', lat:24.8267, lon:125.1447, hubs:['TPE','RMQ'], scope:'asia', seasonal:true },
   // 韓國
   { code:'PUS', city:'釜山',           country:'KR', lat:35.1795, lon:128.9382, hubs:['TPE','RMQ'], scope:'asia', note:'2026/6/1 開航' },
@@ -1505,6 +1521,7 @@ function render(){
       <div class="hubhead">
         <span class="via">Via</span><h3>${hb.hub.name}（${hubCode}）中停</h3>
         <span class="hn">${o.code}–${hubCode} ${fmt(hb.d1)} 哩</span>
+        ${hb.hub.planned ? `<span class="hubplan">${esc(hb.hub.planned)}・尚未開航</span>` : ''}
       </div>
       <div class="rows">${sweetEdge.map(c => rowHtml(c, hubCode)).join('')}</div>`;
     if (sweetEdge.some(c => c.zone === 'edge')){
@@ -1546,11 +1563,20 @@ function buildPicker(){
 }
 
 function buildTable(){
+  // 欄位跟著 HUBS 走：日後再加據點只要動 HUBS，表頭與內容自動長出來
+  const hubs = Object.values(HUBS);
+  document.getElementById('dthead').innerHTML =
+    `<th>航點</th><th>國家／地區</th>` +
+    hubs.map(h => `<th class="num">距${esc(h.short || h.name)} ${h.code}（哩）` +
+      (h.planned ? `<span class="thnote">${esc(h.planned)}</span>` : '') + `</th>`).join('') +
+    `<th>備註</th>`;
   const tb = document.querySelector('#dtable tbody');
   tb.innerHTML = AIRPORTS.map(a => {
     const inactive = a.scope === 'future';
-    const dT = a.hubs.includes('TPE') && !inactive ? fmt(gcMiles(a, HUBS.TPE)) : null;
-    const dR = a.hubs.includes('RMQ') && !inactive ? fmt(gcMiles(a, HUBS.RMQ)) : null;
+    const cells = hubs.map(h => {
+      const d = a.hubs.includes(h.code) && !inactive ? fmt(gcMiles(a, h)) : null;
+      return `<td class="num${d ? '' : ' na'}">${d ?? '—'}</td>`;
+    }).join('');
     const notes = [];
     if (a.seasonal) notes.push('季節性航班');
     if (a.note) notes.push(a.note);
@@ -1558,11 +1584,21 @@ function buildTable(){
     return `<tr${inactive ? ' class="inactive"' : ''}>
       <td><span class="code">${a.code}</span> ${esc(a.city)}</td>
       <td>${COUNTRY[a.country]}</td>
-      <td class="num${dT ? '' : ' na'}">${dT ?? '—'}</td>
-      <td class="num${dR ? '' : ' na'}">${dR ?? '—'}</td>
+      ${cells}
       <td>${esc(notes.join('；')) || ''}</td>
     </tr>`;
   }).join('');
+
+  // 規劃中據點的首波班表（未官宣，開賣後以官網為準）
+  const plans = hubs.filter(h => h.plannedRoutes?.length);
+  document.getElementById('planroutes').innerHTML = plans.map(h => `
+    <div class="planbox">
+      <p class="planhead">${esc(h.name)}（${h.code}）首波航線・傳聞班表 <span class="tag">未官宣</span></p>
+      <ul class="planlist">${h.plannedRoutes.map(r => `
+        <li><b>${h.code} ⇄ ${r.to} ${esc(r.name)}</b>
+          <span>去 ${esc(r.out)}</span><span>回 ${esc(r.back)}</span><span>${esc(r.freq)}</span></li>`).join('')}</ul>
+      <p class="planfoot">時刻出自立委披露之資料，星宇尚未正式發布；開賣時間、機型與班次以官網公告為準。</p>
+    </div>`).join('');
 }
 
 document.getElementById('cab-eco').addEventListener('click', () => { state.cabin = 'eco'; render(); });

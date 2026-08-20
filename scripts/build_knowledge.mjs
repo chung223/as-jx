@@ -68,12 +68,24 @@ P(`1,500–1,600 哩為「壓線區」：AS 系統實際判定可能與大圓計
 P(``);
 P(`### 星宇航點與距台灣樞紐距離（大圓，法定哩）`);
 P(``);
-P(`| IATA | 城市 | 國家／地區 | 距 TPE | 距 RMQ | 備註 |`);
-P(`|---|---|---|---|---|---|`);
+const HUBL = Object.values(D.HUBS);   // 欄位跟著 HUBS 走，新增據點免改這裡
+P(`| IATA | 城市 | 國家／地區 | ${HUBL.map(h => `距 ${h.code}`).join(' | ')} | 備註 |`);
+P(`|---|---|---|${HUBL.map(() => '---|').join('')}---|`);
 for (const a of D.AIRPORTS){
   const tags = [a.scope === 'longhaul' ? '長程線（不參與中停配對）' : '', a.scope === 'future' ? '未開航' : '',
     a.seasonal ? '季節性' : '', a.note || ''].filter(Boolean).join('；');
-  P(`| ${a.code} | ${a.city} | ${D.COUNTRY[a.country] || a.country} | ${a.hubs?.includes('TPE') ? n(gc(D.HUBS.TPE, a)) : '—'} | ${a.hubs?.includes('RMQ') ? n(gc(D.HUBS.RMQ, a)) : '—'} | ${tags || '—'} |`);
+  const cols = HUBL.map(h => a.hubs?.includes(h.code) ? n(gc(h, a)) : '—').join(' | ');
+  P(`| ${a.code} | ${a.city} | ${D.COUNTRY[a.country] || a.country} | ${cols} | ${tags || '—'} |`);
+}
+const planned = HUBL.filter(h => h.planned);
+if (planned.length){
+  P(``);
+  P(planned.map(h => `${h.name}（${h.code}）為規劃中據點（${h.planned}），標示距離僅供試算，航線尚未開賣。`).join(' '));
+  for (const h of planned.filter(x => x.plannedRoutes?.length)){
+    P(``);
+    P(`${h.name}（${h.code}）首波航線・傳聞班表（星宇尚未官宣，以官網公告為準）：`);
+    for (const r of h.plannedRoutes) P(`- ${h.code} ⇄ ${r.to} ${r.name}：去 ${r.out}／回 ${r.back}／${r.freq}`);
+  }
 }
 P(``);
 
@@ -237,7 +249,9 @@ writeFileSync('data.json', JSON.stringify({
   alaska_starlux: { price: D.PRICE, stopover_days: 14, hubs: D.HUBS,
     airports: D.AIRPORTS.map(a => ({ ...a, country_name: D.COUNTRY[a.country] || a.country,
       tpe_miles: a.hubs?.includes('TPE') ? gc(D.HUBS.TPE, a) : null,
-      rmq_miles: a.hubs?.includes('RMQ') ? gc(D.HUBS.RMQ, a) : null })) },
+      rmq_miles: a.hubs?.includes('RMQ') ? gc(D.HUBS.RMQ, a) : null,
+      hub_miles: Object.fromEntries(Object.values(D.HUBS)
+        .filter(h => a.hubs?.includes(h.code)).map(h => [h.code, gc(h, a)])) })) },
   award_charts: D.MILE_DATA, ci_tiers: D.CI_TIER_NAME,
   cathay: { chart: D.CX_CHART.map(b => ({ ...b, max: Number.isFinite(b.max) ? b.max : 999999 })), airports: D.CX_AIRPORTS },
   ana: { price: D.NH_PRICE, domestic_bands: D.NH_DOM_BANDS.map(b => ({ ...b, max: Number.isFinite(b.max) ? b.max : 999999 })) },

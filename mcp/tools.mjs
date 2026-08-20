@@ -266,7 +266,7 @@ export const TOOLS = [
   },
   {
     name: 'list_airports',
-    description: '列出星宇航點（含距台北／台中大圓距離、是否參與中停配對、季節性等），可用關鍵字或國家篩選。',
+    description: '列出星宇航點（含距各台灣樞紐的大圓距離、是否參與中停配對、季節性等），可用關鍵字或國家篩選。',
     inputSchema: { type:'object', properties:{
       query: { type:'string', description:'IATA、城市或國家代碼（如 JP、越南），留空列全部' },
     } },
@@ -276,10 +276,18 @@ export const TOOLS = [
         x.code.includes(q) || x.city.toUpperCase().includes(q) || (x.country || '').includes(q) ||
         (x.country_name || '').includes(a.query) || x.city.includes(a.query));
       if (!list.length) return `查無符合「${a.query}」的航點。`;
-      return `| IATA | 城市 | 國家 | 距TPE | 距RMQ | 說明 |\n|---|---|---|---|---|---|\n` +
-        list.map(x => `| ${x.code} | ${x.city} | ${x.country_name || x.country} | ${x.tpe_miles ? n(x.tpe_miles) : '—'} | ${x.rmq_miles ? n(x.rmq_miles) : '—'} | ${[
+      const hubs = Object.values(D.alaska_starlux.hubs || {});
+      const head = `| IATA | 城市 | 國家 | ${hubs.map(h => `距${h.code}`).join(' | ')} | 說明 |\n` +
+        `|---|---|---|${hubs.map(() => '---|').join('')}---|`;
+      const rows = list.map(x => `| ${x.code} | ${x.city} | ${x.country_name || x.country} | ` +
+        hubs.map(h => x.hub_miles?.[h.code] ? n(x.hub_miles[h.code]) : '—').join(' | ') + ` | ${[
           x.scope === 'longhaul' ? '長程線' : '', x.scope === 'future' ? '未開航' : '',
-          x.seasonal ? '季節性' : '', x.note || ''].filter(Boolean).join('；') || '—'} |`).join('\n');
+          x.seasonal ? '季節性' : '', x.note || ''].filter(Boolean).join('；') || '—'} |`);
+      const plan = hubs.filter(h => h.planned).map(h => `${h.code} ${h.name} 為規劃中據點（${h.planned}），` +
+        (h.plannedRoutes?.length
+          ? `首波傳聞班表：` + h.plannedRoutes.map(r => `${h.code}⇄${r.to} ${r.name}（去 ${r.out}／回 ${r.back}／${r.freq}）`).join('、') + '；星宇尚未官宣。'
+          : '航線尚未開賣。'));
+      return [head, ...rows].join('\n') + (plan.length ? `\n\n> ${plan.join(' ')}` : '');
     },
   },
 ];

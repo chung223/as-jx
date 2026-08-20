@@ -18,14 +18,40 @@
    "TPE": {
     "code": "TPE",
     "name": "台北桃園",
+    "short": "台北",
     "lat": 25.0777,
     "lon": 121.2325
    },
    "RMQ": {
     "code": "RMQ",
     "name": "台中",
+    "short": "台中",
     "lat": 24.2647,
     "lon": 120.6206
+   },
+   "KHH": {
+    "code": "KHH",
+    "name": "高雄",
+    "short": "高雄",
+    "lat": 22.5771,
+    "lon": 120.35,
+    "planned": "2027/1 起",
+    "plannedRoutes": [
+     {
+      "to": "UKB",
+      "name": "神戶",
+      "out": "KHH 08:25 → UKB 12:15",
+      "back": "UKB 13:15 → KHH 16:00",
+      "freq": "每日 1 班"
+     },
+     {
+      "to": "OKA",
+      "name": "沖繩那霸",
+      "out": "KHH 17:15 → OKA 20:00",
+      "back": "OKA 21:00 → KHH 22:05",
+      "freq": "每日 1 班"
+     }
+    ]
    }
   },
   "airports": [
@@ -43,7 +69,11 @@
     "note": "台中線 2026/3/30 開航",
     "country_name": "日本",
     "tpe_miles": 1356,
-    "rmq_miles": 1421
+    "rmq_miles": 1421,
+    "hub_miles": {
+     "TPE": 1356,
+     "RMQ": 1421
+    }
    },
    {
     "code": "KIX",
@@ -57,7 +87,10 @@
     "scope": "asia",
     "country_name": "日本",
     "tpe_miles": 1058,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1058
+    }
    },
    {
     "code": "UKB",
@@ -67,12 +100,19 @@
     "lon": 135.2239,
     "hubs": [
      "TPE",
-     "RMQ"
+     "RMQ",
+     "KHH"
     ],
     "scope": "asia",
+    "note": "高雄線 2027/1/1 開航（傳，未官宣）",
     "country_name": "日本",
     "tpe_miles": 1065,
-    "rmq_miles": 1131
+    "rmq_miles": 1131,
+    "hub_miles": {
+     "TPE": 1065,
+     "RMQ": 1131,
+     "KHH": 1225
+    }
    },
    {
     "code": "NGO",
@@ -86,7 +126,10 @@
     "scope": "asia",
     "country_name": "日本",
     "tpe_miles": 1149,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1149
+    }
    },
    {
     "code": "FUK",
@@ -100,7 +143,10 @@
     "scope": "asia",
     "country_name": "日本",
     "tpe_miles": 808,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 808
+    }
    },
    {
     "code": "KMJ",
@@ -116,7 +162,11 @@
     "note": "台中線 2026/3/31 開航",
     "country_name": "日本",
     "tpe_miles": 790,
-    "rmq_miles": 857
+    "rmq_miles": 857,
+    "hub_miles": {
+     "TPE": 790,
+     "RMQ": 857
+    }
    },
    {
     "code": "CTS",
@@ -132,7 +182,11 @@
     "note": "台中線 2026/10/2 開航",
     "country_name": "日本",
     "tpe_miles": 1685,
-    "rmq_miles": 1753
+    "rmq_miles": 1753,
+    "hub_miles": {
+     "TPE": 1685,
+     "RMQ": 1753
+    }
    },
    {
     "code": "SDJ",
@@ -146,7 +200,10 @@
     "scope": "asia",
     "country_name": "日本",
     "tpe_miles": 1463,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1463
+    }
    },
    {
     "code": "HKD",
@@ -160,7 +217,10 @@
     "scope": "asia",
     "country_name": "日本",
     "tpe_miles": 1607,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1607
+    }
    },
    {
     "code": "TAK",
@@ -174,7 +234,10 @@
     "scope": "asia",
     "country_name": "日本",
     "tpe_miles": null,
-    "rmq_miles": 1059
+    "rmq_miles": 1059,
+    "hub_miles": {
+     "RMQ": 1059
+    }
    },
    {
     "code": "OKA",
@@ -184,12 +247,19 @@
     "lon": 127.6459,
     "hubs": [
      "TPE",
-     "RMQ"
+     "RMQ",
+     "KHH"
     ],
     "scope": "asia",
+    "note": "高雄線 2027/1/1 開航（傳，未官宣）",
     "country_name": "日本",
     "tpe_miles": 407,
-    "rmq_miles": 459
+    "rmq_miles": 459,
+    "hub_miles": {
+     "TPE": 407,
+     "RMQ": 459,
+     "KHH": 523
+    }
    },
    {
     "code": "SHI",
@@ -205,7 +275,11 @@
     "seasonal": true,
     "country_name": "日本",
     "tpe_miles": 246,
-    "rmq_miles": 287
+    "rmq_miles": 287,
+    "hub_miles": {
+     "TPE": 246,
+     "RMQ": 287
+    }
    },
    {
     "code": "PUS",
@@ -221,7 +295,11 @@
     "note": "2026/6/1 開航",
     "country_name": "韓國",
     "tpe_miles": 835,
-    "rmq_miles": 903
+    "rmq_miles": 903,
+    "hub_miles": {
+     "TPE": 835,
+     "RMQ": 903
+    }
    },
    {
     "code": "HKG",
@@ -235,7 +313,10 @@
     "scope": "asia",
     "country_name": "香港",
     "tpe_miles": 501,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 501
+    }
    },
    {
     "code": "MFM",
@@ -250,7 +331,11 @@
     "scope": "asia",
     "country_name": "澳門",
     "tpe_miles": 524,
-    "rmq_miles": 470
+    "rmq_miles": 470,
+    "hub_miles": {
+     "TPE": 524,
+     "RMQ": 470
+    }
    },
    {
     "code": "MNL",
@@ -264,7 +349,10 @@
     "scope": "asia",
     "country_name": "菲律賓",
     "tpe_miles": 730,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 730
+    }
    },
    {
     "code": "CRK",
@@ -278,7 +366,10 @@
     "scope": "asia",
     "country_name": "菲律賓",
     "tpe_miles": 685,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 685
+    }
    },
    {
     "code": "CEB",
@@ -292,7 +383,10 @@
     "scope": "asia",
     "country_name": "菲律賓",
     "tpe_miles": 1036,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1036
+    }
    },
    {
     "code": "HAN",
@@ -306,7 +400,10 @@
     "scope": "asia",
     "country_name": "越南",
     "tpe_miles": 1015,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1015
+    }
    },
    {
     "code": "DAD",
@@ -321,7 +418,11 @@
     "scope": "asia",
     "country_name": "越南",
     "tpe_miles": 1048,
-    "rmq_miles": 985
+    "rmq_miles": 985,
+    "hub_miles": {
+     "TPE": 1048,
+     "RMQ": 985
+    }
    },
    {
     "code": "SGN",
@@ -335,7 +436,10 @@
     "scope": "asia",
     "country_name": "越南",
     "tpe_miles": 1372,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1372
+    }
    },
    {
     "code": "PQC",
@@ -351,7 +455,11 @@
     "seasonal": true,
     "country_name": "越南",
     "tpe_miles": 1529,
-    "rmq_miles": 1464
+    "rmq_miles": 1464,
+    "hub_miles": {
+     "TPE": 1529,
+     "RMQ": 1464
+    }
    },
    {
     "code": "BKK",
@@ -365,7 +473,10 @@
     "scope": "asia",
     "country_name": "泰國",
     "tpe_miles": 1546,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1546
+    }
    },
    {
     "code": "CNX",
@@ -379,7 +490,10 @@
     "scope": "asia",
     "country_name": "泰國",
     "tpe_miles": 1490,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1490
+    }
    },
    {
     "code": "SIN",
@@ -393,7 +507,10 @@
     "scope": "asia",
     "country_name": "新加坡",
     "tpe_miles": 2002,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 2002
+    }
    },
    {
     "code": "KUL",
@@ -407,7 +524,10 @@
     "scope": "asia",
     "country_name": "馬來西亞",
     "tpe_miles": 2017,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 2017
+    }
    },
    {
     "code": "PEN",
@@ -421,7 +541,10 @@
     "scope": "asia",
     "country_name": "馬來西亞",
     "tpe_miles": 1948,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 1948
+    }
    },
    {
     "code": "CGK",
@@ -435,7 +558,10 @@
     "scope": "asia",
     "country_name": "印尼",
     "tpe_miles": 2368,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 2368
+    }
    },
    {
     "code": "LAX",
@@ -449,7 +575,10 @@
     "scope": "longhaul",
     "country_name": "美國",
     "tpe_miles": 6787,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 6787
+    }
    },
    {
     "code": "SFO",
@@ -463,7 +592,10 @@
     "scope": "longhaul",
     "country_name": "美國",
     "tpe_miles": 6457,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 6457
+    }
    },
    {
     "code": "SEA",
@@ -477,7 +609,10 @@
     "scope": "longhaul",
     "country_name": "美國",
     "tpe_miles": 6063,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 6063
+    }
    },
    {
     "code": "ONT",
@@ -491,7 +626,10 @@
     "scope": "longhaul",
     "country_name": "美國",
     "tpe_miles": 6818,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 6818
+    }
    },
    {
     "code": "PHX",
@@ -506,7 +644,10 @@
     "note": "2026/1/15 開航",
     "country_name": "美國",
     "tpe_miles": 7092,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 7092
+    }
    },
    {
     "code": "PRG",
@@ -521,7 +662,10 @@
     "note": "2026/8/1 開航",
     "country_name": "捷克",
     "tpe_miles": 5600,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 5600
+    }
    },
    {
     "code": "DPS",
@@ -536,7 +680,10 @@
     "note": "2026 年底前開航（籌備中）",
     "country_name": "印尼",
     "tpe_miles": 2373,
-    "rmq_miles": null
+    "rmq_miles": null,
+    "hub_miles": {
+     "TPE": 2373
+    }
    }
   ]
  },
