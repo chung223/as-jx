@@ -1,13 +1,13 @@
 {
- "scanned_at": "2026-08-23T21:15:42Z",
+ "scanned_at": "2026-08-24T21:22:37Z",
  "env": "google-flights",
  "mode": "same-airline",
  "days_ahead": 60,
  "dates": {
-  "d1": "2026-10-22",
-  "d2": "2026-10-23",
-  "d3": "2026-10-30",
-  "d4": "2026-11-29"
+  "d1": "2026-10-23",
+  "d2": "2026-10-24",
+  "d3": "2026-10-31",
+  "d4": "2026-11-30"
  },
  "results": [
   {
@@ -20,31 +20,38 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 39016.0,
-      "raw": "NT$39,016（單程相加）"
+      "price": 32696.0,
+      "raw": "NT$32,696（單程相加）"
      },
      "bench": {
-      "price": 25720.0,
-      "raw": "NT$25,720（單程相加）",
       "airline": "星宇航空",
-      "basis": "ow-sum"
+      "price": 20924.0,
+      "raw": "NT$20,924"
      }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 40523.0,
-      "raw": "NT$40,523（單程相加）"
+      "price": 38263.0,
+      "raw": "NT$38,263（單程相加）"
      },
      "bench": {
       "airline": "長榮航空",
-      "price": 23233.0,
-      "raw": "NT$23,233"
+      "price": 20705.0,
+      "raw": "NT$20,705"
      }
     },
     "CI": {
      "n": "華航",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 41934.0,
+      "raw": "NT$41,934（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 30648.0,
+      "raw": "NT$30,648"
+     }
     }
    }
   },
@@ -58,37 +65,38 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 88541.0,
-      "raw": "NT$88,541（單程相加）"
+      "price": 89594.0,
+      "raw": "NT$89,594（單程相加）"
      },
      "bench": {
+      "price": 50474.0,
+      "raw": "NT$50,474（單程相加）",
       "airline": "星宇航空",
-      "price": 40514.0,
-      "raw": "NT$40,514"
+      "basis": "ow-sum"
      }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 105295.0,
-      "raw": "NT$105,295（單程相加）"
+      "price": 90921.0,
+      "raw": "NT$90,921（單程相加）"
      },
      "bench": {
       "airline": "長榮航空",
-      "price": 56995.0,
-      "raw": "NT$56,995"
+      "price": 47477.0,
+      "raw": "NT$47,477"
      }
     },
     "CI": {
      "n": "華航",
      "four": {
-      "price": 80267.0,
-      "raw": "NT$80,267（單程相加）"
+      "price": 80354.0,
+      "raw": "NT$80,354（單程相加）"
      },
      "bench": {
       "airline": "中華航空",
-      "price": 42365.0,
-      "raw": "NT$42,365"
+      "price": 44908.0,
+      "raw": "NT$44,908"
      }
     }
    }
@@ -103,31 +111,39 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 36673.0,
-      "raw": "NT$36,673（單程相加）"
+      "price": 36822.0,
+      "raw": "NT$36,822（單程相加）"
      },
      "bench": {
       "airline": "星宇航空",
-      "price": 23377.0,
-      "raw": "NT$23,377"
+      "price": 25050.0,
+      "raw": "NT$25,050"
      }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 45520.0,
-      "raw": "NT$45,520（單程相加）"
+      "price": 42384.0,
+      "raw": "NT$42,384（單程相加）"
      },
      "bench": {
-      "price": 28230.0,
-      "raw": "NT$28,230（單程相加）",
       "airline": "長榮航空",
-      "basis": "ow-sum"
+      "price": 24826.0,
+      "raw": "NT$24,826"
      }
     },
     "CI": {
      "n": "華航",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 38511.0,
+      "raw": "NT$38,511（單程相加）"
+     },
+     "bench": {
+      "price": 27225.0,
+      "raw": "NT$27,225（單程相加）",
+      "airline": "中華航空",
+      "basis": "ow-sum"
+     }
     }
    }
   },
@@ -140,32 +156,38 @@
    "als": {
     "JX": {
      "n": "星宇",
-     "error": "ConnectError: error sending request for url (https://www.google.com/travel/flights?tfs=Gh4SCjIwMjYtMTAtMjMyAkpYagUSA1RQRXIFEgNLSVgaHhIKMjAyNi0xMC0zMDICSlhqBRIDS0lYcgUSA1RQRUIBAUgDmAEB&hl=zh-TW&curr=TW"
+     "four": {
+      "price": 79819.0,
+      "raw": "NT$79,819（單程相加）"
+     },
+     "bench": {
+      "airline": "星宇航空",
+      "price": 40699.0,
+      "raw": "NT$40,699"
+     }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 101354.0,
-      "raw": "NT$101,354（單程相加）"
+      "price": 89658.0,
+      "raw": "NT$89,658（單程相加）"
      },
      "bench": {
-      "price": 53054.0,
-      "raw": "NT$53,054（單程相加）",
       "airline": "長榮航空",
-      "basis": "ow-sum"
+      "price": 46214.0,
+      "raw": "NT$46,214"
      }
     },
     "CI": {
      "n": "華航",
      "four": {
-      "price": 76617.0,
-      "raw": "NT$76,617（單程相加）"
+      "price": 73804.0,
+      "raw": "NT$73,804（單程相加）"
      },
      "bench": {
-      "price": 38715.0,
-      "raw": "NT$38,715（單程相加）",
       "airline": "中華航空",
-      "basis": "ow-sum"
+      "price": 38358.0,
+      "raw": "NT$38,358"
      }
     }
    }
@@ -180,31 +202,38 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 36982.0,
-      "raw": "NT$36,982（單程相加）"
+      "price": 31180.0,
+      "raw": "NT$31,180（單程相加）"
      },
      "bench": {
-      "price": 25720.0,
-      "raw": "NT$25,720（單程相加）",
       "airline": "星宇航空",
-      "basis": "ow-sum"
+      "price": 20924.0,
+      "raw": "NT$20,924"
      }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 34501.0,
-      "raw": "NT$34,501（單程相加）"
+      "price": 31976.0,
+      "raw": "NT$31,976（單程相加）"
      },
      "bench": {
       "airline": "長榮航空",
-      "price": 23233.0,
-      "raw": "NT$23,233"
+      "price": 20705.0,
+      "raw": "NT$20,705"
      }
     },
     "CI": {
      "n": "華航",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 46357.0,
+      "raw": "NT$46,357（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 30648.0,
+      "raw": "NT$30,648"
+     }
     }
    }
   },
@@ -217,23 +246,40 @@
    "als": {
     "JX": {
      "n": "星宇",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 90579.0,
+      "raw": "NT$90,579（單程相加）"
+     },
+     "bench": {
+      "price": 50474.0,
+      "raw": "NT$50,474（單程相加）",
+      "airline": "星宇航空",
+      "basis": "ow-sum"
+     }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 97873.0,
-      "raw": "NT$97,873（單程相加）"
+      "price": 88370.0,
+      "raw": "NT$88,370（單程相加）"
      },
      "bench": {
       "airline": "長榮航空",
-      "price": 56995.0,
-      "raw": "NT$56,995"
+      "price": 47477.0,
+      "raw": "NT$47,477"
      }
     },
     "CI": {
      "n": "華航",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 91782.0,
+      "raw": "NT$91,782（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 44908.0,
+      "raw": "NT$44,908"
+     }
     }
    }
   },
@@ -247,31 +293,39 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 34639.0,
-      "raw": "NT$34,639（單程相加）"
+      "price": 35306.0,
+      "raw": "NT$35,306（單程相加）"
      },
      "bench": {
       "airline": "星宇航空",
-      "price": 23377.0,
-      "raw": "NT$23,377"
+      "price": 25050.0,
+      "raw": "NT$25,050"
      }
     },
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 39498.0,
-      "raw": "NT$39,498（單程相加）"
+      "price": 36097.0,
+      "raw": "NT$36,097（單程相加）"
      },
      "bench": {
-      "price": 28230.0,
-      "raw": "NT$28,230（單程相加）",
       "airline": "長榮航空",
-      "basis": "ow-sum"
+      "price": 24826.0,
+      "raw": "NT$24,826"
      }
     },
     "CI": {
      "n": "華航",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 42934.0,
+      "raw": "NT$42,934（單程相加）"
+     },
+     "bench": {
+      "price": 27225.0,
+      "raw": "NT$27,225（單程相加）",
+      "airline": "中華航空",
+      "basis": "ow-sum"
+     }
     }
    }
   },
@@ -284,229 +338,48 @@
    "als": {
     "JX": {
      "n": "星宇",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "BR": {
-     "n": "長榮",
      "four": {
-      "price": 93932.0,
-      "raw": "NT$93,932（單程相加）"
+      "price": 80804.0,
+      "raw": "NT$80,804（單程相加）"
      },
      "bench": {
-      "price": 53054.0,
-      "raw": "NT$53,054（單程相加）",
-      "airline": "長榮航空",
-      "basis": "ow-sum"
-     }
-    },
-    "CI": {
-     "n": "華航",
-     "error": "查無報價（Google 未回結果）"
-    }
-   }
-  },
-  {
-   "a": "CGK",
-   "an": "雅加達",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "ECONOMY",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "error": "ConnectError: error sending request for url (https://www.google.com/travel/flights?tfs=Gh4SCjIwMjYtMTAtMjIyAkpYagUSA0NHS3IFEgNUUEUaHhIKMjAyNi0xMS0yOTICSlhqBRIDVFBFcgUSA0NHS0IBAUgBmAEB&hl=zh-TW&curr=TW"
-    },
-    "BR": {
-     "n": "長榮",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "CI": {
-     "n": "華航",
-     "error": "查無報價（Google 未回結果）"
-    }
-   }
-  },
-  {
-   "a": "CGK",
-   "an": "雅加達",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "BUSINESS",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "BR": {
-     "n": "長榮",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "CI": {
-     "n": "華航",
-     "error": "查無報價（Google 未回結果）"
-    }
-   }
-  },
-  {
-   "a": "CGK",
-   "an": "雅加達",
-   "b": "KIX",
-   "bn": "大阪關西",
-   "cabin": "ECONOMY",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "error": "ConnectError: error sending request for url (https://www.google.com/travel/flights?tfs=Gh4SCjIwMjYtMTAtMjIyAkpYagUSA0NHS3IFEgNUUEUaHhIKMjAyNi0xMS0yOTICSlhqBRIDVFBFcgUSA0NHS0IBAUgBmAEB&hl=zh-TW&curr=TW"
-    },
-    "BR": {
-     "n": "長榮",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "CI": {
-     "n": "華航",
-     "error": "查無報價（Google 未回結果）"
-    }
-   }
-  },
-  {
-   "a": "CGK",
-   "an": "雅加達",
-   "b": "KIX",
-   "bn": "大阪關西",
-   "cabin": "BUSINESS",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "BR": {
-     "n": "長榮",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "CI": {
-     "n": "華航",
-     "error": "查無報價（Google 未回結果）"
-    }
-   }
-  },
-  {
-   "a": "HKG",
-   "an": "香港",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "ECONOMY",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "four": {
-      "price": 35167.0,
-      "raw": "NT$35,167（單程相加）"
-     },
-     "bench": {
-      "price": 25720.0,
-      "raw": "NT$25,720（單程相加）",
       "airline": "星宇航空",
-      "basis": "ow-sum"
+      "price": 40699.0,
+      "raw": "NT$40,699"
      }
     },
     "BR": {
      "n": "長榮",
-     "error": "ConnectError: error sending request for url (https://www.google.com/travel/flights?tfs=Gh4SCjIwMjYtMTAtMjIyAkJSagUSA0hLR3IFEgNUUEUaHhIKMjAyNi0xMS0yOTICQlJqBRIDVFBFcgUSA0hLR0IBAUgBmAEB&hl=zh-TW&curr=TW"
-    },
-    "CI": {
-     "n": "華航",
      "four": {
-      "price": 37638.0,
-      "raw": "NT$37,638（單程相加）"
-     },
-     "bench": {
-      "airline": "中華航空",
-      "price": 28593.0,
-      "raw": "NT$28,593"
-     }
-    }
-   }
-  },
-  {
-   "a": "HKG",
-   "an": "香港",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "BUSINESS",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "BR": {
-     "n": "長榮",
-     "four": {
-      "price": 92231.0,
-      "raw": "NT$92,231（單程相加）"
+      "price": 87107.0,
+      "raw": "NT$87,107（單程相加）"
      },
      "bench": {
       "airline": "長榮航空",
-      "price": 56995.0,
-      "raw": "NT$56,995"
+      "price": 46214.0,
+      "raw": "NT$46,214"
      }
     },
     "CI": {
      "n": "華航",
      "four": {
-      "price": 69144.0,
-      "raw": "NT$69,144（單程相加）"
+      "price": 85232.0,
+      "raw": "NT$85,232（單程相加）"
      },
      "bench": {
       "airline": "中華航空",
-      "price": 42365.0,
-      "raw": "NT$42,365"
+      "price": 38358.0,
+      "raw": "NT$38,358"
      }
     }
    }
   },
   {
-   "a": "HKG",
-   "an": "香港",
-   "b": "KIX",
-   "bn": "大阪關西",
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "NRT",
+   "bn": "東京成田",
    "cabin": "ECONOMY",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "four": {
-      "price": 32824.0,
-      "raw": "NT$32,824（單程相加）"
-     },
-     "bench": {
-      "airline": "星宇航空",
-      "price": 23377.0,
-      "raw": "NT$23,377"
-     }
-    },
-    "BR": {
-     "n": "長榮",
-     "error": "ConnectError: error sending request for url (https://www.google.com/travel/flights?tfs=Gh4SCjIwMjYtMTAtMjIyAkJSagUSA0hLR3IFEgNUUEUaHhIKMjAyNi0xMS0yOTICQlJqBRIDVFBFcgUSA0hLR0IBAUgBmAEB&hl=zh-TW&curr=TW"
-    },
-    "CI": {
-     "n": "華航",
-     "four": {
-      "price": 29596.0,
-      "raw": "NT$29,596（單程相加）"
-     },
-     "bench": {
-      "airline": "中華航空",
-      "price": 20551.0,
-      "raw": "NT$20,551"
-     }
-    }
-   }
-  },
-  {
-   "a": "HKG",
-   "an": "香港",
-   "b": "KIX",
-   "bn": "大阪關西",
-   "cabin": "BUSINESS",
    "als": {
     "JX": {
      "n": "星宇",
@@ -515,25 +388,98 @@
     "BR": {
      "n": "長榮",
      "four": {
-      "price": 88290.0,
-      "raw": "NT$88,290（單程相加）"
+      "price": 36733.0,
+      "raw": "NT$36,733（單程相加）"
      },
      "bench": {
-      "price": 53054.0,
-      "raw": "NT$53,054（單程相加）",
       "airline": "長榮航空",
-      "basis": "ow-sum"
+      "price": 20705.0,
+      "raw": "NT$20,705"
      }
     },
     "CI": {
      "n": "華航",
      "four": {
-      "price": 65494.0,
-      "raw": "NT$65,494（單程相加）"
+      "price": 46825.0,
+      "raw": "NT$46,825（單程相加）"
      },
      "bench": {
-      "price": 38715.0,
-      "raw": "NT$38,715（單程相加）",
+      "airline": "中華航空",
+      "price": 30648.0,
+      "raw": "NT$30,648"
+     }
+    }
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "error": "查無報價（Google 未回結果）"
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 86356.0,
+      "raw": "NT$86,356（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 47477.0,
+      "raw": "NT$47,477"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 83509.0,
+      "raw": "NT$83,509（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 44908.0,
+      "raw": "NT$44,908"
+     }
+    }
+   }
+  },
+  {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "ECONOMY",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "error": "查無報價（Google 未回結果）"
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 40854.0,
+      "raw": "NT$40,854（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 24826.0,
+      "raw": "NT$24,826"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 43402.0,
+      "raw": "NT$43,402（單程相加）"
+     },
+     "bench": {
+      "price": 27225.0,
+      "raw": "NT$27,225（單程相加）",
       "airline": "中華航空",
       "basis": "ow-sum"
      }
@@ -541,6 +487,225 @@
    }
   },
   {
+   "a": "CGK",
+   "an": "雅加達",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "BUSINESS",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "error": "查無報價（Google 未回結果）"
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 85093.0,
+      "raw": "NT$85,093（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 46214.0,
+      "raw": "NT$46,214"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 76959.0,
+      "raw": "NT$76,959（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 38358.0,
+      "raw": "NT$38,358"
+     }
+    }
+   }
+  },
+  {
+   "a": "HKG",
+   "an": "香港",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "ECONOMY",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "four": {
+      "price": 30315.0,
+      "raw": "NT$30,315（單程相加）"
+     },
+     "bench": {
+      "airline": "星宇航空",
+      "price": 20924.0,
+      "raw": "NT$20,924"
+     }
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 30452.0,
+      "raw": "NT$30,452（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 20705.0,
+      "raw": "NT$20,705"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 39770.0,
+      "raw": "NT$39,770（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 30648.0,
+      "raw": "NT$30,648"
+     }
+    }
+   }
+  },
+  {
+   "a": "HKG",
+   "an": "香港",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "four": {
+      "price": 84174.0,
+      "raw": "NT$84,174（單程相加）"
+     },
+     "bench": {
+      "price": 50474.0,
+      "raw": "NT$50,474（單程相加）",
+      "airline": "星宇航空",
+      "basis": "ow-sum"
+     }
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 82714.0,
+      "raw": "NT$82,714（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 47477.0,
+      "raw": "NT$47,477"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 73793.0,
+      "raw": "NT$73,793（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 44908.0,
+      "raw": "NT$44,908"
+     }
+    }
+   }
+  },
+  {
+   "a": "HKG",
+   "an": "香港",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "ECONOMY",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "four": {
+      "price": 34441.0,
+      "raw": "NT$34,441（單程相加）"
+     },
+     "bench": {
+      "airline": "星宇航空",
+      "price": 25050.0,
+      "raw": "NT$25,050"
+     }
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 34573.0,
+      "raw": "NT$34,573（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 24826.0,
+      "raw": "NT$24,826"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 36347.0,
+      "raw": "NT$36,347（單程相加）"
+     },
+     "bench": {
+      "price": 27225.0,
+      "raw": "NT$27,225（單程相加）",
+      "airline": "中華航空",
+      "basis": "ow-sum"
+     }
+    }
+   }
+  },
+  {
+   "a": "HKG",
+   "an": "香港",
+   "b": "KIX",
+   "bn": "大阪關西",
+   "cabin": "BUSINESS",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "four": {
+      "price": 74399.0,
+      "raw": "NT$74,399（單程相加）"
+     },
+     "bench": {
+      "airline": "星宇航空",
+      "price": 40699.0,
+      "raw": "NT$40,699"
+     }
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 81451.0,
+      "raw": "NT$81,451（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 46214.0,
+      "raw": "NT$46,214"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "four": {
+      "price": 67243.0,
+      "raw": "NT$67,243（單程相加）"
+     },
+     "bench": {
+      "airline": "中華航空",
+      "price": 38358.0,
+      "raw": "NT$38,358"
+     }
+    }
+   }
+  },
+  {
    "a": "MFM",
    "an": "澳門",
    "b": "NRT",
@@ -550,12 +715,49 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 33534.0,
-      "raw": "NT$33,534（單程相加）"
+      "price": 28741.0,
+      "raw": "NT$28,741（單程相加）"
      },
      "bench": {
-      "price": 25720.0,
-      "raw": "NT$25,720（單程相加）",
+      "airline": "星宇航空",
+      "price": 20924.0,
+      "raw": "NT$20,924"
+     }
+    },
+    "BR": {
+     "n": "長榮",
+     "four": {
+      "price": 35104.0,
+      "raw": "NT$35,104（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 20705.0,
+      "raw": "NT$20,705"
+     }
+    },
+    "CI": {
+     "n": "華航",
+     "error": "查無報價（Google 未回結果）"
+    }
+   }
+  },
+  {
+   "a": "MFM",
+   "an": "澳門",
+   "b": "NRT",
+   "bn": "東京成田",
+   "cabin": "BUSINESS",
+   "als": {
+    "JX": {
+     "n": "星宇",
+     "four": {
+      "price": 82827.0,
+      "raw": "NT$82,827（單程相加）"
+     },
+     "bench": {
+      "price": 50474.0,
+      "raw": "NT$50,474（單程相加）",
       "airline": "星宇航空",
       "basis": "ow-sum"
      }
@@ -573,35 +775,6 @@
   {
    "a": "MFM",
    "an": "澳門",
-   "b": "NRT",
-   "bn": "東京成田",
-   "cabin": "BUSINESS",
-   "als": {
-    "JX": {
-     "n": "星宇",
-     "four": {
-      "price": 72848.0,
-      "raw": "NT$72,848（單程相加）"
-     },
-     "bench": {
-      "airline": "星宇航空",
-      "price": 40514.0,
-      "raw": "NT$40,514"
-     }
-    },
-    "BR": {
-     "n": "長榮",
-     "error": "查無報價（Google 未回結果）"
-    },
-    "CI": {
-     "n": "華航",
-     "error": "查無報價（Google 未回結果）"
-    }
-   }
-  },
-  {
-   "a": "MFM",
-   "an": "澳門",
    "b": "KIX",
    "bn": "大阪關西",
    "cabin": "ECONOMY",
@@ -609,18 +782,26 @@
     "JX": {
      "n": "星宇",
      "four": {
-      "price": 31191.0,
-      "raw": "NT$31,191（單程相加）"
+      "price": 32867.0,
+      "raw": "NT$32,867（單程相加）"
      },
      "bench": {
       "airline": "星宇航空",
-      "price": 23377.0,
-      "raw": "NT$23,377"
+      "price": 25050.0,
+      "raw": "NT$25,050"
      }
     },
     "BR": {
      "n": "長榮",
-     "error": "查無報價（Google 未回結果）"
+     "four": {
+      "price": 39225.0,
+      "raw": "NT$39,225（單程相加）"
+     },
+     "bench": {
+      "airline": "長榮航空",
+      "price": 24826.0,
+      "raw": "NT$24,826"
+     }
     },
     "CI": {
      "n": "華航",
@@ -637,7 +818,15 @@
    "als": {
     "JX": {
      "n": "星宇",
-     "error": "ConnectError: error sending request for url (https://www.google.com/travel/flights?tfs=Gh4SCjIwMjYtMTAtMjMyAkpYagUSA1RQRXIFEgNLSVgaHhIKMjAyNi0xMC0zMDICSlhqBRIDS0lYcgUSA1RQRUIBAUgDmAEB&hl=zh-TW&curr=TW"
+     "four": {
+      "price": 73052.0,
+      "raw": "NT$73,052（單程相加）"
+     },
+     "bench": {
+      "airline": "星宇航空",
+      "price": 40699.0,
+      "raw": "NT$40,699"
+     }
     },
     "BR": {
      "n": "長榮",
