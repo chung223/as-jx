@@ -535,6 +535,75 @@
     font-family:var(--sans); font-size:12px; font-variant-numeric:tabular-nums; text-align:right;
   }
   .ratenote{font-size:10.5px; color:var(--faint); margin:5px 0 0}
+  /* ───────── 長榮查票器 ───────── */
+  .segwrap{flex-wrap:wrap}
+  .evhead{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px}
+  .evhead h3{margin:0}
+  .evhead h3 small{color:var(--faint); font-weight:400; font-size:12.5px; font-family:var(--sans)}
+  .evprice{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums}
+  .evprice b{font-size:22px; color:var(--gold); font-family:var(--serif)}
+  .evprice em{display:block; font-style:normal; font-size:11px; color:var(--faint); letter-spacing:.08em}
+  .evlist{display:flex; flex-direction:column; gap:14px; margin-top:16px}
+  .evcard{padding:18px 20px}
+  .evfree{margin-top:12px; padding-top:12px; border-top:1px dashed var(--line)}
+  .evfreehead{margin:0 0 6px; font-size:13px; color:var(--muted)}
+  .evbadge{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em;
+    padding:2px 9px; border-radius:999px; margin-right:8px;
+    background:var(--pass-bg); color:var(--pass); border:1px solid var(--pass);
+  }
+  .evbadge.up{background:var(--warn-bg); color:var(--warn); border-color:var(--warn)}
+  .evbadge.no{background:var(--over-bg); color:var(--over); border-color:var(--over)}
+  .uplist .um em.eveff{display:block; font-style:normal; font-size:10.5px; color:var(--faint); font-weight:400}
+  .uplist li small{color:var(--faint); font-weight:400; font-size:11.5px}
+  .evstops li{align-items:flex-start}
+  .evsub{display:block; font-size:11.5px; color:var(--faint); margin-top:2px}
+  .evstep{
+    display:inline-block; min-width:74px; font-variant-numeric:tabular-nums;
+    font-size:11.5px; font-weight:700; color:var(--muted); letter-spacing:.02em;
+  }
+  .evstep.same{color:var(--pass)}
+  .evstep.small{color:var(--gold)}
+  .evstep.base{color:var(--faint); font-weight:400}
+  .evladder li b{font-size:13.5px}
+  .evchain{display:flex; flex-wrap:wrap; align-items:center; gap:5px; margin:0}
+  .evchain.big{margin:10px 0 14px; gap:7px}
+  .evpt{
+    display:inline-flex; flex-direction:column; align-items:center; line-height:1.25;
+    border:1px solid var(--line-strong); border-radius:8px; padding:3px 9px;
+    background:var(--sunken); font-size:12px; font-weight:700; font-variant-numeric:tabular-nums;
+  }
+  .evpt em{font-style:normal; font-weight:400; font-size:10px; color:var(--faint)}
+  .evpt i{font-style:normal; font-size:9.5px; color:var(--pass); letter-spacing:.1em}
+  .evpt.stop{border-color:var(--pass); background:var(--pass-bg)}
+  .evpt.via{opacity:.7}
+  .evarr{color:var(--gold); font-size:10px}
+  .evbad, .evwarn{list-style:none; margin:12px 0 0; padding:0; font-size:13px}
+  .evbad li{
+    color:var(--over); background:var(--over-bg); border-left:3px solid var(--over);
+    padding:7px 12px; border-radius:0 8px 8px 0; margin-bottom:6px;
+  }
+  .evwarn li{
+    color:var(--warn); background:var(--warn-bg); border-left:3px solid var(--warn);
+    padding:7px 12px; border-radius:0 8px 8px 0; margin-bottom:6px;
+  }
+  .evtax{margin-top:14px; font-size:13px}
+  .evtax summary{cursor:pointer; color:var(--muted); letter-spacing:.03em}
+  .evtax summary:hover{color:var(--ink)}
+  .evgo{margin:12px 0 0}
+  .ev-jump{
+    background:none; border:0; padding:0; cursor:pointer; color:var(--gold);
+    font-family:var(--sans); font-size:12.5px; letter-spacing:.04em;
+  }
+  .ev-jump:hover{text-decoration:underline}
+  .evtable{width:100%; border-collapse:collapse; font-size:12.5px; font-variant-numeric:tabular-nums}
+  .evtable th, .evtable td{padding:6px 8px; border-bottom:1px solid var(--line); text-align:right}
+  .evtable th:first-child, .evtable td:first-child{text-align:left}
+  .evtable thead th{color:var(--faint); font-weight:600; font-size:11px; letter-spacing:.08em}
+  .evwrap{overflow-x:auto}
+  @media (max-width:900px){ .evhead{flex-direction:column; align-items:flex-start; gap:4px} }
+  .evgrid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  @media (max-width:860px){ .evgrid2{grid-template-columns:1fr} }
   .mnote{color:var(--faint); font-size:12px; margin:10px 2px 0}
   .msum{
     display:flex; flex-wrap:wrap; gap:8px 16px; align-items:baseline; margin:0 0 14px;
@@ -870,6 +939,7 @@
   <div class="subtabs" id="award-sub" hidden role="tablist" aria-label="哩程票工具">
     <button type="button" class="stab" data-sv="calc" aria-selected="true">AS×星宇 中停計算機</button>
     <button type="button" class="stab" data-sv="mile" aria-selected="false">兌換表與跨計畫比較</button>
+    <button type="button" class="stab" data-sv="ev" aria-selected="false">長榮效益最大化</button>
   </div>
 
   <section class="view" id="view-calc">
@@ -1098,6 +1168,81 @@
     <section id="mi-main"></section>
   </div>
   </section><!-- /view-mile -->
+
+  <section class="view" id="view-ev" hidden>
+  <div class="viewintro">
+    <p class="sub">長榮無限萬哩遊查票器：同樣的哩程，怎麼開才玩最多。找出<b>加了不用多花半哩</b>的中停點、
+      <b>只多一點點就能再多一段</b>的加碼，並估算要另外付的稅費。</p>
+    <div class="rulechips">
+      <span>自家票<b>長程線可中停 1 次</b></span>
+      <span>星盟票<b>去回程各停 1 點</b></span>
+      <span>2025/9/1 <b>三條新制</b>已內建</span>
+      <span>稅費<b>估算含 YR US$33</b></span>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="panel">
+      <h2>查票條件</h2>
+      <p class="hint">兌換表、艙等、出發地決定一切。</p>
+
+      <p class="seglabel">兌換表</p>
+      <div class="seg" role="group" aria-label="兌換表">
+        <button type="button" class="ev-chart" data-c="own" aria-pressed="false">長榮自家</button>
+        <button type="button" class="ev-chart" data-c="sa" aria-pressed="true">星空聯盟</button>
+      </div>
+
+      <p class="seglabel" style="margin-top:14px">艙等</p>
+      <div class="seg" role="group" aria-label="艙等">
+        <button type="button" class="ev-cab" data-k="eco" aria-pressed="false">經濟</button>
+        <button type="button" class="ev-cab" data-k="pey" aria-pressed="false" hidden>豪經</button>
+        <button type="button" class="ev-cab" data-k="biz" aria-pressed="true">商務</button>
+        <button type="button" class="ev-cab" data-k="fst" aria-pressed="false">頭等</button>
+      </div>
+
+      <div class="field"><label for="ev-origin">出發地</label><select id="ev-origin"></select></div>
+      <div class="field"><label for="ev-have">持有哩程（選填）</label>
+        <input type="number" id="ev-have" min="0" step="1000" placeholder="例：180000" inputmode="numeric"></div>
+
+      <hr class="divider">
+      <p class="seglabel">要做什麼</p>
+      <div class="seg segwrap" role="group" aria-label="模式">
+        <button type="button" class="ev-mode" data-m="explore" aria-pressed="true">我能去哪</button>
+        <button type="button" class="ev-mode" data-m="boost" aria-pressed="false">加值中停</button>
+        <button type="button" class="ev-mode" data-m="check" aria-pressed="false">驗行程</button>
+      </div>
+
+      <div class="field" id="ev-dest-field" hidden><label for="ev-dest">目的地（折返點）</label><select id="ev-dest"></select></div>
+
+      <div class="field" id="ev-path-field" hidden>
+        <label for="ev-path">行程（代碼後加 <code>*</code> ＝停留）</label>
+        <input type="text" id="ev-path" spellcheck="false" placeholder="TPE &gt; BKK* &gt; FRA* &gt; IST* &gt; TPE">
+        <p class="hint" style="margin:6px 0 0">不加 <code>*</code> 就是 24 小時內轉機。回到原點就是來回票。</p>
+      </div>
+
+      <div id="ev-opt-field">
+        <label class="ck"><input type="checkbox" id="ev-hub" checked>中停點只看星盟樞紐（較訂得到）</label>
+        <p class="seglabel" style="margin-top:12px">排序</p>
+        <div class="seg" role="group" aria-label="排序">
+          <button type="button" class="ev-sort" data-s="eff" aria-pressed="true">最划算</button>
+          <button type="button" class="ev-sort" data-s="far" aria-pressed="false">飛最遠</button>
+          <button type="button" class="ev-sort" data-s="near" aria-pressed="false">最順路</button>
+        </div>
+      </div>
+    </aside>
+
+    <section id="ev-main"></section>
+  </div>
+
+  <div class="evgrid2" style="margin-top:26px">
+    <div class="card reveal"><h3>長榮／立榮自家票 票規</h3>
+      <ul id="ev-rules-own"></ul></div>
+    <div class="card reveal"><h3>星空聯盟票 票規</h3>
+      <ul id="ev-rules-sa"></ul></div>
+  </div>
+  <div id="ev-extra" style="margin-top:26px"></div>
+  </section><!-- /view-ev -->
+
 
   <section class="view" id="view-live" hidden>
   <div class="viewintro">
@@ -1613,9 +1758,9 @@ buildTable();
 render();
 
 /* ═════════════════════ 分頁切換 ═════════════════════ */
-const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), live: document.getElementById('view-live'), dash: document.getElementById('view-dash') };
+const VIEWS = { calc: document.getElementById('view-calc'), fourleg: document.getElementById('view-fourleg'), mile: document.getElementById('view-mile'), ev: document.getElementById('view-ev'), live: document.getElementById('view-live'), dash: document.getElementById('view-dash') };
 const TABS  = { award: document.getElementById('tab-award'), cash: document.getElementById('tab-cash'), sky: document.getElementById('tab-sky'), mine: document.getElementById('tab-mine') };
-const TAB_OF = { calc:'award', mile:'award', fourleg:'cash', live:'sky', dash:'mine' };
+const TAB_OF = { calc:'award', mile:'award', ev:'award', fourleg:'cash', live:'sky', dash:'mine' };
 let currentView = 'calc';
 let awardSub = 'calc';
 function showView(v){
@@ -1627,6 +1772,7 @@ function showView(v){
   sub.hidden = (TAB_OF[v] !== 'award');
   sub.querySelectorAll('.stab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.sv === v)));
   if (v === 'mile' && typeof miPrefill === 'function') miPrefill();
+  if (v === 'ev' && typeof evRender === 'function') evRender();
   if (v === 'live') liveInit();
   if (v === 'dash' && typeof fxInitOnce === 'function'){ fxInitOnce(); nbovRender(); }
   if (typeof syncHash === 'function') syncHash();
@@ -1904,17 +2050,22 @@ const MILE_DATA = {
   BR: {
     name:'長榮航空・無限萬哩遊',
     site:'https://www.evaair.com/zh-tw/infinity-mileageLands/mileage-award-program/mileage-redemption/', siteName:'長榮官網兌換表',
-    basisNote:'官方以來回計價，單程為半價。',
+    basisNote:'官方以來回計價，單程為半價；訂位艙等經濟 X／豪經 E／商務 I。立榮國內線來回 13,500 哩。',
     zones:[
-      { key:'hkmo', zone:'台灣 ⇄ 港澳', sub:'短程', eco:{rt:20000, approx:true}, pey:null, biz:{rt:40000, approx:true} },
-      { key:'nea', zone:'台灣 ⇄ 東北亞', sub:'日本・韓國', eco:{rt:35000}, pey:{rt:40000}, biz:{rt:50000} },
-      { key:'sea', zone:'台灣 ⇄ 東南亞', sub:'泰・新・馬・菲・越・印尼', eco:{rt:35000}, pey:{rt:40000, approx:true}, biz:{rt:55000} },
-      { key:'usw', zone:'台灣 ⇄ 美洲 A 區', sub:'美西（LAX/SFO/SEA…）', eco:{rt:75000}, pey:{rt:110000}, biz:{rt:150000} },
-      { key:'use', zone:'台灣 ⇄ 美洲 B 區', sub:'美東・加拿大（JFK/ORD/YVR…）', eco:{rt:80000, approx:true}, pey:{rt:115000, approx:true}, biz:{rt:160000} },
-      { key:'eur', zone:'台灣 ⇄ 歐洲', sub:'巴黎・倫敦・維也納…', eco:{rt:75000, approx:true}, pey:{rt:110000, approx:true}, biz:{rt:150000} },
+      { key:'hkmo', zone:'台灣 ⇄ 香港／澳門', sub:'短程專價', eco:{rt:20000}, pey:null, biz:{rt:50000} },
+      { key:'asia', zone:'亞洲區域間', sub:'台灣・港澳大陸・東北亞・東南亞・德里（一口價）', eco:{rt:35000}, pey:{rt:40000}, biz:{rt:50000} },
+      { key:'ocean', zone:'亞洲 ⇄ 大洋洲', sub:'紐澳', eco:{rt:100000}, pey:null, biz:{rt:150000} },
+      { key:'amw', zone:'亞洲 ⇄ 美洲（美西組）', sub:'LAX/SFO/SEA/ONT/YVR…', eco:{rt:100000}, pey:{rt:110000}, biz:{rt:150000} },
+      { key:'ame', zone:'亞洲 ⇄ 美洲（美東六航點）', sub:'ORD/JFK/IAH/DFW/IAD/YYZ', eco:{rt:110000}, pey:{rt:120000}, biz:{rt:160000} },
+      { key:'eur', zone:'亞洲 ⇄ 歐洲', sub:'倫敦・巴黎・阿姆斯特丹・維也納・米蘭・慕尼黑', eco:{rt:100000}, pey:{rt:110000}, biz:{rt:150000} },
     ],
     upgrades:[
-      { route:'依航段與訂位艙等而異；美東航線較美西約多 5,000 哩', miles:null },
+      { route:'東北亞／東南亞・經濟升商務（經典 Q/H/M）', miles:15000 },
+      { route:'東北亞／東南亞・經濟升商務（尊寵 B/Y）', miles:12000 },
+      { route:'歐洲・經濟升商務（經典／尊寵 45,000）', miles:35000 },
+      { route:'美洲（不含美東六航點）・經濟升商務（尊寵）', miles:50000 },
+      { route:'有豪經的航線・經濟升豪經（東南亞・尊寵）', miles:7500 },
+      { route:'最便宜的基本票種（經濟 S/W/V、豪經 P）不可升等', miles:null },
     ],
   },
   JX: {
@@ -1936,16 +2087,19 @@ const CI_NEW2OLD = { asia1:'asia', asia2:'asia', asia3:'asia', ocean:'long', na:
 const CI_TIER_NAME = ['充足', '有限', '稀少/候補'];
 /* 新制以開票日為準：到期前預設看現行表，之後自動切新制 */
 const ciEraDefault = () => (new Date().toLocaleDateString('sv') >= MILE_DATA.CI.newFrom ? 'new' : 'old');
-const miState = { air:'CI', trip:'rt', ciEra:ciEraDefault(), ciTier:0, br:{ za:'sea', zb:'nea', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'', da:'HND', db:'CTS' } };
+const miState = { air:'CI', trip:'rt', ciEra:ciEraDefault(), ciTier:0, br:{ za:'asia', zb:'eur', cab:'eco', thru:'' }, nh:{ ta:'TPE', jx:'KIX', jy:'NRT', tb:'KHH', cab:'eco', d1:'', d2:'', d3:'', da:'HND', db:'CTS' } };
 
 /* 長榮效益最大化：同區最遠航點（座標即時計算）＋ 跨區經台北檢查 */
 const BR_ZONE_APTS = {
-  hkmo:['HKG','MFM'], nea:['NRT','HND','KIX','NGO','FUK','CTS','SDJ','OKA','ICN','PUS'],
-  sea:['BKK','CNX','SGN','HAN','DAD','SIN','KUL','PEN','MNL','CEB','CGK','DPS'],
-  usw:['LAX','SFO','SEA','ONT'], use:['JFK','BOS','ORD','DFW','YVR','YYZ'],
-  eur:['LHR','CDG','AMS','FRA','MXP','MAD','ZRH'],
+  hkmo:['HKG','MFM'],
+  asia:['NRT','HND','KIX','NGO','FUK','CTS','SDJ','OKA','ICN','PUS','PVG','PEK','CAN','SZX','XMN',
+        'BKK','CNX','SGN','HAN','DAD','PNH','SIN','KUL','PEN','MNL','CEB','CGK','DPS','DEL'],
+  ocean:['BNE'],
+  amw:['LAX','SFO','SEA','ONT','YVR'], ame:['ORD','JFK','IAH','DFW','IAD','YYZ'],
+  eur:['LHR','CDG','AMS','VIE','MXP','MUC'],
 };
-const BR_ZONE_NAME = { hkmo:'港澳', nea:'東北亞', sea:'東南亞', usw:'美洲 A 區（美西）', use:'美洲 B 區（美東/加）', eur:'歐洲' };
+const BR_ZONE_NAME = { hkmo:'台灣＝港澳', asia:'亞洲區域間', ocean:'大洋洲',
+  amw:'美洲（美西組）', ame:'美洲（美東六航點）', eur:'歐洲' };
 function brFarthest(key){
   let best = null;
   for (const c of BR_ZONE_APTS[key] || []){
@@ -1955,7 +2109,7 @@ function brFarthest(key){
   }
   return best;
 }
-/* 亞洲跨區（港澳/東北亞/東南亞互飛）表定參考值（整理值，可修改） */
+/* 亞洲區域間一口價（港澳／東北亞／東南亞／德里互飛都是同一格） */
 const BR_ASIA_X = { eco:35000, biz:50000 };
 
 function miRender(){
@@ -2023,7 +2177,7 @@ function miRender(){
     const b = miState.br;
     const zoneOpts = sel => Object.entries(BR_ZONE_NAME).map(([k, n]) =>
       `<option value="${k}"${k === sel ? ' selected' : ''}>${n}</option>`).join('');
-    const asiaPair = ['hkmo','nea','sea'].includes(b.za) && ['hkmo','nea','sea'].includes(b.zb);
+    const asiaPair = ['hkmo','asia'].includes(b.za) && ['hkmo','asia'].includes(b.zb);
     const thru = +b.thru || (asiaPair ? BR_ASIA_X[b.cab] : 0);
     let verdict = '<p class="mnote">選好區域後，填入官網查到的 A⇄B 跨區來回哩程即自動檢查。</p>';
     if (b.za === b.zb) verdict = '<p class="mnote">起點區與折返區請選不同區域。</p>';
@@ -2551,36 +2705,36 @@ function nhDomHtml(s){
 const CMP_DESTS = {
   '港澳': [ ['HKG','香港',{ci:'asia1',br:'hkmo',jx:'asia'}] ],
   '日本': [
-    ['NRT','東京成田',{ci:'asia3',br:'nea',jx:'asia'}],
-    ['HND','東京羽田',{ci:'asia3',br:'nea',jx:null}],
-    ['KIX','大阪',{ci:'asia3',br:'nea',jx:'asia'}],
-    ['NGO','名古屋',{ci:'asia2',br:'nea',jx:'asia'}],
-    ['FUK','福岡',{ci:'asia2',br:'nea',jx:'asia'}],
-    ['CTS','札幌',{ci:'asia3',br:'nea',jx:'asia'}],
-    ['OKA','沖繩',{ci:'asia2',br:'nea',jx:'asia'}],
+    ['NRT','東京成田',{ci:'asia3',br:'asia',jx:'asia'}],
+    ['HND','東京羽田',{ci:'asia3',br:'asia',jx:null}],
+    ['KIX','大阪',{ci:'asia3',br:'asia',jx:'asia'}],
+    ['NGO','名古屋',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['FUK','福岡',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['CTS','札幌',{ci:'asia3',br:'asia',jx:'asia'}],
+    ['OKA','沖繩',{ci:'asia2',br:'asia',jx:'asia'}],
   ],
   '韓國': [
-    ['ICN','首爾',{ci:'asia3',br:'nea',jx:null}],
-    ['PUS','釜山',{ci:'asia2',br:'nea',jx:'asia'}],
+    ['ICN','首爾',{ci:'asia3',br:'asia',jx:null}],
+    ['PUS','釜山',{ci:'asia2',br:'asia',jx:'asia'}],
   ],
   '東南亞': [
-    ['BKK','曼谷',{ci:'asia3',br:'sea',jx:'asia'}],
-    ['SGN','胡志明市',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['HAN','河內',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['DAD','峴港',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['SIN','新加坡',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['KUL','吉隆坡',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['MNL','馬尼拉',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['CEB','宿霧',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['CGK','雅加達',{ci:'asia2',br:'sea',jx:'asia'}],
-    ['DPS','峇里島',{ci:'asia3',br:'sea',jx:null}],
+    ['BKK','曼谷',{ci:'asia3',br:'asia',jx:'asia'}],
+    ['SGN','胡志明市',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['HAN','河內',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['DAD','峴港',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['SIN','新加坡',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['KUL','吉隆坡',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['MNL','馬尼拉',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['CEB','宿霧',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['CGK','雅加達',{ci:'asia2',br:'asia',jx:'asia'}],
+    ['DPS','峇里島',{ci:'asia3',br:'asia',jx:null}],
   ],
   '北美': [
-    ['LAX','洛杉磯',{ci:'na',br:'usw',jx:'na'}],
-    ['SFO','舊金山',{ci:'na',br:'usw',jx:'na'}],
-    ['SEA','西雅圖',{ci:null,br:'usw',jx:'na'}],
-    ['JFK','紐約',{ci:'nyc',br:'use',jx:null}],
-    ['YVR','溫哥華',{ci:'na',br:'use',jx:null}],
+    ['LAX','洛杉磯',{ci:'na',br:'amw',jx:'na'}],
+    ['SFO','舊金山',{ci:'na',br:'amw',jx:'na'}],
+    ['SEA','西雅圖',{ci:null,br:'amw',jx:'na'}],
+    ['JFK','紐約',{ci:'nyc',br:'ame',jx:null}],
+    ['YVR','溫哥華',{ci:'na',br:'amw',jx:null}],
   ],
   '歐洲': [
     ['LHR','倫敦',{ci:'eu',br:'eur',jx:null}],
@@ -2762,9 +2916,11 @@ const ELITE = {
   CI: { name:'華航', unit:'會籍積分',
     tiers:[ {t:'金卡', v:360}, {t:'翡翠卡', v:720}, {t:'晶鑽卡', v:1400} ],
     note:'2025/11/27 積分新制；至少 50% 積分須來自華航／華信自營國際線。續卡（兩年）580／1,150／2,240。' },
-  BR: { name:'長榮', unit:'資格哩程',
-    tiers:[ {t:'銀卡', v:30000, extra:'＋4 段（或 26 段）'}, {t:'金卡', v:50000, approx:true, extra:'＋6 段（或約 50 段）'}, {t:'鑽石卡', v:120000, approx:true} ],
-    note:'12 個月內累積；續卡以兩年計、門檻不同，以官網為準。' },
+  BR: { name:'長榮', unit:'卡籍哩程',
+    tiers:[ {t:'銀卡', v:30000, extra:'＋長榮/立榮國際 4 段（或單以 26 段）'},
+            {t:'金卡', v:50000, extra:'或國際 50 段'},
+            {t:'鑽石卡', v:120000, extra:'或國際 100 段'} ],
+    note:'晉升看現卡籍效期內連續 12 個月，續卡看整個卡籍效期（兩年）：40,000／80,000／200,000 哩，或 42／80／140 段。晉升後超出門檻的哩程保留一年，續卡達標則歸零重算。' },
   JX: { name:'星宇', unit:'哩程',
     tiers:[ {t:'ADVENTURER', v:30000, extra:'或 25 段'}, {t:'EXPLORER', v:50000}, {t:'INSIGHTER', v:120000} ],
     note:'EXPLORER／INSIGHTER 須於前一等級效期內連續 12 個月達成。' },
@@ -2894,6 +3050,15 @@ function syncHash(){
       for (const d of ['fl-d1','fl-d2','fl-d3','fl-d4']) if ($id(d).value) p.set(d.slice(3), $id(d).value);
       if ($id('fl-nextday').checked) p.set('nd', '1');
     }
+    if (currentView === 'ev'){
+      p.set('ec', evState.chart); p.set('ek', evState.cab); p.set('eo', evState.origin);
+      p.set('em', evState.mode);
+      if (evState.mode === 'boost') p.set('ed', evState.dest);
+      if (evState.mode === 'check' && $id('ev-path').value) p.set('ep', $id('ev-path').value);
+      if ($id('ev-have').value) p.set('eh', $id('ev-have').value);
+      if (evState.sort !== 'eff') p.set('es', evState.sort);
+      if (!evState.hubOnly) p.set('eu', '0');
+    }
     if (currentView === 'mile'){
       p.set('ma', miState.air); p.set('mt', miState.trip);
       if ($id('mi-have').value) p.set('mh', $id('mi-have').value);
@@ -2946,10 +3111,929 @@ function applyHash(){
     if (p.get('cr') === '1') miState.trip = 'rt';
     if (p.get('ch')) $id('mi-have').value = p.get('ch');
   }
+  if (['own','sa'].includes(p.get('ec'))) evState.chart = p.get('ec');
+  if (['eco','pey','biz','fst'].includes(p.get('ek'))) evState.cab = p.get('ek');
+  if (evByCode[p.get('eo')]) evState.origin = p.get('eo');
+  if (evByCode[p.get('ed')]) evState.dest = p.get('ed');
+  if (['explore','boost','check'].includes(p.get('em'))) evState.mode = p.get('em');
+  if (p.get('ep')) $id('ev-path').value = p.get('ep');
+  if (p.get('eh')) $id('ev-have').value = p.get('eh');
+  if (['eff','far','near'].includes(p.get('es'))){
+    evState.sort = p.get('es');
+    document.querySelectorAll('.ev-sort').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.s === evState.sort)));
+  }
+  if (p.get('eu') === '0'){ evState.hubOnly = false; $id('ev-hub').checked = false; }
+  $id('ev-origin').dataset.chart = ''; $id('ev-dest').dataset.k = '';
   syncHash.ready = true;
-  render(); flRender(); miRender();
+  render(); flRender(); miRender(); evRender();
   showView(t && VIEWS[t] ? t : 'calc');
 }
+
+
+/* ═════════════════════ 長榮效益最大化查票器 ═════════════════════ */
+/* ═════════════════════ 長榮效益最大化查票器 ═════════════════════
+   資料來源：長榮官網兌換表與票規（2026/08 整理）。哩程為整理值，開票前以官網／客服為準。 */
+
+/* 星盟兌換表的 14 個區域（含台灣）。列＝全 14 區，欄＝去掉台灣後的 13 區（上三角） */
+const EV_Z = ['tw','hkmo','cn','nasia','sea','csa','swp','nam','hicam','sam','eur','me','naf','csaf'];
+const EV_ZN = { tw:'台灣', hkmo:'港澳', cn:'中國大陸', nasia:'北亞', sea:'東南亞', csa:'中亞南亞',
+  swp:'西南太平洋', nam:'北美洲', hicam:'夏威夷中美洲', sam:'南美洲', eur:'歐洲', me:'中東',
+  naf:'北非', csaf:'中非南非' };
+/* 單位千哩、來回；單程為一半。0 代表該格不提供兌換 */
+const EV_CHART = {
+  eco: [
+    [40,40,40,40,60,105,115,100,135,105,81,90.5,100],
+    [0,34,37,40,60,105,115,100,135,105,81,90.5,100],
+    [0,30,37,50,80,105,115,100,140,105,80,90,100],
+    [0,0,30,50,80,105,115,100,135,105,93,96.5,100],
+    [0,0,0,30,50,105,120,110,135,105,75,77.5,80],
+    [0,0,0,0,30,102,120,105,120,89,102,102,102],
+    [0,0,0,0,0,35,120,110,135,110,100,100,100],
+    [0,0,0,0,0,0,39,50,68,68,86,93,100],
+    [0,0,0,0,0,0,0,60,80,100,100,100,100],
+    [0,0,0,0,0,0,0,0,30,95,120,120,120],
+    [0,0,0,0,0,0,0,0,0,30,71,71,71],
+    [0,0,0,0,0,0,0,0,0,0,40,55,70],
+    [0,0,0,0,0,0,0,0,0,0,0,40,50],
+    [0,0,0,0,0,0,0,0,0,0,0,0,70]],
+  biz: [
+    [55,55,60,70,95,155,175,185,216,180,135,160,185],
+    [0,55,60,70,95,155,175,185,216,180,135,160,185],
+    [0,50,55,80,120,155,175,185,216,185,135,160,185],
+    [0,0,55,80,120,155,175,185,216,185,139,162,185],
+    [0,0,0,55,80,155,195,195,220,160,105,120,135],
+    [0,0,0,0,45,154,195,200,211,142,134,134,134],
+    [0,0,0,0,0,55,195,195,221,190,185,185,185],
+    [0,0,0,0,0,0,58,80,105,130,135,160,185],
+    [0,0,0,0,0,0,0,105,135,185,185,185,185],
+    [0,0,0,0,0,0,0,0,55,156,185,180,175],
+    [0,0,0,0,0,0,0,0,0,55,107,107,107],
+    [0,0,0,0,0,0,0,0,0,0,65,77.5,90],
+    [0,0,0,0,0,0,0,0,0,0,0,65,70],
+    [0,0,0,0,0,0,0,0,0,0,0,0,118]],
+  fst: [
+    [75,75,75,125,140,170,210,290,290,245,210,250,290],
+    [0,75,80,125,140,170,210,290,290,245,210,250,290],
+    [0,75,75,125,160,190,210,290,300,255,210,250,290],
+    [0,0,75,125,160,190,210,290,290,255,210,250,290],
+    [0,0,0,75,125,170,225,290,290,215,170,190,210],
+    [0,0,0,0,60,205,290,290,290,178,154,167,180],
+    [0,0,0,0,0,75,255,255,282,290,290,290,290],
+    [0,0,0,0,0,0,77,125,170,170,210,250,290],
+    [0,0,0,0,0,0,0,175,210,290,290,290,290],
+    [0,0,0,0,0,0,0,0,75,210,290,252.5,215],
+    [0,0,0,0,0,0,0,0,0,70,129,149.5,170],
+    [0,0,0,0,0,0,0,0,0,0,105,115,125],
+    [0,0,0,0,0,0,0,0,0,0,0,105,125],
+    [0,0,0,0,0,0,0,0,0,0,0,0,180]],
+};
+/* 2025/9/1 第三條跨區禁行：三大板塊，兩端不同板塊時第三塊全程禁入 */
+const EV_BLOC = { nam:'AM', hicam:'AM', sam:'AM', eur:'EA', me:'EA', naf:'EA', csaf:'EA',
+  tw:'AP', hkmo:'AP', cn:'AP', nasia:'AP', sea:'AP', csa:'AP', swp:'AP' };
+const EV_BLOC_N = { AM:'美洲', EA:'歐洲／非洲／中東', AP:'亞洲／西南太平洋' };
+
+/* 長榮／立榮自家國際線兌換表（來回哩程，單程半價；訂位艙等 經濟 X／豪經 E／商務 I） */
+const EV_OWN = {
+  hkmo: { name:'台灣＝香港／澳門',           eco:20000,  pey:null,   biz:50000  },
+  asia: { name:'亞洲區域間',                 eco:35000,  pey:40000,  biz:50000  },
+  ocean:{ name:'亞洲＝大洋洲',               eco:100000, pey:null,   biz:150000 },
+  eur:  { name:'亞洲＝歐洲',                 eco:100000, pey:110000, biz:150000 },
+  amw:  { name:'亞洲＝美洲（美西組）',       eco:100000, pey:110000, biz:150000 },
+  ame:  { name:'亞洲＝美洲（美東六航點）',   eco:110000, pey:120000, biz:160000 },
+};
+const EV_OWN_RANK = ['hkmo','asia','ocean','eur','amw','ame'];
+
+/* 星空聯盟環球酬賓機票 */
+const EV_RTW = { eco:180000, biz:325000, fst:480000,
+  rules:['最多 10 個航段、最多 7 次停留','太平洋與大西洋各須跨越一次','須單一方向繞行，最後回到出發國',
+    '同一 IATA 大區（美洲／歐非／亞洲大洋洲）內可逆向，跨區不可','行程須超過 10 天',
+    '同一城市只允許出發一次；同一國家國際線只允許一次出境、一次入境','須透過客服開票'] };
+
+/* 酬賓機票相關費用（2026/8 起適用；稅金另計，只能用現金或信用卡付） */
+const EV_FEES = {
+  yr:33, yrNote:'訂位服務費 YR：每張 US$33，香港出發免收，開票後一律不退（一年內從 25 → 28 → 33）',
+  rows:[
+    { item:'訂位服務費（YR）', v:'每張 US$33', note:'香港出發免收，一律不退' },
+    { item:'改航班日期或班號（同航線）', v:'免費', note:'全程未使用與部分使用都受理' },
+    { item:'改行程或艙等', v:'綠卡 US$50／鑽金銀 US$0', note:'限全程未使用' },
+    { item:'官網線上退票', v:'US$0', note:'限官網或客服中心以信用卡完成的交易' },
+    { item:'非線上退票', v:'綠卡 US$50／鑽金銀 US$0', note:'須臨櫃辦理' },
+    { item:'未登機費（長程）', v:'US$170', note:'美洲、歐洲、大洋洲，2026/3 起' },
+    { item:'未登機費（短程）', v:'US$110', note:'港澳以外' },
+    { item:'未登機費（港澳）', v:'US$40', note:'' },
+  ],
+  changeNote:'改票哩程多退少補；但原兌換用的哩程若在改票時已過期，須先付費補回才能改。',
+};
+
+/* 升等（單一航段）。經典＝經濟 Q/H/M・豪經 L/T；尊寵＝經濟 B/Y・豪經 K。基本票種不可升等 */
+const EV_UP_PEY = {
+  cols:['中國大陸','東南亞','歐洲','美西','美東'],
+  rows:[
+    { r:'經濟 → 豪經',       v:[[8000,6000],[10000,7500],[25000,18500],[25000,18500],[30000,22500]] },
+    { r:'豪經 → 皇璽桂冠',   v:[[10000,8000],[15000,13500],[35000,31500],[35000,31500],[40000,36000]] },
+    { r:'經濟 → 皇璽桂冠',   v:[[18000,14000],[25000,21000],[60000,50000],[60000,50000],[70000,58500]] },
+  ],
+  note:'提供豪華經濟艙服務的航線。每格為「經典／尊寵」票種所需哩程；美東指 ORD／JFK／IAH／DFW／IAD／YYZ 六航點。',
+};
+const EV_UP_NOPEY = {
+  note:'未提供豪華經濟艙服務的航線：經濟艙升皇璽桂冠／桂冠／商務艙（哩／航段）',
+  rows:[['港澳',12500,10000],['中國大陸',15000,11000],['東北亞',15000,12000],['東南亞、德里',15000,12000],
+    ['大洋洲',35000,26000],['歐洲',45000,35000],['美洲（不含美東六航點）',60000,50000]],
+};
+const EV_UP_SA = {
+  note:'兌換星盟航空艙位升等（台灣出發、單一航段）。只限升上一級；升商務原則上認 Y／B 艙（部分航空另開放 O 或 E 艙），升頭等要 C／D 艙，須於起飛前 24 小時訂妥、不能候補。',
+  rows:[['港澳',18000,20000],['中國大陸',25000,30000],['北亞',18000,23000],['東南亞',30000,45000],
+    ['中亞南亞',40000,45000],['西南太平洋',50000,55000],['北美洲',70000,75000],['夏威夷中美洲',70000,75000],
+    ['南美洲',98000,103500],['歐洲',70000,75000],['中東',50000,60000],['北非',50000,60000],['中非南非',50000,60000]],
+};
+
+/* 票規（顯示用） */
+const EV_RULES = {
+  own:['來回票：短程線不可停留（只能轉機）；長程線（行程含歐洲、美洲、大洋洲）最多 1 個停留點',
+    '單程票可以轉機，但不可停留',
+    '折返點及中停點，不可與啟始地或目的地「同一個國家」',
+    '台灣出發的來回行程，不得以台灣為轉機點（東京－台北－大阪－台北－東京不行）',
+    '來回票可在出發地與折返地開口，但開口兩端須在同一區域；台灣出發回程開口只限台灣地區',
+    '三個航段以上跨不同標準時取最高者；來回只有兩個航段時可各按單程標準計算（去經濟、回商務＝兩張單程相加）',
+    '哩程版「外站四段票」（台北停留兩次）已於 2026/8/31 停售'],
+  sa:['來回票：去、回程可各加 1 個停留點，最多 2 點；最多 6 個航段',
+    '單程票不可中停，最多 3 個航段，哩程為來回的一半',
+    '停留點不可與啟程地或目的地「同一個國家」',
+    '【2025/9/1 新制①】折返點由系統認定為「距出發地所需哩程最高」的那一點，且行程中任何一段的所需哩程都不可超過「出發地→折返點」的所需哩程',
+    '【2025/9/1 新制②】轉機點不可與出發地、目的地、折返點同城市（桃園與松山視為同一城市）',
+    '【2025/9/1 新制③】跨區禁行：美洲↔歐非中東不得經亞洲與西南太平洋；美洲↔亞洲與西南太平洋不得經歐非中東；亞洲與西南太平洋↔歐非中東不得經美洲',
+    '來回票可有一次開口，開口須在起點或折返點，開口前後須為同一區域',
+    '行程中若有不同艙等，整張票扣最高艙等的哩程',
+    '訂位艙等：經濟 X／商務 I／頭等 O；新航豪華套房與瑞航頭等換不到；共掛班號不可兌換',
+    '含中途停留的星盟票與環球票只能透過客服開票，一般星盟票可線上開'],
+};
+const EV_CC = {'TW':'台灣', 'HK':'香港', 'MO':'澳門', 'CN':'中國大陸', 'JP':'日本', 'KR':'韓國', 'MN':'蒙古', 'TH':'泰國', 'VN':'越南', 'SG':'新加坡', 'MY':'馬來西亞', 'ID':'印尼', 'PH':'菲律賓', 'KH':'柬埔寨', 'LA':'寮國', 'MM':'緬甸', 'BN':'汶萊', 'IN':'印度', 'LK':'斯里蘭卡', 'NP':'尼泊爾', 'BD':'孟加拉', 'PK':'巴基斯坦', 'MV':'馬爾地夫', 'UZ':'烏茲別克', 'KZ':'哈薩克', 'AZ':'亞塞拜然', 'GE':'喬治亞', 'AU':'澳洲', 'NZ':'紐西蘭', 'FJ':'斐濟', 'PG':'巴布亞紐幾內亞', 'NC':'新喀里多尼亞', 'PF':'法屬玻里尼西亞', 'GU':'關島', 'US':'美國', 'CA':'加拿大', 'MX':'墨西哥', 'PA':'巴拿馬', 'CR':'哥斯大黎加', 'GT':'瓜地馬拉', 'SV':'薩爾瓦多', 'CU':'古巴', 'PR':'波多黎各', 'BR':'巴西', 'AR':'阿根廷', 'CL':'智利', 'PE':'秘魯', 'CO':'哥倫比亞', 'EC':'厄瓜多', 'UY':'烏拉圭', 'GB':'英國', 'FR':'法國', 'NL':'荷蘭', 'DE':'德國', 'CH':'瑞士', 'AT':'奧地利', 'BE':'比利時', 'DK':'丹麥', 'SE':'瑞典', 'NO':'挪威', 'FI':'芬蘭', 'IE':'愛爾蘭', 'PT':'葡萄牙', 'ES':'西班牙', 'IT':'義大利', 'PL':'波蘭', 'CZ':'捷克', 'HU':'匈牙利', 'RO':'羅馬尼亞', 'BG':'保加利亞', 'HR':'克羅埃西亞', 'SI':'斯洛維尼亞', 'RS':'塞爾維亞', 'GR':'希臘', 'EE':'愛沙尼亞', 'LV':'拉脫維亞', 'LT':'立陶宛', 'TR':'土耳其', 'AE':'阿聯', 'QA':'卡達', 'SA':'沙烏地阿拉伯', 'KW':'科威特', 'BH':'巴林', 'OM':'阿曼', 'JO':'約旦', 'LB':'黎巴嫩', 'IL':'以色列', 'EG':'埃及', 'MA':'摩洛哥', 'TN':'突尼西亞', 'DZ':'阿爾及利亞', 'ZA':'南非', 'ET':'衣索比亞', 'KE':'肯亞', 'NG':'奈及利亞', 'GH':'迦納', 'TZ':'坦尚尼亞', 'UG':'烏干達', 'MU':'模里西斯', 'SC':'塞席爾', 'NA':'納米比亞', 'ZW':'辛巴威', 'ZM':'尚比亞'};
+/* [代碼, 中文, 同城市代碼(空=同 code), 國別, 星盟區, 自家表分區(0=長榮不飛), 緯, 經, 離境稅費 US$, 旗標(1=長榮/立榮航點 2=可當中停的星盟樞紐), 稅費說明, 前艙離境稅] */
+const EV_AP_RAW = [
+  ['TPE','台北桃園','','TW','tw','asia',25.0777,121.2325,16,3,'機場服務費 NT$500'],
+  ['TSA','台北松山','TPE','TW','tw','asia',25.0694,121.5521,16,1,'機場服務費 NT$500'],
+  ['KHH','高雄','','TW','tw','asia',22.5771,120.3500,16,1,'機場服務費 NT$500'],
+  ['RMQ','台中','','TW','tw','asia',24.2647,120.6206,16,1,'機場服務費 NT$500'],
+  ['HKG','香港','','HK','hkmo','hkmo',22.3080,113.9185,38,3,'旅客離境稅 HK$120＋機場建設費'],
+  ['MFM','澳門','','MO','hkmo','hkmo',22.1496,113.5915,15,1,'機場離境稅'],
+  ['PVG','上海浦東','SHA','CN','cn','asia',31.1443,121.8083,13,3,'民航發展基金 ¥90'],
+  ['SHA','上海虹橋','','CN','cn',0,31.1979,121.3363,13,0,'民航發展基金 ¥90'],
+  ['PEK','北京首都','BJS','CN','cn','asia',40.0799,116.6031,13,3,'民航發展基金 ¥90'],
+  ['PKX','北京大興','BJS','CN','cn',0,39.5098,116.4105,13,0,'民航發展基金 ¥90'],
+  ['CAN','廣州','','CN','cn','asia',23.3924,113.2988,13,1,'民航發展基金 ¥90'],
+  ['SZX','深圳','','CN','cn','asia',22.6393,113.8107,13,3,'民航發展基金 ¥90'],
+  ['CTU','成都雙流','','CN','cn','asia',30.5785,103.9471,13,3,'民航發展基金 ¥90'],
+  ['TFU','成都天府','CTU','CN','cn',0,30.3125,104.4419,13,2,'民航發展基金 ¥90'],
+  ['XIY','西安','','CN','cn','asia',34.4471,108.7516,13,3,'民航發展基金 ¥90'],
+  ['NKG','南京','','CN','cn','asia',31.7420,118.8622,13,1,'民航發展基金 ¥90'],
+  ['HGH','杭州','','CN','cn','asia',30.2295,120.4344,13,1,'民航發展基金 ¥90'],
+  ['XMN','廈門','','CN','cn','asia',24.5440,118.1277,13,1,'民航發展基金 ¥90'],
+  ['FOC','福州','','CN','cn','asia',25.9351,119.6633,13,1,'民航發展基金 ¥90'],
+  ['CKG','重慶','','CN','cn','asia',29.7192,106.6417,13,1,'民航發展基金 ¥90'],
+  ['WUH','武漢','','CN','cn','asia',30.7838,114.2081,13,1,'民航發展基金 ¥90'],
+  ['TAO','青島','','CN','cn','asia',36.3614,120.3744,13,1,'民航發展基金 ¥90'],
+  ['CSX','長沙','','CN','cn','asia',28.1892,113.2196,13,1,'民航發展基金 ¥90'],
+  ['KMG','昆明','','CN','cn',0,25.1019,102.9292,13,0,'民航發展基金 ¥90'],
+  ['NNG','南寧','','CN','cn',0,22.6083,108.1722,13,0,'民航發展基金 ¥90'],
+  ['NRT','東京成田','TYO','JP','nasia','asia',35.7720,140.3929,26,3,'國際觀光旅客稅 ¥1,000＋PSFC'],
+  ['HND','東京羽田','TYO','JP','nasia','asia',35.5494,139.7798,28,3,'國際觀光旅客稅 ¥1,000＋PSFC'],
+  ['KIX','大阪關西','OSA','JP','nasia','asia',34.4342,135.2441,24,1,'國際觀光旅客稅＋PSFC'],
+  ['ITM','大阪伊丹','OSA','JP','nasia',0,34.7855,135.4382,10,0,'國內線機場'],
+  ['NGO','名古屋','','JP','nasia','asia',34.8584,136.8049,22,1,'國際觀光旅客稅＋PSFC'],
+  ['FUK','福岡','','JP','nasia','asia',33.5859,130.4508,22,1,'國際觀光旅客稅＋PSFC'],
+  ['CTS','札幌新千歲','SPK','JP','nasia','asia',42.7752,141.6923,22,1,'國際觀光旅客稅＋PSFC'],
+  ['OKA','沖繩那霸','','JP','nasia','asia',26.1958,127.6459,22,1,'國際觀光旅客稅＋PSFC'],
+  ['SDJ','仙台','','JP','nasia','asia',38.1397,140.9169,22,1,'國際觀光旅客稅＋PSFC'],
+  ['KMJ','熊本','','JP','nasia','asia',32.8373,130.8551,22,1,'國際觀光旅客稅＋PSFC'],
+  ['KOJ','鹿兒島','','JP','nasia','asia',31.8034,130.7194,22,1,'國際觀光旅客稅＋PSFC'],
+  ['HIJ','廣島','','JP','nasia','asia',34.4361,132.9194,22,1,'國際觀光旅客稅＋PSFC'],
+  ['OKJ','岡山','','JP','nasia','asia',34.7569,133.8553,22,1,'國際觀光旅客稅＋PSFC'],
+  ['TOY','富山','','JP','nasia','asia',36.6483,137.1875,22,1,'國際觀光旅客稅＋PSFC'],
+  ['KMQ','小松','','JP','nasia','asia',36.3946,136.4075,22,1,'國際觀光旅客稅＋PSFC'],
+  ['AOJ','青森','','JP','nasia','asia',40.7346,140.6907,22,1,'國際觀光旅客稅＋PSFC'],
+  ['HKD','函館','','JP','nasia',0,41.7700,140.8219,22,0,'國際觀光旅客稅＋PSFC'],
+  ['TAK','高松','','JP','nasia',0,34.2142,134.0156,22,0,'國際觀光旅客稅＋PSFC'],
+  ['ICN','首爾仁川','SEL','KR','nasia','asia',37.4602,126.4407,22,3,'出國納付金＋機場使用料'],
+  ['GMP','首爾金浦','SEL','KR','nasia',0,37.5583,126.7906,20,0,'出國納付金＋機場使用料'],
+  ['PUS','釜山','','KR','nasia','asia',35.1795,128.9382,20,1,'出國納付金＋機場使用料'],
+  ['CJU','濟州','','KR','nasia',0,33.5113,126.4930,20,0,'出國納付金＋機場使用料'],
+  ['UBN','烏蘭巴托','ULN','MN','nasia',0,47.6531,106.8200,25,0,'機場稅'],
+  ['BKK','曼谷蘇凡納布','','TH','sea','asia',13.6900,100.7501,22,3,'旅客服務費 ฿730'],
+  ['DMK','曼谷廊曼','BKK','TH','sea',0,13.9126,100.6068,22,0,'旅客服務費 ฿730'],
+  ['CNX','清邁','','TH','sea','asia',18.7668,98.9626,22,1,'旅客服務費'],
+  ['HKT','普吉島','','TH','sea',0,8.1132,98.3169,22,0,'旅客服務費'],
+  ['SGN','胡志明市','','VN','sea','asia',10.8188,106.6520,16,1,'機場離境費'],
+  ['HAN','河內','','VN','sea','asia',21.2212,105.8072,16,1,'機場離境費'],
+  ['DAD','峴港','','VN','sea','asia',16.0439,108.1994,16,1,'機場離境費'],
+  ['CXR','芽莊','','VN','sea',0,11.9982,109.2192,16,0,'機場離境費'],
+  ['PQC','富國島','','VN','sea',0,10.1698,103.9931,16,0,'機場離境費'],
+  ['SIN','新加坡','','SG','sea','asia',1.3644,103.9915,48,3,'旅客服務費＋航空稅 S$65'],
+  ['KUL','吉隆坡','','MY','sea','asia',2.7456,101.7099,25,3,'旅客服務費＋離境稅'],
+  ['PEN','檳城','','MY','sea','asia',5.2971,100.2770,20,1,'旅客服務費＋離境稅'],
+  ['BKI','亞庇','','MY','sea',0,5.9372,116.0512,20,0,'旅客服務費＋離境稅'],
+  ['CGK','雅加達','JKT','ID','sea','asia',-6.1256,106.6559,15,1,'機場稅'],
+  ['DPS','峇里島','','ID','sea','asia',-8.7482,115.1672,15,1,'機場稅'],
+  ['SUB','泗水','','ID','sea',0,-7.3798,112.7869,15,0,'機場稅'],
+  ['MNL','馬尼拉','','PH','sea','asia',14.5086,121.0198,15,1,'旅客服務費'],
+  ['CEB','宿霧','','PH','sea','asia',10.3075,123.9790,15,1,'旅客服務費'],
+  ['CRK','克拉克','','PH','sea',0,15.1860,120.5600,15,0,'旅客服務費'],
+  ['PNH','金邊','','KH','sea','asia',11.5466,104.8442,18,1,'機場稅'],
+  ['REP','暹粒','','KH','sea',0,13.4107,103.8130,18,0,'機場稅'],
+  ['VTE','永珍','','LA','sea',0,17.9883,102.5633,18,0,'機場稅'],
+  ['RGN','仰光','','MM','sea',0,16.9073,96.1332,18,0,'機場稅'],
+  ['BWN','汶萊','','BN','sea',0,4.9442,114.9283,15,0,'機場稅'],
+  ['DEL','德里','','IN','csa','asia',28.5562,77.1000,15,3,'旅客服務費 UDF'],
+  ['BOM','孟買','','IN','csa',0,19.0896,72.8656,15,2,'旅客服務費 UDF'],
+  ['BLR','邦加羅爾','','IN','csa',0,13.1979,77.7063,15,2,'旅客服務費 UDF'],
+  ['MAA','清奈','','IN','csa',0,12.9941,80.1709,15,0,'旅客服務費 UDF'],
+  ['HYD','海得拉巴','','IN','csa',0,17.2403,78.4294,15,0,'旅客服務費 UDF'],
+  ['CCU','加爾各答','','IN','csa',0,22.6547,88.4467,15,0,'旅客服務費 UDF'],
+  ['CMB','可倫坡','','LK','csa',0,7.1808,79.8841,45,0,'離境稅'],
+  ['KTM','加德滿都','','NP','csa',0,27.6966,85.3591,25,0,'機場稅'],
+  ['DAC','達卡','','BD','csa',0,23.8433,90.3978,25,0,'機場稅'],
+  ['KHI','喀拉蚩','','PK','csa',0,24.9065,67.1608,30,0,'機場稅'],
+  ['ISB','伊斯蘭馬巴德','','PK','csa',0,33.5607,72.8517,30,0,'機場稅'],
+  ['MLE','馬爾地夫','','MV','csa',0,4.1918,73.5291,55,0,'離境稅（艙等分級）',110],
+  ['TAS','塔什干','','UZ','csa',0,41.2579,69.2812,25,0,'機場稅'],
+  ['ALA','阿拉木圖','','KZ','csa',0,43.3521,77.0405,25,0,'機場稅'],
+  ['NQZ','阿斯塔納','','KZ','csa',0,51.0223,71.4669,25,0,'機場稅'],
+  ['GYD','巴庫','','AZ','csa',0,40.4675,50.0467,25,0,'機場稅'],
+  ['TBS','提比里斯','','GE','csa',0,41.6692,44.9547,20,0,'機場稅'],
+  ['SYD','雪梨','','AU','swp',0,-33.9399,151.1753,45,2,'旅客離境稅 A$70＋PSC'],
+  ['MEL','墨爾本','','AU','swp',0,-37.6690,144.8410,45,2,'旅客離境稅 A$70＋PSC'],
+  ['BNE','布里斯本','','AU','swp','ocean',-27.3842,153.1075,45,3,'旅客離境稅 A$70＋PSC'],
+  ['PER','伯斯','','AU','swp',0,-31.9385,115.9672,45,0,'旅客離境稅 A$70＋PSC'],
+  ['ADL','阿德雷德','','AU','swp',0,-34.9450,138.5306,45,0,'旅客離境稅 A$70＋PSC'],
+  ['OOL','黃金海岸','','AU','swp',0,-28.1644,153.5050,45,0,'旅客離境稅 A$70＋PSC'],
+  ['CNS','凱恩斯','','AU','swp',0,-16.8858,145.7553,45,0,'旅客離境稅 A$70＋PSC'],
+  ['AKL','奧克蘭','','NZ','swp',0,-37.0082,174.7917,20,2,'旅客服務費'],
+  ['CHC','基督城','','NZ','swp',0,-43.4894,172.5322,20,0,'旅客服務費'],
+  ['WLG','威靈頓','','NZ','swp',0,-41.3272,174.8053,20,0,'旅客服務費'],
+  ['ZQN','皇后鎮','','NZ','swp',0,-45.0211,168.7392,20,0,'旅客服務費'],
+  ['NAN','斐濟楠迪','','FJ','swp',0,-17.7554,177.4434,55,0,'離境稅'],
+  ['POM','莫爾茲比港','','PG','swp',0,-9.4434,147.2200,30,0,'機場稅'],
+  ['NOU','努美阿','','NC','swp',0,-22.0146,166.2130,30,0,'機場稅'],
+  ['PPT','大溪地','','PF','swp',0,-17.5537,-149.6070,30,0,'機場稅'],
+  ['GUM','關島','','GU','swp',0,13.4834,144.7970,40,0,'美國屬地・國際離境規費'],
+  ['LAX','洛杉磯','','US','nam','amw',33.9416,-118.4085,44,3,'美國國際離境稅＋設施費＋APHIS'],
+  ['SFO','舊金山','','US','nam','amw',37.6213,-122.3790,44,3,'美國國際離境稅＋設施費＋APHIS'],
+  ['SEA','西雅圖','','US','nam','amw',47.4502,-122.3088,44,3,'美國國際離境稅＋設施費＋APHIS'],
+  ['ONT','安大略','LAX','US','nam','amw',34.0560,-117.6012,44,1,'美國國際離境稅＋設施費'],
+  ['SAN','聖地牙哥','','US','nam',0,32.7336,-117.1897,44,0,'美國國際離境稅＋設施費'],
+  ['LAS','拉斯維加斯','','US','nam',0,36.0840,-115.1537,44,0,'美國國際離境稅＋設施費'],
+  ['PHX','鳳凰城','','US','nam',0,33.4343,-112.0116,44,0,'美國國際離境稅＋設施費'],
+  ['DEN','丹佛','','US','nam',0,39.8561,-104.6737,44,2,'美國國際離境稅＋設施費'],
+  ['JFK','紐約甘迺迪','NYC','US','nam','ame',40.6413,-73.7781,44,1,'美國國際離境稅＋設施費＋APHIS'],
+  ['EWR','紐約紐華克','NYC','US','nam',0,40.6895,-74.1745,44,2,'美國國際離境稅＋設施費'],
+  ['BOS','波士頓','','US','nam',0,42.3656,-71.0096,44,0,'美國國際離境稅＋設施費'],
+  ['IAD','華盛頓杜勒斯','WAS','US','nam','ame',38.9531,-77.4565,44,3,'美國國際離境稅＋設施費'],
+  ['ORD','芝加哥','CHI','US','nam','ame',41.9742,-87.9073,44,3,'美國國際離境稅＋設施費'],
+  ['IAH','休士頓','HOU','US','nam','ame',29.9902,-95.3368,44,3,'美國國際離境稅＋設施費'],
+  ['DFW','達拉斯','','US','nam','ame',32.8998,-97.0403,44,1,'美國國際離境稅＋設施費'],
+  ['ATL','亞特蘭大','','US','nam',0,33.6407,-84.4277,44,0,'美國國際離境稅＋設施費'],
+  ['MIA','邁阿密','','US','nam',0,25.7959,-80.2870,44,0,'美國國際離境稅＋設施費'],
+  ['MCO','奧蘭多','','US','nam',0,28.4312,-81.3081,44,0,'美國國際離境稅＋設施費'],
+  ['MSP','明尼亞波利斯','','US','nam',0,44.8848,-93.2223,44,0,'美國國際離境稅＋設施費'],
+  ['SLC','鹽湖城','','US','nam',0,40.7899,-111.9791,44,0,'美國國際離境稅＋設施費'],
+  ['PDX','波特蘭','','US','nam',0,45.5898,-122.5951,44,0,'美國國際離境稅＋設施費'],
+  ['YVR','溫哥華','','CA','nam','amw',49.1947,-123.1792,40,3,'機場改善費＋加拿大安檢費'],
+  ['YYZ','多倫多','YTO','CA','nam','ame',43.6777,-79.6248,40,3,'機場改善費＋加拿大安檢費'],
+  ['YUL','蒙特婁','YMQ','CA','nam',0,45.4706,-73.7408,40,2,'機場改善費＋加拿大安檢費'],
+  ['YYC','卡加利','','CA','nam',0,51.1139,-114.0203,40,0,'機場改善費＋加拿大安檢費'],
+  ['HNL','檀香山','','US','hicam',0,21.3187,-157.9224,44,0,'美國國際離境稅＋設施費'],
+  ['OGG','茂宜島','','US','hicam',0,20.8986,-156.4305,44,0,'美國國際離境稅＋設施費'],
+  ['MEX','墨西哥城','','MX','hicam',0,19.4363,-99.0721,45,2,'旅客離境稅 TUA'],
+  ['CUN','坎昆','','MX','hicam',0,21.0365,-86.8771,45,0,'旅客離境稅 TUA'],
+  ['PTY','巴拿馬城','','PA','hicam',0,9.0714,-79.3835,40,2,'旅客離境稅'],
+  ['SJO','聖荷西','','CR','hicam',0,9.9939,-84.2088,32,0,'離境稅 US$29'],
+  ['GUA','瓜地馬拉','','GT','hicam',0,14.5833,-90.5275,32,0,'離境稅'],
+  ['SAL','聖薩爾瓦多','','SV','hicam',0,13.4409,-89.0557,35,0,'離境稅'],
+  ['HAV','哈瓦那','','CU','hicam',0,22.9892,-82.4091,30,0,'離境稅'],
+  ['SJU','聖胡安','','PR','hicam',0,18.4394,-66.0018,44,0,'美國屬地・離境規費'],
+  ['GRU','聖保羅','SAO','BR','sam',0,-23.4356,-46.4731,40,2,'機場稅'],
+  ['GIG','里約熱內盧','RIO','BR','sam',0,-22.8099,-43.2506,40,0,'機場稅'],
+  ['EZE','布宜諾斯艾利斯','BUE','AR','sam',0,-34.8222,-58.5358,35,0,'機場稅'],
+  ['SCL','聖地牙哥','','CL','sam',0,-33.3930,-70.7858,30,0,'機場稅'],
+  ['LIM','利馬','','PE','sam',0,-12.0219,-77.1143,35,2,'機場稅'],
+  ['BOG','波哥大','','CO','sam',0,4.7016,-74.1469,40,2,'機場稅＋觀光稅'],
+  ['UIO','基多','','EC','sam',0,-0.1292,-78.3575,45,0,'機場稅'],
+  ['MVD','蒙特維多','','UY','sam',0,-34.8384,-56.0308,35,0,'機場稅'],
+  ['LHR','倫敦希斯洛','LON','GB','eur','eur',51.4700,-0.4543,130,3,'英國 APD 長程經濟艙＋機場費；商務艙約 2 倍以上',290],
+  ['LGW','倫敦蓋威克','LON','GB','eur',0,51.1537,-0.1821,130,0,'英國 APD 長程經濟艙；商務艙更高',290],
+  ['CDG','巴黎','PAR','FR','eur','eur',49.0097,2.5479,45,3,'法國民航稅＋團結稅（艙等分級）',95],
+  ['AMS','阿姆斯特丹','','NL','eur','eur',52.3105,4.7683,50,3,'荷蘭航空旅客稅 €29＋機場費'],
+  ['FRA','法蘭克福','','DE','eur','eur',50.0379,8.5622,60,3,'德國航空稅（長程）＋機場費'],
+  ['MUC','慕尼黑','','DE','eur','eur',48.3537,11.7750,60,3,'德國航空稅（長程）＋機場費'],
+  ['ZRH','蘇黎世','','CH','eur',0,47.4647,8.5492,45,2,'機場費（瑞士無離境稅）'],
+  ['GVA','日內瓦','','CH','eur',0,46.2381,6.1089,45,0,'機場費'],
+  ['VIE','維也納','','AT','eur','eur',48.1103,16.5697,40,3,'奧地利航空稅＋機場費'],
+  ['BRU','布魯塞爾','','BE','eur',0,50.9014,4.4844,42,2,'比利時登機稅＋機場費'],
+  ['CPH','哥本哈根','','DK','eur',0,55.6180,12.6508,32,0,'丹麥航空稅＋機場費'],
+  ['ARN','斯德哥爾摩','STO','SE','eur',0,59.6519,17.9186,30,0,'機場費'],
+  ['OSL','奧斯陸','','NO','eur',0,60.1939,11.1004,28,0,'機場費'],
+  ['HEL','赫爾辛基','','FI','eur',0,60.3172,24.9633,22,0,'機場費'],
+  ['DUB','都柏林','','IE','eur',0,53.4213,-6.2701,22,0,'機場費'],
+  ['LIS','里斯本','','PT','eur',0,38.7756,-9.1354,28,2,'機場費＋市政稅'],
+  ['OPO','波多','','PT','eur',0,41.2481,-8.6814,25,0,'機場費'],
+  ['MAD','馬德里','','ES','eur',0,40.4983,-3.5676,28,0,'機場費'],
+  ['BCN','巴塞隆納','','ES','eur',0,41.2971,2.0785,28,0,'機場費'],
+  ['FCO','羅馬','ROM','IT','eur',0,41.8003,12.2389,45,2,'義大利市政附加稅＋機場費'],
+  ['MXP','米蘭馬爾彭薩','MIL','IT','eur','eur',45.6306,8.7281,45,3,'義大利市政附加稅＋機場費'],
+  ['LIN','米蘭利納特','MIL','IT','eur',0,45.4451,9.2767,40,0,'義大利市政附加稅＋機場費'],
+  ['VCE','威尼斯','','IT','eur',0,45.5053,12.3519,42,0,'義大利市政附加稅＋機場費'],
+  ['WAW','華沙','','PL','eur',0,52.1657,20.9671,26,2,'機場費'],
+  ['KRK','克拉科夫','','PL','eur',0,50.0777,19.7848,24,0,'機場費'],
+  ['PRG','布拉格','','CZ','eur',0,50.1008,14.2600,26,0,'機場費'],
+  ['BUD','布達佩斯','','HU','eur',0,47.4369,19.2556,26,0,'機場費'],
+  ['OTP','布加勒斯特','BUH','RO','eur',0,44.5711,26.0850,26,0,'機場費'],
+  ['SOF','索菲亞','','BG','eur',0,42.6967,23.4114,24,0,'機場費'],
+  ['ZAG','札格瑞布','','HR','eur',0,45.7429,16.0688,26,2,'機場費'],
+  ['LJU','盧布爾雅那','','SI','eur',0,46.2237,14.4576,26,0,'機場費'],
+  ['BEG','貝爾格勒','','RS','eur',0,44.8184,20.3091,26,0,'機場費'],
+  ['ATH','雅典','','GR','eur',0,37.9364,23.9445,35,2,'希臘離境稅＋機場費'],
+  ['SKG','塞薩洛尼基','','GR','eur',0,40.5197,22.9709,30,0,'希臘離境稅＋機場費'],
+  ['TLL','塔林','','EE','eur',0,59.4133,24.8328,20,0,'機場費'],
+  ['RIX','里加','','LV','eur',0,56.9236,23.9711,20,0,'機場費'],
+  ['VNO','維爾紐斯','','LT','eur',0,54.6341,25.2858,20,0,'機場費'],
+  ['IST','伊斯坦堡','','TR','me',0,41.2753,28.7519,28,2,'土耳其離境稅＋機場費'],
+  ['SAW','伊斯坦堡薩比哈','IST','TR','me',0,40.8986,29.3092,26,0,'土耳其離境稅＋機場費'],
+  ['DXB','杜拜','','AE','me',0,25.2532,55.3657,35,0,'旅客服務費＋機場費'],
+  ['AUH','阿布達比','','AE','me',0,24.4330,54.6511,35,0,'旅客服務費＋機場費'],
+  ['DOH','多哈','','QA','me',0,25.2731,51.6081,32,0,'旅客服務費＋機場費'],
+  ['RUH','利雅德','','SA','me',0,24.9576,46.6988,35,0,'機場稅'],
+  ['JED','吉達','','SA','me',0,21.6796,39.1565,35,0,'機場稅'],
+  ['KWI','科威特','','KW','me',0,29.2266,47.9689,30,0,'機場稅'],
+  ['BAH','巴林','','BH','me',0,26.2708,50.6336,30,0,'機場稅'],
+  ['MCT','馬斯喀特','','OM','me',0,23.5933,58.2844,30,0,'機場稅'],
+  ['AMM','安曼','','JO','me',0,31.7226,35.9932,45,0,'約旦離境稅'],
+  ['BEY','貝魯特','','LB','me',0,33.8209,35.4884,40,0,'離境稅（艙等分級）',80],
+  ['TLV','特拉維夫','','IL','me',0,32.0114,34.8867,40,0,'機場稅'],
+  ['CAI','開羅','','EG','naf',0,30.1219,31.4056,30,2,'機場稅'],
+  ['HRG','赫爾格達','','EG','naf',0,27.1783,33.7994,28,0,'機場稅'],
+  ['SSH','沙姆沙伊赫','','EG','naf',0,27.9773,34.3950,28,0,'機場稅'],
+  ['CMN','卡薩布蘭加','','MA','naf',0,33.3675,-7.5900,40,0,'摩洛哥離境稅'],
+  ['RAK','馬拉喀什','','MA','naf',0,31.6069,-8.0363,40,0,'摩洛哥離境稅'],
+  ['TUN','突尼斯','','TN','naf',0,36.8510,10.2272,30,0,'機場稅'],
+  ['ALG','阿爾及爾','','DZ','naf',0,36.6910,3.2154,30,0,'機場稅'],
+  ['JNB','約翰尼斯堡','','ZA','csaf',0,-26.1392,28.2460,35,2,'南非旅客稅＋機場費'],
+  ['CPT','開普敦','','ZA','csaf',0,-33.9649,18.6017,35,0,'南非旅客稅＋機場費'],
+  ['DUR','德班','','ZA','csaf',0,-29.6144,31.1197,32,0,'南非旅客稅＋機場費'],
+  ['ADD','阿迪斯阿貝巴','','ET','csaf',0,8.9779,38.7993,30,2,'機場稅'],
+  ['NBO','奈洛比','','KE','csaf',0,-1.3192,36.9278,30,2,'機場稅'],
+  ['LOS','拉哥斯','','NG','csaf',0,6.5774,3.3212,60,0,'奈及利亞離境稅'],
+  ['ABV','阿布加','','NG','csaf',0,9.0068,7.2632,60,0,'奈及利亞離境稅'],
+  ['ACC','阿克拉','','GH','csaf',0,5.6052,-0.1668,60,0,'迦納離境稅（艙等分級）',110],
+  ['DAR','三蘭港','','TZ','csaf',0,-6.8781,39.2026,35,0,'機場稅'],
+  ['EBB','恩德培','','UG','csaf',0,0.0424,32.4435,35,0,'機場稅'],
+  ['MRU','模里西斯','','MU','csaf',0,-20.4302,57.6836,30,0,'機場稅'],
+  ['SEZ','塞席爾','','SC','csaf',0,-4.6743,55.5218,30,0,'機場稅'],
+  ['WDH','溫荷克','','NA','csaf',0,-22.4799,17.4709,25,0,'機場稅'],
+  ['HRE','哈拉雷','','ZW','csaf',0,-17.9319,31.0928,50,0,'機場稅'],
+  ['LUN','路沙卡','','ZM','csaf',0,-15.3308,28.4526,35,0,'機場稅'],
+];
+
+/* ── 引擎 ───────────────────────────────────────────────── */
+const evByCode = {};
+const EV_LIST = [];
+function evLoadAirports(){
+  for (const r of EV_AP_RAW){
+    const [code, zh, ck, cc, sa, br, lat, lon, tax, fl, tnote, tprem] = r;
+    const a = { code, city:zh, cityKey:ck || code, cc, sa, br:br || null, lat, lon,
+      tax:tax || 0, taxPrem:tprem || 0, taxNote:tnote || '', eva:!!(fl & 1), hub:!!(fl & 2),
+      ccName:EV_CC[cc] || cc };
+    EV_LIST.push(a); evByCode[code] = a;
+  }
+  EV_LIST.sort((a, b) => EV_Z.indexOf(a.sa) - EV_Z.indexOf(b.sa) || a.cc.localeCompare(b.cc) || a.code.localeCompare(b.code));
+}
+const evZi = z => EV_Z.indexOf(z);
+/** 星盟區對區來回哩程（哩）；該格不提供回 0 */
+function evSaPrice(a, b, cab){
+  const ia = evZi(a), ib = evZi(b); if (ia < 0 || ib < 0) return 0;
+  const r = Math.min(ia, ib), c = Math.max(ia, ib) - 1;
+  if (c < 0) return 0;
+  return Math.round((EV_CHART[cab]?.[r]?.[c] || 0) * 1000);
+}
+function evOwnRegion(ap){
+  if (['nam','hicam','sam'].includes(ap.sa)) return 'AM';
+  if (ap.sa === 'swp') return 'OC';
+  if (ap.sa === 'eur') return 'EU';
+  if (['tw','hkmo','cn','nasia','sea','csa'].includes(ap.sa)) return 'AS';
+  return null;                       // 中東、非洲不在長榮自家兌換表上
+}
+function evOwnSub(ap){
+  if (ap.sa === 'tw') return 'TW';
+  if (ap.sa === 'hkmo' || ap.sa === 'cn') return 'CN';
+  if (ap.sa === 'nasia') return 'NEA';
+  if (ap.sa === 'sea' || ap.code === 'DEL') return 'SEA';
+  return evOwnRegion(ap);
+}
+/** 一對端點適用哪一格自家兌換表；長榮不販售的組合回 null */
+function evOwnBucket(a, b){
+  const ra = evOwnRegion(a), rb = evOwnRegion(b);
+  if (!ra || !rb) return null;
+  const pair = [ra, rb].sort().join('-');
+  if (pair === 'AS-AS'){
+    const s = [evOwnSub(a), evOwnSub(b)].sort().join('-');
+    if (s === 'CN-TW' && a.sa !== 'cn' && b.sa !== 'cn') return 'hkmo';
+    return 'asia';
+  }
+  if (pair === 'AS-OC') return 'ocean';
+  if (pair === 'AS-EU') return 'eur';
+  if (pair === 'AM-AS') return (a.br === 'ame' || b.br === 'ame') ? 'ame' : 'amw';
+  return null;
+}
+function evDist(A){ let d = 0; for (let i = 0; i + 1 < A.length; i++) d += gcMiles(A[i], A[i+1]); return d; }
+
+/* 稅費估算：每次自某機場「起飛」累加當地離境稅費，再加訂位服務費 YR */
+function evTax(A, cab){
+  const prem = cab && cab !== 'eco';
+  const rows = [];
+  for (let i = 0; i + 1 < A.length; i++){
+    const ap = A[i], usd = (prem && ap.taxPrem) ? ap.taxPrem : ap.tax;
+    if (usd) rows.push({ code:ap.code, city:ap.city, usd,
+      note:ap.taxNote + (prem && ap.taxPrem ? '（前艙稅率）' : '') });
+  }
+  const airport = rows.reduce((s, r) => s + r.usd, 0);
+  const yr = A[0].cc === 'HK' ? 0 : EV_FEES.yr;
+  return { rows, airport, yr, usd:airport + yr };
+}
+
+/* pts：[{code, stop}]，第 0 筆為出發地。stop=true 代表「停留」（含目的地） */
+function evEvalSA(pts, cab){
+  const A = pts.map(p => evByCode[p.code]);
+  if (A.some(x => !x)) return { ok:false, bad:['行程中有未知的機場代碼'], warn:[], miles:0 };
+  const org = A[0], oz = org.sa, bad = [], warn = [];
+  const rt = pts[0].code === pts[pts.length - 1].code;
+
+  /* 新制①：折返點＝距出發地所需哩程最高者（同價時取實際最遠） */
+  let base = 0, ti = -1, td = -1;
+  A.forEach((ap, i) => {
+    if (!i || (rt && i === A.length - 1)) return;
+    const v = evSaPrice(oz, ap.sa, cab), d = gcMiles(org, ap);
+    if (v > base || (v === base && v > 0 && d > td)){ base = v; ti = i; td = d; }
+  });
+  if (ti < 0) return { ok:false, bad:['行程未離開出發地所在區域，星盟兌換表沒有適用的格'], warn, miles:0 };
+  const turn = A[ti];
+  if (!rt) base = Math.round(base / 2);
+
+  const cap = rt ? base : base * 2;
+  for (let i = 0; i + 1 < A.length; i++){
+    const v = evSaPrice(A[i].sa, A[i+1].sa, cab);
+    if (v > cap) bad.push(`${A[i].code}→${A[i+1].code}（${EV_ZN[A[i].sa]}→${EV_ZN[A[i+1].sa]}）需 ${fmt(v)} 哩，高於「出發地→折返點」基準 ${fmt(cap)} 哩（2025/9/1 新制①）`);
+  }
+  const b1 = EV_BLOC[oz], b2 = EV_BLOC[turn.sa];
+  if (b1 !== b2){
+    const ban = ['AM','EA','AP'].find(g => g !== b1 && g !== b2);
+    const hit = [...new Set(A.filter(ap => EV_BLOC[ap.sa] === ban).map(ap => ap.code))];
+    if (hit.length) bad.push(`跨區禁行（新制③）：${EV_BLOC_N[b1]} ↔ ${EV_BLOC_N[b2]} 不得經過${EV_BLOC_N[ban]}（${hit.join('、')}）`);
+  }
+  const mid = pts.map((p, i) => ({ p, i })).filter(({ i }) => i > 0 && i < pts.length - 1 && i !== ti);
+  const stops = mid.filter(({ p }) => p.stop).map(({ i }) => A[i]);
+  const trans = mid.filter(({ p }) => !p.stop).map(({ i }) => A[i]);
+  const segs = pts.length - 1;
+  if (rt){
+    if (stops.length > 2) bad.push(`來回票最多 2 個停留點（去、回程各 1），此行程有 ${stops.length} 個`);
+    if (segs > 6) bad.push(`來回票最多 6 個航段，此行程有 ${segs} 段`);
+  } else {
+    if (stops.length) bad.push('單程票不可中停（可以轉機）');
+    if (segs > 3) bad.push(`單程票最多 3 個航段，此行程有 ${segs} 段`);
+  }
+  for (const s of stops){
+    if (s.cc === org.cc) bad.push(`停留點 ${s.code} 與出發地同國（${org.ccName}）`);
+    else if (s.cc === turn.cc) bad.push(`停留點 ${s.code} 與目的地同國（${turn.ccName}）`);
+  }
+  for (const t of trans)
+    if ([org, turn].some(x => x.cityKey === t.cityKey))
+      bad.push(`轉機點 ${t.code} 與出發地／目的地／折返點同城市（新制②，桃園與松山視為同城）`);
+  if (stops.length) warn.push('含中途停留的星盟票不能線上開票，須透過長榮客服');
+  if (A.some(ap => ap.cc === 'KR')) warn.push('韓亞航空 2026/12/16 退出星盟，換韓亞的票開票與搭乘都要在那天前完成');
+  return { ok:!bad.length, bad, warn, miles:base, turn, stops, trans, segs, rt, chart:'sa', A, dist:evDist(A) };
+}
+
+function evEvalOwn(pts, cab){
+  const A = pts.map(p => evByCode[p.code]);
+  if (A.some(x => !x)) return { ok:false, bad:['行程中有未知的機場代碼'], warn:[], miles:0 };
+  const org = A[0], bad = [], warn = [];
+  const rt = pts[0].code === pts[pts.length - 1].code;
+  const noBR = [...new Set(A.filter(a => !a.eva).map(a => a.code))];
+  if (noBR.length) bad.push(`自家票僅限長榮／立榮航班，${noBR.join('、')} 沒有長榮航班`);
+
+  let bucket = null;
+  for (let i = 0; i + 1 < A.length; i++){
+    const b = evOwnBucket(A[i], A[i+1]);
+    if (!b){ bad.push(`${A[i].code}→${A[i+1].code} 不在長榮自家兌換表的任何一格`); continue; }
+    if (!bucket || EV_OWN_RANK.indexOf(b) > EV_OWN_RANK.indexOf(bucket)) bucket = b;  // 三段以上取最高
+  }
+  if (!bucket) return { ok:false, bad, warn, miles:0 };
+  const row = EV_OWN[bucket];
+  let miles = row[cab];
+  if (miles == null){ bad.push(`${row.name}沒有${cab === 'pey' ? '豪華經濟艙' : '此艙等'}的兌換`); miles = 0; }
+  else if (!rt) miles = miles / 2;
+
+  let tv = -1, ti = -1, td = -1;
+  A.forEach((ap, i) => {
+    if (!i || (rt && i === A.length - 1)) return;
+    const b = evOwnBucket(org, ap), v = b ? EV_OWN_RANK.indexOf(b) : -1, d = gcMiles(org, ap);
+    if (v > tv || (v === tv && d > td)){ tv = v; ti = i; td = d; }
+  });
+  const turn = ti >= 0 ? A[ti] : null;
+  const longHaul = ['ocean','amw','ame','eur'].includes(bucket);
+  const mid = pts.map((p, i) => ({ p, i })).filter(({ i }) => i > 0 && i < pts.length - 1 && i !== ti);
+  const stops = mid.filter(({ p }) => p.stop).map(({ i }) => A[i]);
+  const trans = mid.filter(({ p }) => !p.stop).map(({ i }) => A[i]);
+  if (rt){
+    if (!longHaul && stops.length) bad.push('短程線（亞洲區域間、台灣＝港澳）來回票不可停留，只能轉機');
+    if (longHaul && stops.length > 1) bad.push(`長程線來回票最多 1 個停留點，此行程有 ${stops.length} 個`);
+  } else if (stops.length) bad.push('單程票可以轉機但不可停留');
+  for (const s of [...stops, turn].filter(Boolean)){
+    if (s.cc === org.cc) bad.push(`${s === turn ? '折返點' : '停留點'} ${s.code} 與出發地同國（${org.ccName}）`);
+    else if (s !== turn && turn && s.cc === turn.cc) bad.push(`停留點 ${s.code} 與目的地同國（${turn.ccName}）`);
+  }
+  if (org.sa === 'tw' && rt && trans.some(t => t.sa === 'tw'))
+    bad.push('台灣出發的來回行程不得以台灣為轉機點');
+  if (stops.length >= 2) warn.push('哩程版「外站四段票」（台北停留兩次）已於 2026/8/31 停售，請先向客服確認');
+  return { ok:!bad.length, bad, warn, miles, bucket, bucketName:row.name, turn, stops, trans,
+    segs:pts.length - 1, rt, chart:'own', A, dist:evDist(A) };
+}
+const evEval = (pts, cab, chart) => chart === 'own' ? evEvalOwn(pts, cab) : evEvalSA(pts, cab);
+
+/* 給定起訖，列出所有可加的中停點：免費（+0 哩）優先，其次小加碼 */
+function evStopovers(oCode, dCode, cab, chart, opt = {}){
+  const org = evByCode[oCode], dst = evByCode[dCode];
+  if (!org || !dst) return [];
+  const baseRes = evEval([{code:oCode}, {code:dCode, stop:true}, {code:oCode}], cab, chart);
+  if (!baseRes.miles) return [];
+  const base = baseRes.miles, direct = gcMiles(org, dst), out = [];
+  for (const s of EV_LIST){
+    if (s.code === oCode || s.code === dCode) continue;
+    if (s.cityKey === dst.cityKey || s.cityKey === org.cityKey) continue;
+    if (chart === 'own' && !s.eva) continue;
+    if (opt.hubOnly && chart === 'sa' && !s.hub) continue;
+    let best = null;
+    for (const dir of ['out','in']){
+      const pts = dir === 'out'
+        ? [{code:oCode}, {code:s.code, stop:true}, {code:dCode, stop:true}, {code:oCode}]
+        : [{code:oCode}, {code:dCode, stop:true}, {code:s.code, stop:true}, {code:oCode}];
+      const r = evEval(pts, cab, chart);
+      if (!r.ok || !r.miles) continue;
+      if (!best || r.dist > best.r.dist) best = { r, dir, pts };
+    }
+    if (!best) continue;
+    const { r, dir, pts } = best;
+    const alone = chart === 'own'
+      ? (evEvalOwn([{code:oCode}, {code:s.code, stop:true}, {code:oCode}], cab).miles || 0)
+      : evSaPrice(org.sa, s.sa, cab);
+    const delta = r.miles - base;
+    out.push({ stop:s, dir, miles:r.miles, delta, base, free:delta === 0, alone, save:alone - delta,
+      dist:r.dist, addDist:r.dist - baseRes.dist,
+      detour:direct ? (gcMiles(org, s) + gcMiles(s, dst)) / direct : 1,
+      turn:r.turn, warn:r.warn, pts, eff:Math.round(r.dist / r.miles * 10000), tax:evTax(r.A, cab) });
+  }
+  out.sort((a, b) => (a.delta - b.delta) || (b.addDist - a.addDist));
+  return out;
+}
+
+/* 手上有 N 哩，從某地出發能換到什麼（含最佳免費中停） */
+function evExplore(oCode, cab, budget, chart, opt = {}){
+  const org = evByCode[oCode]; if (!org) return [];
+  const rows = [];
+  for (const d of EV_LIST){
+    if (d.code === oCode || d.cityKey === org.cityKey) continue;
+    if (chart === 'own' && !d.eva) continue;
+    const trip = opt.ow ? [{code:oCode}, {code:d.code, stop:true}]
+      : [{code:oCode}, {code:d.code, stop:true}, {code:oCode}];
+    const r = evEval(trip, cab, chart);
+    if (!r.ok || !r.miles) continue;
+    if (budget && r.miles > budget) continue;
+    const so = opt.ow ? [] : evStopovers(oCode, d.code, cab, chart, opt);
+    const cap = opt.detour || EV_DETOUR_CAP;
+    const free = so.filter(x => x.free && x.detour <= cap);
+    const bestFree = free[0] || null;
+    rows.push({ dest:d, miles:r.miles, dist:r.dist, res:r,
+      eff:Math.round(r.dist / r.miles * 10000),
+      free:free.slice(0, 8), bestFree, up:so.filter(x => x.delta > 0 && x.detour <= cap).slice(0, 4),
+      nearEff:Math.round(r.dist / r.miles * 10000),
+      bestDist:bestFree ? bestFree.dist : r.dist,
+      bestEff:bestFree ? bestFree.eff : Math.round(r.dist / r.miles * 10000),
+      tax:evTax(r.A, cab), zone:chart === 'sa' ? EV_ZN[d.sa] : r.bucketName });
+  }
+  return rows;
+}
+
+/* 探索模式的中停建議繞路上限：起點→中停→目的地 相對於直飛的距離比。
+   超過就不是「順路多玩」，而且多半也不存在這樣的星盟航線。 */
+const EV_DETOUR_CAP = 1.5;
+
+/* 邊際哩程階梯：從某地出發，各區的價差與「同區最遠」 */
+function evLadder(oCode, cab, chart){
+  const org = evByCode[oCode]; if (!org) return [];
+  let rows;
+  if (chart === 'own'){
+    rows = EV_OWN_RANK.map(k => ({ zone:k, name:EV_OWN[k].name, miles:EV_OWN[k][cab] }))
+      .filter(r => r.miles)
+      .filter(r => EV_LIST.some(a => a.eva && evOwnBucket(org, a) === r.zone && a.code !== oCode));
+  } else {
+    rows = EV_Z.map(z => ({ zone:z, name:EV_ZN[z], miles:evSaPrice(org.sa, z, cab) })).filter(r => r.miles);
+  }
+  rows.sort((a, b) => a.miles - b.miles);
+  let prev = null;
+  for (const r of rows){
+    r.step = prev == null ? null : r.miles - prev;
+    r.same = r.step === 0;
+    prev = r.miles;
+    const pool = EV_LIST.filter(a => a.code !== oCode && (chart === 'own'
+      ? (a.eva && evOwnBucket(org, a) === r.zone) : a.sa === r.zone));
+    let far = null;
+    for (const a of pool){ const d = gcMiles(org, a); if (!far || d > far.d) far = { a, d }; }
+    if (far){ r.far = far.a; r.farDist = far.d; r.eff = Math.round(far.d * 2 / r.miles * 10000); }
+    r.count = pool.length;
+  }
+  return rows;
+}
+
+/* ── 介面 ───────────────────────────────────────────────── */
+const evState = { chart:'sa', cab:'biz', origin:'TPE', mode:'explore', dest:'', hubOnly:true, sort:'eff',
+  ow:false, path:'TPE > BKK* > FRA* > IST* > TPE' };
+const evUSD = 31.5;                                   // 稅費換算用的粗略匯率；有即時匯率時覆寫
+let evFx = evUSD;
+const evNT = usd => `約 NT$${fmt(Math.round(usd * evFx))}`;
+const evCabName = { eco:'經濟艙', pey:'豪華經濟艙', biz:'商務艙', fst:'頭等艙' };
+
+function evAptOpts(sel, filter){
+  const groups = {};
+  for (const a of EV_LIST){
+    if (filter && !filter(a)) continue;
+    (groups[EV_ZN[a.sa]] ||= []).push(a);
+  }
+  return Object.entries(groups).map(([g, list]) => `<optgroup label="${g}">` +
+    list.map(a => `<option value="${a.code}"${a.code === sel ? ' selected' : ''}>${a.code} ${a.city}</option>`).join('') +
+    `</optgroup>`).join('');
+}
+function evChain(pts){
+  return pts.map((p, i) => {
+    const a = evByCode[p.code];
+    const kind = i === 0 || i === pts.length - 1 ? '' : (p.stop ? ' stop' : ' via');
+    return `<span class="evpt${kind}">${a.code}<em>${a.city}</em>${p.stop && i && i < pts.length - 1 ? '<i>停留</i>' : ''}</span>`;
+  }).join('<span class="evarr">✈</span>');
+}
+function evTaxLine(t){
+  return `<span class="stat">稅費估算 <b>US$${fmt(t.usd)}</b>（${evNT(t.usd)}）</span>`;
+}
+function evTaxDetail(t){
+  return `<details class="evtax"><summary>稅費估算 US$${fmt(t.usd)}・${evNT(t.usd)}（點開看組成）</summary>
+    <ul class="uplist">${t.rows.map(r => `<li><span>${r.code} ${r.city} 離境稅費${r.note ? `<small>・${r.note}</small>` : ''}</span><span class="um">US$${r.usd}</span></li>`).join('')}
+      <li><span>${t.yr ? EV_FEES.yrNote : '香港出發免收訂位服務費'}</span><span class="um">US$${t.yr}</span></li></ul>
+    <p class="mnote">機場稅費為整理值，實際金額依開票當日匯率、機場公告與航段而變；兌換表本身不含燃油附加費。</p></details>`;
+}
+
+function evRender(){
+  if (typeof syncHash === 'function') syncHash();
+  document.querySelectorAll('.ev-chart').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === evState.chart)));
+  document.querySelectorAll('.ev-mode').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === evState.mode)));
+  document.querySelectorAll('.ev-cab').forEach(b => {
+    const ok = evState.chart === 'own' ? b.dataset.k !== 'fst' : b.dataset.k !== 'pey';
+    b.hidden = !ok;
+    b.setAttribute('aria-pressed', String(b.dataset.k === evState.cab));
+  });
+  if (evState.chart === 'own' && evState.cab === 'fst') evState.cab = 'biz';
+  if (evState.chart === 'sa' && evState.cab === 'pey') evState.cab = 'biz';
+  $id('ev-dest-field').hidden = evState.mode !== 'boost';
+  $id('ev-path-field').hidden = evState.mode !== 'check';
+  $id('ev-opt-field').hidden = evState.mode === 'check';
+
+  const oSel = $id('ev-origin');
+  const want = evState.chart === 'own' ? (a => a.eva) : null;
+  if (oSel.dataset.chart !== evState.chart){
+    oSel.innerHTML = evAptOpts(evState.origin, want); oSel.dataset.chart = evState.chart;
+    if (oSel.value !== evState.origin) evState.origin = oSel.value;
+  }
+  const dSel = $id('ev-dest');
+  if (dSel.dataset.k !== evState.chart + evState.origin){
+    dSel.innerHTML = evAptOpts(evState.dest, a => (!want || want(a)) && a.code !== evState.origin);
+    dSel.dataset.k = evState.chart + evState.origin;
+    if (!evState.dest || dSel.value !== evState.dest) evState.dest = dSel.value;
+  }
+  const main = $id('ev-main');
+  try {
+    main.innerHTML = evState.mode === 'explore' ? evExploreHtml()
+      : evState.mode === 'boost' ? evBoostHtml() : evCheckHtml();
+  } catch (err){
+    main.innerHTML = `<div class="card"><h3>計算出錯</h3><p class="mnote">${String(err && err.message || err)}</p></div>`;
+  }
+}
+
+function evLadderHtml(){
+  const rows = evLadder(evState.origin, evState.cab, evState.chart);
+  if (!rows.length) return '';
+  const org = evByCode[evState.origin];
+  return `<div class="card reveal">
+    <h3>邊際哩程階梯：多花一點，能多飛多遠</h3>
+    <p class="mnote" style="margin:0 0 12px">從 ${org.code} ${org.city} 出發・${evCabName[evState.cab]}・${evState.chart === 'own' ? '長榮自家票' : '星盟票'}。
+      標「同價」的兩區<b>所需哩程一模一樣</b>，選遠的那個才不吃虧。</p>
+    <ul class="uplist evladder">${rows.map(r => `
+      <li><span>
+        <span class="evstep ${r.step == null ? 'base' : r.same ? 'same' : r.step <= 10000 ? 'small' : ''}">${
+          r.step == null ? '起跳' : r.same ? '＝同價' : '＋' + fmt(r.step)}</span>
+        <b>${r.name}</b>${r.far ? `<small>　最遠 ${r.far.code} ${r.far.city}・單程 ${fmt(r.farDist)} 哩</small>` : ''}
+      </span><span class="um">${fmt(r.miles)} 哩${r.eff ? `<em class="eveff">${r.eff} 哩/萬</em>` : ''}</span></li>`).join('')}
+    </ul>
+    <p class="mnote">「哩/萬」＝來回實際飛行哩程 ÷ 所需哩程 × 10,000，數字越大越划算。</p></div>`;
+}
+
+function evExploreHtml(){
+  const have = parseInt($id('ev-have').value, 10) || 0;
+  const rows = evExplore(evState.origin, evState.cab, have || 0, evState.chart,
+    { hubOnly:evState.hubOnly });
+  rows.sort(evState.sort === 'far' ? (a, b) => b.bestDist - a.bestDist
+    : evState.sort === 'near' ? (a, b) => b.nearEff - a.nearEff || a.miles - b.miles
+    : (a, b) => b.bestEff - a.bestEff);
+  const org = evByCode[evState.origin];
+  const head = `<div class="statrow">
+    <span class="stat">${org.code} ${org.city} 出發</span>
+    <span class="stat">${evState.chart === 'own' ? '長榮／立榮自家票' : '星空聯盟票'}・${evCabName[evState.cab]}</span>
+    <span class="stat">${have ? `持有 <b>${fmt(have)}</b> 哩` : '未填哩程・列出全部'}</span>
+    <span class="stat">共 <b>${rows.length}</b> 個可換目的地</span></div>`;
+  if (!rows.length) return head + `<div class="card"><h3>沒有結果</h3>
+    <p class="mnote">${have ? '哩程不足，或' : ''}此出發地在這張兌換表上沒有可換的目的地。試試換一張兌換表或艙等。</p></div>` + evLadderHtml();
+  const list = rows.slice(0, 40).map(r => {
+    const f = r.bestFree;
+    return `<div class="card evcard reveal">
+      <div class="evhead">
+        <div><h3>${r.dest.code} ${r.dest.city}<small>　${r.dest.ccName}・${r.zone}</small></h3></div>
+        <div class="evprice"><b>${fmt(r.miles)}</b><em>哩・來回</em></div>
+      </div>
+      <div class="statrow">
+        <span class="stat">來回飛行 <b>${fmt(r.dist)}</b> 哩</span>
+        <span class="stat ${r.eff >= 700 ? 'ok' : ''}">效益 <b>${r.eff}</b> 哩/萬</span>
+        ${evTaxLine(r.tax)}
+      </div>
+      ${f ? `<div class="evfree">
+        <p class="evfreehead"><span class="evbadge free">免費中停</span>加 ${r.free.length} 個順路城市可選，所需哩程<b>完全一樣</b></p>
+        <ul class="uplist">${r.free.slice(0, 5).map(s => `
+          <li><span><b>${s.stop.code} ${s.stop.city}</b><small>　${s.stop.ccName}・${s.dir === 'out' ? '去程' : '回程'}停留・多飛 ${fmt(s.addDist)} 哩</small></span>
+            <span class="um ok">＋0 哩<em class="eveff">單買要 ${fmt(s.alone)}</em></span></li>`).join('')}
+        </ul></div>` : '<p class="mnote">此目的地目前找不到合規的免費中停組合。</p>'}
+      ${r.up.length ? `<div class="evfree">
+        <p class="evfreehead"><span class="evbadge up">小加碼</span>多花一點就能再多一段</p>
+        <ul class="uplist">${r.up.map(s => `
+          <li><span><b>${s.stop.code} ${s.stop.city}</b><small>　${s.stop.ccName}・多飛 ${fmt(s.addDist)} 哩</small></span>
+            <span class="um">＋${fmt(s.delta)} 哩<em class="eveff">單買要 ${fmt(s.alone)}・省 ${fmt(s.save)}</em></span></li>`).join('')}
+        </ul></div>` : ''}
+      <p class="evgo"><button type="button" class="ev-jump" data-d="${r.dest.code}">看這個目的地的完整中停清單 →</button></p>
+    </div>`;
+  }).join('');
+  return head + evLadderHtml() + `<div class="evlist">${list}</div>` +
+    (rows.length > 40 ? `<p class="mnote">只顯示前 40 個；縮小哩程或換排序看其他結果。</p>` : '');
+}
+
+function evBoostHtml(){
+  const org = evByCode[evState.origin], dst = evByCode[evState.dest];
+  if (!org || !dst) return '<div class="card"><h3>請選出發地與目的地</h3></div>';
+  const baseRes = evEval([{code:org.code}, {code:dst.code, stop:true}, {code:org.code}], evState.cab, evState.chart);
+  if (!baseRes.miles) return `<div class="card"><h3>這條路線換不了</h3>
+    <ul>${(baseRes.bad || []).map(b => `<li>${b}</li>`).join('') || '<li>兌換表沒有這一格。</li>'}</ul></div>`;
+  const all = evStopovers(org.code, dst.code, evState.cab, evState.chart, { hubOnly:evState.hubOnly });
+  const free = all.filter(s => s.free), up = all.filter(s => !s.free);
+  if (evState.sort === 'near'){ free.sort((a, b) => a.detour - b.detour); up.sort((a, b) => a.detour - b.detour || a.delta - b.delta); }
+  else if (evState.sort === 'far'){ free.sort((a, b) => b.addDist - a.addDist); up.sort((a, b) => b.addDist - a.addDist); }
+  else { free.sort((a, b) => b.save - a.save || b.addDist - a.addDist); up.sort((a, b) => a.delta - b.delta || b.save - a.save); }
+  const baseTax = evTax(baseRes.A, evState.cab);
+  const row = s => `<li><span>
+      <b>${s.stop.code} ${s.stop.city}</b><small>　${s.stop.ccName}・${EV_ZN[s.stop.sa]}・${s.dir === 'out' ? '去程停留' : '回程停留'}</small>
+      <span class="evsub">多飛 ${fmt(s.addDist)} 哩・繞路 ×${s.detour.toFixed(2)}・稅費 US$${fmt(s.tax.usd)}（${evNT(s.tax.usd)}）</span>
+      <span class="evsub evchain">${evChain(s.pts)}</span>
+    </span><span class="um ${s.free ? 'ok' : ''}">${s.free ? '＋0 哩' : '＋' + fmt(s.delta) + ' 哩'}
+      <em class="eveff">單買此點要 ${fmt(s.alone)} 哩・省 ${fmt(s.save)}</em></span></li>`;
+  return `<div class="statrow">
+      <span class="stat">${org.code} → ${dst.code} 來回</span>
+      <span class="stat">${evState.chart === 'own' ? `自家票・${baseRes.bucketName}` : `星盟票・${EV_ZN[org.sa]}→${EV_ZN[dst.sa]}`}</span>
+      <span class="stat">基準 <b>${fmt(baseRes.miles)}</b> 哩</span>
+      <span class="stat">來回飛行 <b>${fmt(baseRes.dist)}</b> 哩</span>
+      ${evTaxLine(baseTax)}
+    </div>
+    <div class="card reveal">
+      <h3><span class="evbadge free">免費中停</span>加了不用多花半哩的城市（${free.length}）</h3>
+      ${free.length ? `<ul class="uplist evstops">${free.map(row).join('')}</ul>`
+        : '<p class="mnote">這條路線目前沒有合規的免費中停點。改看下方「小加碼」，或換一個目的地。</p>'}
+      ${free.length ? `<p class="mnote">所需哩程之所以不變，是因為${evState.chart === 'sa'
+        ? '這些點從出發地算的所需哩程都沒有超過「出發地→折返點」的基準，折返點與計價都不變（2025/9/1 新制①）'
+        : '長榮自家票是「三段以上取最高的那一格」，中停點落在較便宜的格子裡就不影響總價'}。</p>` : ''}
+    </div>
+    <div class="card reveal">
+      <h3><span class="evbadge up">小加碼</span>多花一點哩程就能再多一個城市（${up.length}）</h3>
+      ${up.length ? `<ul class="uplist evstops">${up.slice(0, 25).map(row).join('')}</ul>`
+        : '<p class="mnote">沒有可加碼的選項。</p>'}
+    </div>
+    ${evTaxDetail(baseTax)}
+    <p class="mnote">中停點是否真的訂得到票，取決於星盟成員的實際航線與酬賓機位；本工具只判斷<b>票規是否允許</b>。
+      ${evState.chart === 'sa' ? '含停留的星盟票須透過長榮客服開票。' : ''}</p>`;
+}
+
+function evParsePath(s){
+  return String(s || '').split(/[>>,→\-]+/).map(x => x.trim()).filter(Boolean)
+    .map(x => ({ code:x.replace(/\*+$/, '').toUpperCase(), stop:/\*$/.test(x) }));
+}
+function evCheckHtml(){
+  const pts = evParsePath($id('ev-path').value);
+  if (pts.length < 2) return `<div class="card"><h3>輸入行程</h3>
+    <p class="mnote">用 <code>&gt;</code> 分隔機場代碼，代碼後加 <code>*</code> 代表「停留」（過夜以上），不加就是 24 小時內轉機。
+      例：<code>TPE &gt; BKK* &gt; FRA* &gt; IST* &gt; TPE</code></p></div>`;
+  const unknown = pts.filter(p => !evByCode[p.code]).map(p => p.code);
+  if (unknown.length) return `<div class="card"><h3>查不到這些機場</h3>
+    <p class="mnote">${unknown.join('、')} 不在資料庫裡。可用左側選單確認代碼。</p></div>`;
+  if (pts.length > 8) return `<div class="card"><h3>行程太長</h3><p class="mnote">最多支援 8 個點。</p></div>`;
+  const r = evEval(pts, evState.cab, evState.chart);
+  const t = evTax(r.A, evState.cab);
+  return `<div class="card reveal">
+      <h3>${r.ok ? '<span class="evbadge free">✓ 票規允許</span>' : '<span class="evbadge no">✗ 這樣開不出來</span>'}
+        ${evState.chart === 'own' ? '長榮自家票' : '星盟票'}・${evCabName[evState.cab]}</h3>
+      <p class="evchain big">${evChain(pts)}</p>
+      <div class="statrow">
+        <span class="stat ${r.ok ? 'ok' : 'bad'}">所需哩程 <b>${r.miles ? fmt(r.miles) : '—'}</b>${r.rt ? '・來回' : '・單程'}</span>
+        ${r.chart === 'own' && r.bucketName ? `<span class="stat">適用 <b>${r.bucketName}</b></span>` : ''}
+        <span class="stat">折返點 <b>${r.turn ? r.turn.code + ' ' + r.turn.city : '—'}</b></span>
+        <span class="stat">停留 <b>${(r.stops || []).length}</b>・轉機 <b>${(r.trans || []).length}</b>・${r.segs} 段</span>
+        <span class="stat">飛行 <b>${fmt(r.dist)}</b> 哩</span>
+        ${r.miles ? `<span class="stat">效益 <b>${Math.round(r.dist / r.miles * 10000)}</b> 哩/萬</span>` : ''}
+        ${evTaxLine(t)}
+      </div>
+      ${r.bad?.length ? `<ul class="evbad">${r.bad.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
+      ${r.warn?.length ? `<ul class="evwarn">${r.warn.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
+      ${r.ok && r.stops?.length ? `<p class="mnote">比分開換省下的哩程：${(() => {
+        const org = r.A[0];
+        const sep = [...r.stops, r.turn].filter(Boolean).reduce((s, p) => s + (evState.chart === 'own'
+          ? (evEvalOwn([{code:org.code}, {code:p.code, stop:true}, {code:org.code}], evState.cab).miles || 0)
+          : evSaPrice(org.sa, p.sa, evState.cab)), 0);
+        return `一張張分開換要 ${fmt(sep)} 哩，這樣開只要 ${fmt(r.miles)} 哩，<b>省 ${fmt(Math.max(0, sep - r.miles))} 哩</b>`;
+      })()}</p>` : ''}
+      ${evTaxDetail(t)}
+    </div>
+    <div class="card reveal"><h3>這張表適用的票規</h3>
+      <ul>${EV_RULES[evState.chart].map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+}
+
+function evFeesHtml(){
+  return `<div class="card reveal"><h3>酬賓機票要另外付的錢</h3>
+    <ul class="uplist">${EV_FEES.rows.map(f => `<li><span>${f.item}${f.note ? `<small>　${f.note}</small>` : ''}</span><span class="um">${f.v}</span></li>`).join('')}</ul>
+    <p class="mnote">${EV_FEES.changeNote}稅金另計，只能用現金或信用卡支付。</p></div>`;
+}
+
+/* 兌換表與票規（一次渲染，不隨查詢變動） */
+function evExtraHtml(){
+  const upt = (head, rows, cols) => `<div class="evwrap"><table class="evtable">
+    <thead><tr><th>${head}</th>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(r => `<tr><td>${r[0]}</td>${r.slice(1).map(v =>
+      `<td>${typeof v === 'number' ? fmt(v) : v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  return `<div class="evgrid2">
+    ${evFeesHtml()}
+    <div class="card reveal"><h3>星空聯盟環球票</h3>
+      <ul class="uplist">
+        <li><span>經濟艙</span><span class="um">${fmt(EV_RTW.eco)} 哩</span></li>
+        <li><span>商務艙</span><span class="um">${fmt(EV_RTW.biz)} 哩</span></li>
+        <li><span>頭等艙</span><span class="um">${fmt(EV_RTW.fst)} 哩</span></li></ul>
+      <ul style="margin-top:12px">${EV_RTW.rules.map(r => `<li>${r}</li>`).join('')}</ul>
+      <p class="mnote">2025/9/1 三條新制把花式星盟票收掉之後，環球票反而成了「一張票玩多點」僅存的合法解。</p></div>
+  </div>
+  <div class="card reveal" style="margin-top:18px"><h3>升等哩程（自家航線・單一航段）</h3>
+    ${upt('升等方向', EV_UP_PEY.rows.map(r => [r.r, ...r.v.map(v => `${fmt(v[0])} ／ ${fmt(v[1])}`)]), EV_UP_PEY.cols)}
+    <p class="mnote">${EV_UP_PEY.note}</p>
+    ${upt('未提供豪經的航線・經濟升商務', EV_UP_NOPEY.rows, ['經典 Q／H／M', '尊寵 B／Y'])}
+    <p class="mnote">${EV_UP_NOPEY.note}。最便宜的基本票種（經濟 S／W／V、豪經 P）不能升等，買票當下就要決定。
+      升等以單一航段計，曼谷－台北－洛杉磯要分兩段各自扣哩。</p></div>
+  <div class="card reveal" style="margin-top:18px"><h3>升等哩程（星盟航班・台灣出發・單一航段）</h3>
+    ${upt('目的地區域', EV_UP_SA.rows, ['升商務艙', '升頭等艙'])}
+    <p class="mnote">${EV_UP_SA.note}</p></div>
+  <p class="mnote" style="margin-top:18px">哩程與票規整理自長榮官網兌換表與票規公告（2026/08）。星盟兌換表為長榮 2022 年官方版本、
+    2026 年官網下載檔為加密檔無法複驗；哩程一律以官網或客服為準。本工具只判斷<b>票規是否允許</b>，
+    實際能不能開票還要看酬賓機位與各星盟成員的航線。</p>`;
+}
+
+/* 事件 */
+$id('view-ev').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.classList.contains('ev-chart')){ evState.chart = b.dataset.c; $id('ev-origin').dataset.chart = ''; $id('ev-dest').dataset.k = ''; }
+  else if (b.classList.contains('ev-cab')) evState.cab = b.dataset.k;
+  else if (b.classList.contains('ev-mode')) evState.mode = b.dataset.m;
+  else if (b.classList.contains('ev-sort')){
+    evState.sort = b.dataset.s;
+    document.querySelectorAll('.ev-sort').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }
+  else if (b.classList.contains('ev-jump')){ evState.dest = b.dataset.d; evState.mode = 'boost'; $id('ev-dest').dataset.k = ''; }
+  else return;
+  evRender();
+});
+$id('ev-origin').addEventListener('change', e => { evState.origin = e.target.value; $id('ev-dest').dataset.k = ''; evRender(); });
+$id('ev-dest').addEventListener('change', e => { evState.dest = e.target.value; evRender(); });
+$id('ev-hub').addEventListener('change', e => { evState.hubOnly = e.target.checked; evRender(); });
+for (const id of ['ev-have', 'ev-path'])
+  $id(id).addEventListener('input', () => { clearTimeout(evRender._t); evRender._t = setTimeout(evRender, 220); });
+
+evLoadAirports();
+$id('ev-path').value = evState.path;
+$id('ev-rules-own').innerHTML = EV_RULES.own.map(x => `<li>${x}</li>`).join('');
+$id('ev-rules-sa').innerHTML = EV_RULES.sa.map(x => `<li>${x}</li>`).join('');
+$id('ev-extra').innerHTML = evExtraHtml();
+evRender();
 
 /* ═════════════════════ 即時資訊（免金鑰 API：frankfurter / open-meteo） ═════════════════════ */
 let liveLoaded = false;

@@ -35,7 +35,22 @@ function literal(name){
 
 const D = Object.fromEntries(['HUBS','AIRPORTS','COUNTRY','PRICE','FL_AIRLINES','FL_SPOTS','MILE_DATA',
   'CI_TIER_NAME','BR_ZONE_NAME','BR_ZONE_APTS','BR_ASIA_X','CX_AIRPORTS','CX_CHART','NH_PRICE',
-  'NH_DOM_BANDS','CMP_DESTS','CMP_RATE_DEF','ELITE','PROGRAMS'].map(n => [n, literal(n)]));
+  'NH_DOM_BANDS','CMP_DESTS','CMP_RATE_DEF','ELITE','PROGRAMS',
+  'EV_Z','EV_ZN','EV_CHART','EV_BLOC','EV_OWN','EV_OWN_RANK','EV_RTW','EV_FEES',
+  'EV_UP_PEY','EV_UP_NOPEY','EV_UP_SA','EV_RULES','EV_CC','EV_AP_RAW'].map(n => [n, literal(n)]));
+
+/* 長榮星盟兌換表：上三角矩陣的取值（單位千哩、來回） */
+const evPrice = (a, b, cab) => {
+  const ia = D.EV_Z.indexOf(a), ib = D.EV_Z.indexOf(b);
+  if (ia < 0 || ib < 0) return 0;
+  const r = Math.min(ia, ib), c = Math.max(ia, ib) - 1;
+  return c < 0 ? 0 : Math.round((D.EV_CHART[cab]?.[r]?.[c] || 0) * 1000);
+};
+const EV_AP = D.EV_AP_RAW.map(([code, city, ck, cc, sa, br, lat, lon, tax, fl, tnote, tprem]) =>
+  ({ code, city, city_key: ck || code, country: cc, country_name: D.EV_CC[cc] || cc,
+     sa_zone: sa, sa_zone_name: D.EV_ZN[sa], eva_own_zone: br || null, lat, lon,
+     departure_tax_usd: tax, departure_tax_premium_usd: tprem || null, tax_note: tnote || '',
+     eva_operated: !!(fl & 1), star_alliance_hub: !!(fl & 2) }));
 
 const n = v => v == null ? '—' : v.toLocaleString('en-US');
 const R = 3958.7613, rad = d => d * Math.PI / 180;
@@ -150,6 +165,97 @@ for (const [k, name] of Object.entries(D.BR_ZONE_NAME)){
 }
 P(``);
 
+/* ── 長榮效益最大化查票器：完整票規與兩張兌換表 ── */
+P(`## 2b. 長榮無限萬哩遊：完整兌換表與票規（效益最大化查票器的資料）`);
+P(``);
+P(`### 長榮／立榮自家國際線酬賓機票（來回哩程，單程為一半）`);
+P(``);
+P(`| 分區 | 涵蓋 | 經濟 | 豪華經濟 | 商務 |`);
+P(`|---|---|---|---|---|`);
+for (const [k, z] of Object.entries(D.EV_OWN))
+  P(`| ${z.name} | ${(D.BR_ZONE_APTS[k] || []).join('、') || '—'} | ${n(z.eco)} | ${n(z.pey)} | ${n(z.biz)} |`);
+P(``);
+P(`訂位艙等：經濟 X／豪華經濟 E／商務 I。立榮國內線來回 13,500 哩。`);
+P(``);
+P(`自家票開口與停留規則：`);
+P(``);
+for (const r of D.EV_RULES.own) P(`- ${r}`);
+P(``);
+P(`### 兌換星空聯盟航班（單位千哩、來回；單程為一半）`);
+P(``);
+for (const [cab, label] of [['eco','經濟艙'],['biz','商務艙'],['fst','頭等艙']]){
+  P(`#### ${label}`);
+  P(``);
+  const cols = D.EV_Z.slice(1);
+  P(`| 起點＼終點 | ${cols.map(z => D.EV_ZN[z]).join(' | ')} |`);
+  P(`|${'---|'.repeat(cols.length + 1)}`);
+  for (const r of D.EV_Z)
+    P(`| ${D.EV_ZN[r]} | ${cols.map(c => {
+      const ir = D.EV_Z.indexOf(r), ic = D.EV_Z.indexOf(c);
+      return ir <= ic ? (D.EV_CHART[cab][ir][ic - 1] || '–') : '–';
+    }).join(' | ')} |`);
+  P(``);
+}
+P(`星盟票開口與停留規則（含 2025/9/1 三條新制）：`);
+P(``);
+for (const r of D.EV_RULES.sa) P(`- ${r}`);
+P(``);
+P(`跨區禁行的三大板塊：${Object.entries({ AM:'美洲', EA:'歐洲／非洲／中東', AP:'亞洲／西南太平洋' })
+  .map(([g, name]) => `**${name}**＝${D.EV_Z.filter(z => D.EV_BLOC[z] === g).map(z => D.EV_ZN[z]).join('、')}`).join('；')}。`);
+P(``);
+P(`### 免費中停怎麼成立`);
+P(``);
+P(`星盟票的計價基準＝「出發地 → 折返點」，而折返點是系統認定「距出發地所需哩程最高」的那一點。`);
+P(`所以任何一個所需哩程 **不超過基準** 的城市，都可以當停留點而完全不加價 — 這就是免費中停。`);
+P(`例：台北出發商務艙，台灣→歐洲 ${n(evPrice('tw','eur','biz'))} 哩是基準，`);
+P(`台灣→東南亞 ${n(evPrice('tw','sea','biz'))}、台灣→中東 ${n(evPrice('tw','me','biz'))}、`);
+P(`台灣→北非 ${n(evPrice('tw','naf','biz'))} 都低於基準，因此曼谷、伊斯坦堡、開羅都能免費停留；`);
+P(`分開換要 ${n(evPrice('tw','eur','biz') + evPrice('tw','sea','biz') + evPrice('tw','me','biz'))} 哩，一起開只要 ${n(evPrice('tw','eur','biz'))} 哩。`);
+P(`長榮自家票則是「三個航段以上取最高的那一格」，所以外站出發、中停台北再飛長程，`);
+P(`一樣只付長程那一格：例如曼谷→台北（停留）→洛杉磯 商務來回 ${n(D.EV_OWN.amw.biz)} 哩，`);
+P(`分開換要 ${n(D.EV_OWN.asia.biz + D.EV_OWN.amw.biz)} 哩。`);
+P(``);
+P(`### 星空聯盟環球酬賓機票`);
+P(``);
+P(`經濟 ${n(D.EV_RTW.eco)}／商務 ${n(D.EV_RTW.biz)}／頭等 ${n(D.EV_RTW.fst)} 哩。`);
+for (const r of D.EV_RTW.rules) P(`- ${r}`);
+P(``);
+P(`### 酬賓機票的相關費用（2026/8 起）`);
+P(``);
+P(`| 項目 | 金額 | 備註 |`);
+P(`|---|---|---|`);
+for (const f of D.EV_FEES.rows) P(`| ${f.item} | ${f.v} | ${f.note || ''} |`);
+P(``);
+P(`${D.EV_FEES.changeNote}稅金另計，只能用現金或信用卡支付。`);
+P(``);
+P(`### 升等哩程（單一航段）`);
+P(``);
+P(`| 升等方向 | ${D.EV_UP_PEY.cols.join(' | ')} |`);
+P(`|${'---|'.repeat(D.EV_UP_PEY.cols.length + 1)}`);
+for (const r of D.EV_UP_PEY.rows) P(`| ${r.r} | ${r.v.map(v => `${n(v[0])} ／ ${n(v[1])}`).join(' | ')} |`);
+P(``);
+P(`${D.EV_UP_PEY.note}`);
+P(``);
+P(`| ${D.EV_UP_NOPEY.note} | 經典 Q／H／M | 尊寵 B／Y |`);
+P(`|---|---|---|`);
+for (const r of D.EV_UP_NOPEY.rows) P(`| ${r[0]} | ${n(r[1])} | ${n(r[2])} |`);
+P(``);
+P(`| 星盟升等・台灣出發到 | 升商務艙 | 升頭等艙 |`);
+P(`|---|---|---|`);
+for (const r of D.EV_UP_SA.rows) P(`| ${r[0]} | ${n(r[1])} | ${n(r[2])} |`);
+P(``);
+P(`${D.EV_UP_SA.note}`);
+P(``);
+P(`### 航點分區與離境稅費估算（共 ${EV_AP.length} 個航點）`);
+P(``);
+P(`| 代碼 | 城市 | 國家 | 星盟區 | 自家表分區 | 長榮飛 | 離境稅費 US$ |`);
+P(`|---|---|---|---|---|---|---|`);
+for (const a of EV_AP)
+  P(`| ${a.code} | ${a.city} | ${a.country_name} | ${a.sa_zone_name} | ${a.eva_own_zone ? D.EV_OWN[a.eva_own_zone].name : '—'} | ${a.eva_operated ? '✓' : '—'} | ${a.departure_tax_usd}${a.departure_tax_premium_usd ? `（前艙 ${a.departure_tax_premium_usd}）` : ''} |`);
+P(``);
+P(`離境稅費為整理值，不含航空公司的訂位服務費 YR（每張 US$${D.EV_FEES.yr}，香港出發免收）；兌換表本身不含燃油附加費。`);
+P(``);
+
 /* ── 國泰距離表 ── */
 P(`### 國泰・亞洲萬里通（按總距離計價，單程里數）`);
 P(``);
@@ -256,6 +362,16 @@ writeFileSync('data.json', JSON.stringify({
   cathay: { chart: D.CX_CHART.map(b => ({ ...b, max: Number.isFinite(b.max) ? b.max : 999999 })), airports: D.CX_AIRPORTS },
   ana: { price: D.NH_PRICE, domestic_bands: D.NH_DOM_BANDS.map(b => ({ ...b, max: Number.isFinite(b.max) ? b.max : 999999 })) },
   eva_zones: { names: D.BR_ZONE_NAME, airports: D.BR_ZONE_APTS, asia_cross: D.BR_ASIA_X },
+  eva: {
+    own_chart: D.EV_OWN, own_zone_rank: D.EV_OWN_RANK,
+    star_alliance_zones: D.EV_Z, star_alliance_zone_names: D.EV_ZN,
+    star_alliance_chart: D.EV_CHART, star_alliance_chart_unit: '千哩・來回（單程為一半）',
+    cross_region_blocs: D.EV_BLOC, rules: D.EV_RULES, fees: D.EV_FEES,
+    round_the_world: D.EV_RTW,
+    upgrades: { own_with_premium_economy: D.EV_UP_PEY, own_without_premium_economy: D.EV_UP_NOPEY,
+      star_alliance: D.EV_UP_SA },
+    airports: EV_AP,
+  },
   four_leg: D.FL_AIRLINES, compare_destinations: D.CMP_DESTS,
   mile_cost_ntd: D.CMP_RATE_DEF, elite: D.ELITE, programs: D.PROGRAMS,
 }, null, 1), 'utf8');
