@@ -323,7 +323,7 @@
 
 兌換星盟航空艙位升等（台灣出發、單一航段）。只限升上一級；升商務原則上認 Y／B 艙（部分航空另開放 O 或 E 艙），升頭等要 C／D 艙，須於起飛前 24 小時訂妥、不能候補。
 
-### 航點分區與離境稅費估算（共 248 個航點）
+### 航點分區與離境稅費估算（共 250 個航點）
 
 | 代碼 | 城市 | 國家 | 星盟區 | 自家表分區 | 長榮飛 | 離境稅費 US$ |
 |---|---|---|---|---|---|---|
@@ -575,6 +575,8 @@
 | PUJ | 蓬塔卡納 | 多明尼加 | 夏威夷中美洲 | — | — | 45 |
 | VVI | 聖克魯斯（玻利維亞） | 玻利維亞 | 南美洲 | — | — | 37 |
 | XPL | 帕爾梅羅拉（科馬亞瓜） | 宏都拉斯 | 夏威夷中美洲 | — | — | 44 |
+| NGB | 寧波 | 中國大陸 | 中國大陸 | — | — | 13 |
+| ROR | 帛琉 | 帛琉 | 西南太平洋（待確認） | — | — | 100 |
 
 標「待確認」者的星盟分區歸屬在公開資料上有疑義（跨洲邊界地區），本表取較可能的一邊，開票前請向長榮客服確認。
 
@@ -587,13 +589,13 @@
 
 | 分區 | 航點 |
 |---|---|
-| 台灣 ⇄ 亞洲（一） | HKG、XMN、FOC |
-| 台灣 ⇄ 亞洲（三） | NRT、HND、KIX、CTS、ICN、BKK、CNX、PEN、DPS、RGN |
-| 台灣 ⇄ 亞洲（二） | MFM、NGO、FUK、OKA、TAK、SDJ、HIJ、PUS、PVG、PEK、CAN、SZX、CTU、XIY、NKG、HGH、WUH、CKG、TAO、CSX、KMG、HFE、NNG、SGN、HAN、DAD、PNH、SIN、KUL、MNL、CGK、SUB |
-| 亞洲 ⇄ 紐澳 | SYD、MEL、BNE、AKL |
-| 亞洲 ⇄ 北美 | LAX、SFO、ONT、SEA、YVR、ORD |
+| 台灣 ⇄ 亞洲（一） | FOC、HKG、XMN |
+| 台灣 ⇄ 亞洲（三） | BKK、CNX、CTS、DPS、GMP、HND、ICN、KIX、NRT、PEN、RGN、ROR |
+| 台灣 ⇄ 亞洲（二） | CAN、CEB、CGK、CKG、DAD、FUK、HAN、HGH、HIJ、KMJ、KOJ、KUL、MNL、NGB、NGO、NKG、OKA、PEK、PNH、PUS、PVG、SGN、SHA、SIN、SUB、SZX、TAK、TAO、TFU、TOY、WUH |
+| 亞洲 ⇄ 紐澳 | AKL、BNE、MEL、SYD |
+| 亞洲 ⇄ 北美 | LAX、ONT、PHX、SEA、SFO、YVR |
 | 亞洲 ⇄ 紐約 | JFK |
-| 亞洲 ⇄ 歐洲 | LHR、FRA、AMS、VIE、PRG、MXP |
+| 亞洲 ⇄ 歐洲 | AMS、FCO、FRA、LHR、PRG、VIE |
 
 跨計畫比價的計價基準：華航／長榮／星宇的表列值為**來回**（單程為一半）；
 國泰與阿拉斯加為**單程**（來回 ×2）。國泰自台灣出發須經香港，按「台北–香港＋香港–目的地」的
