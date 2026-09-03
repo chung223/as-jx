@@ -50,7 +50,7 @@ const EV_AP = D.EV_AP_RAW.map(([code, city, ck, cc, sa, br, lat, lon, tax, fl, t
   ({ code, city, city_key: ck || code, country: cc, country_name: D.EV_CC[cc] || cc,
      sa_zone: sa, sa_zone_name: D.EV_ZN[sa], eva_own_zone: br || null, lat, lon,
      departure_tax_usd: tax, departure_tax_premium_usd: tprem || null, tax_note: tnote || '',
-     eva_operated: !!(fl & 1), star_alliance_hub: !!(fl & 2) }));
+     eva_operated: !!(fl & 1), star_alliance_hub: !!(fl & 2), zone_uncertain: !!(fl & 4) }));
 
 const n = v => v == null ? '—' : v.toLocaleString('en-US');
 const R = 3958.7613, rad = d => d * Math.PI / 180;
@@ -251,9 +251,11 @@ P(``);
 P(`| 代碼 | 城市 | 國家 | 星盟區 | 自家表分區 | 長榮飛 | 離境稅費 US$ |`);
 P(`|---|---|---|---|---|---|---|`);
 for (const a of EV_AP)
-  P(`| ${a.code} | ${a.city} | ${a.country_name} | ${a.sa_zone_name} | ${a.eva_own_zone ? D.EV_OWN[a.eva_own_zone].name : '—'} | ${a.eva_operated ? '✓' : '—'} | ${a.departure_tax_usd}${a.departure_tax_premium_usd ? `（前艙 ${a.departure_tax_premium_usd}）` : ''} |`);
+  P(`| ${a.code} | ${a.city} | ${a.country_name} | ${a.sa_zone_name}${a.zone_uncertain ? '（待確認）' : ''} | ${a.eva_own_zone ? D.EV_OWN[a.eva_own_zone].name : '—'} | ${a.eva_operated ? '✓' : '—'} | ${a.departure_tax_usd}${a.departure_tax_premium_usd ? `（前艙 ${a.departure_tax_premium_usd}）` : ''} |`);
 P(``);
-P(`離境稅費為整理值，不含航空公司的訂位服務費 YR（每張 US$${D.EV_FEES.yr}，香港出發免收）；兌換表本身不含燃油附加費。`);
+P(`標「待確認」者的星盟分區歸屬在公開資料上有疑義（跨洲邊界地區），本表取較可能的一邊，開票前請向長榮客服確認。`);
+P(``);
+P(`離境稅費為 2026/08–09 費率的整理值，不含航空公司的訂位服務費 YR（每張 US$${D.EV_FEES.yr}，香港出發免收）；兌換表本身不含燃油附加費。`);
 P(``);
 
 /* ── 國泰距離表 ── */

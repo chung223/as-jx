@@ -2687,11 +2687,12 @@
     "eva_own_zone": "asia",
     "lat": 25.0777,
     "lon": 121.2325,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 24,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場服務費 NT$500",
+    "tax_note": "出境航空旅客機場服務費 NT$750",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "TSA",
@@ -2704,11 +2705,12 @@
     "eva_own_zone": "asia",
     "lat": 25.0694,
     "lon": 121.5521,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 24,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場服務費 NT$500",
+    "tax_note": "同 TPE：機場服務費 NT$750（含兩岸線出境）。國內線不徵收",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KHH",
@@ -2721,11 +2723,12 @@
     "eva_own_zone": "asia",
     "lat": 22.5771,
     "lon": 120.35,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 24,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場服務費 NT$500",
+    "tax_note": "同 TPE：機場服務費 NT$750",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "RMQ",
@@ -2738,11 +2741,12 @@
     "eva_own_zone": "asia",
     "lat": 24.2647,
     "lon": 120.6206,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 24,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場服務費 NT$500",
+    "tax_note": "同 TPE：機場服務費 NT$750",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HKG",
@@ -2759,7 +2763,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客離境稅 HK$120＋機場建設費",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "MFM",
@@ -2776,7 +2781,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場離境稅",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PVG",
@@ -2793,7 +2799,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "SHA",
@@ -2803,14 +2810,15 @@
     "country_name": "中國大陸",
     "sa_zone": "cn",
     "sa_zone_name": "中國大陸",
-    "eva_own_zone": null,
+    "eva_own_zone": "asia",
     "lat": 31.1979,
     "lon": 121.3363,
     "departure_tax_usd": 13,
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
-    "eva_operated": false,
-    "star_alliance_hub": false
+    "eva_operated": true,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PEK",
@@ -2827,7 +2835,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "PKX",
@@ -2844,7 +2853,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CAN",
@@ -2861,7 +2871,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SZX",
@@ -2878,7 +2889,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "CTU",
@@ -2895,7 +2907,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "TFU",
@@ -2912,7 +2925,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "XIY",
@@ -2922,14 +2936,15 @@
     "country_name": "中國大陸",
     "sa_zone": "cn",
     "sa_zone_name": "中國大陸",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 34.4471,
     "lon": 108.7516,
     "departure_tax_usd": 13,
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
-    "eva_operated": true,
-    "star_alliance_hub": true
+    "eva_operated": false,
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "NKG",
@@ -2946,7 +2961,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HGH",
@@ -2963,7 +2979,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "XMN",
@@ -2980,7 +2997,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "FOC",
@@ -2997,7 +3015,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CKG",
@@ -3014,7 +3033,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "WUH",
@@ -3024,14 +3044,15 @@
     "country_name": "中國大陸",
     "sa_zone": "cn",
     "sa_zone_name": "中國大陸",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 30.7838,
     "lon": 114.2081,
     "departure_tax_usd": 13,
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TAO",
@@ -3042,13 +3063,14 @@
     "sa_zone": "cn",
     "sa_zone_name": "中國大陸",
     "eva_own_zone": "asia",
-    "lat": 36.3614,
-    "lon": 120.3744,
+    "lat": 36.362,
+    "lon": 120.0882,
     "departure_tax_usd": 13,
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CSX",
@@ -3058,14 +3080,15 @@
     "country_name": "中國大陸",
     "sa_zone": "cn",
     "sa_zone_name": "中國大陸",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 28.1892,
     "lon": 113.2196,
     "departure_tax_usd": 13,
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KMG",
@@ -3082,7 +3105,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "NNG",
@@ -3099,7 +3123,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "民航發展基金 ¥90",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "NRT",
@@ -3112,11 +3137,12 @@
     "eva_own_zone": "asia",
     "lat": 35.772,
     "lon": 140.3929,
-    "departure_tax_usd": 26,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅 ¥1,000＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋PSFC/PSSC ¥2,460",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "HND",
@@ -3129,11 +3155,12 @@
     "eva_own_zone": "asia",
     "lat": 35.5494,
     "lon": 139.7798,
-    "departure_tax_usd": 28,
+    "departure_tax_usd": 37,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅 ¥1,000＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋國際線 PSFC ¥2,950",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "KIX",
@@ -3146,11 +3173,12 @@
     "eva_own_zone": "asia",
     "lat": 34.4342,
     "lon": 135.2441,
-    "departure_tax_usd": 24,
+    "departure_tax_usd": 35,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋PSFC/PSSC 約 ¥2,620",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ITM",
@@ -3163,11 +3191,12 @@
     "eva_own_zone": null,
     "lat": 34.7855,
     "lon": 135.4382,
-    "departure_tax_usd": 10,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國內線機場",
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "NGO",
@@ -3180,11 +3209,12 @@
     "eva_own_zone": "asia",
     "lat": 34.8584,
     "lon": 136.8049,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 38,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋中部 PSFC ¥3,000",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "FUK",
@@ -3197,11 +3227,12 @@
     "eva_own_zone": "asia",
     "lat": 33.5859,
     "lon": 130.4508,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 25,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋福岡國際線旅客取扱施設利用料 ¥980",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CTS",
@@ -3214,11 +3245,12 @@
     "eva_own_zone": "asia",
     "lat": 42.7752,
     "lon": 141.6923,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 35,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋新千歲國際線 PSFC ¥2,610",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "OKA",
@@ -3231,11 +3263,12 @@
     "eva_own_zone": "asia",
     "lat": 26.1958,
     "lon": 127.6459,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 25,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋那霸國際線 PSFC ¥1,000",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SDJ",
@@ -3252,7 +3285,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "國際觀光旅客稅＋PSFC",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KMJ",
@@ -3262,14 +3296,15 @@
     "country_name": "日本",
     "sa_zone": "nasia",
     "sa_zone_name": "北亞",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 32.8373,
     "lon": 130.8551,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 31,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "tax_note": "國際觀光旅客稅 ¥3,000",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KOJ",
@@ -3279,14 +3314,15 @@
     "country_name": "日本",
     "sa_zone": "nasia",
     "sa_zone_name": "北亞",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 31.8034,
     "lon": 130.7194,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HIJ",
@@ -3296,14 +3332,15 @@
     "country_name": "日本",
     "sa_zone": "nasia",
     "sa_zone_name": "北亞",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 34.4361,
     "lon": 132.9194,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "OKJ",
@@ -3313,14 +3350,15 @@
     "country_name": "日本",
     "sa_zone": "nasia",
     "sa_zone_name": "北亞",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 34.7569,
     "lon": 133.8553,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TOY",
@@ -3330,14 +3368,15 @@
     "country_name": "日本",
     "sa_zone": "nasia",
     "sa_zone_name": "北亞",
-    "eva_own_zone": "asia",
+    "eva_own_zone": null,
     "lat": 36.6483,
     "lon": 137.1875,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KMQ",
@@ -3350,11 +3389,12 @@
     "eva_own_zone": "asia",
     "lat": 36.3946,
     "lon": 136.4075,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "AOJ",
@@ -3367,11 +3407,12 @@
     "eva_own_zone": "asia",
     "lat": 40.7346,
     "lon": 140.6907,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "僅國際觀光旅客稅 ¥3,000",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HKD",
@@ -3384,11 +3425,12 @@
     "eva_own_zone": null,
     "lat": 41.77,
     "lon": 140.8219,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 26,
     "departure_tax_premium_usd": null,
-    "tax_note": "國際觀光旅客稅＋PSFC",
+    "tax_note": "國際觀光旅客稅 ¥3,000＋函館國際線 PSFC ¥1,200",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TAK",
@@ -3405,7 +3447,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "國際觀光旅客稅＋PSFC",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ICN",
@@ -3418,11 +3461,12 @@
     "eva_own_zone": "asia",
     "lat": 37.4602,
     "lon": 126.4407,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 18,
     "departure_tax_premium_usd": null,
-    "tax_note": "出國納付金＋機場使用料",
+    "tax_note": "旅客服務費（PSC）₩17,000",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "GMP",
@@ -3432,14 +3476,15 @@
     "country_name": "韓國",
     "sa_zone": "nasia",
     "sa_zone_name": "北亞",
-    "eva_own_zone": null,
+    "eva_own_zone": "asia",
     "lat": 37.5583,
     "lon": 126.7906,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 14,
     "departure_tax_premium_usd": null,
-    "tax_note": "出國納付金＋機場使用料",
-    "eva_operated": false,
-    "star_alliance_hub": false
+    "tax_note": "旅客服務費（PSC）₩12,000",
+    "eva_operated": true,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PUS",
@@ -3452,11 +3497,12 @@
     "eva_own_zone": "asia",
     "lat": 35.1795,
     "lon": 128.9382,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 14,
     "departure_tax_premium_usd": null,
-    "tax_note": "出國納付金＋機場使用料",
+    "tax_note": "旅客服務費（PSC）₩12,000",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CJU",
@@ -3469,11 +3515,12 @@
     "eva_own_zone": null,
     "lat": 33.5113,
     "lon": 126.493,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 14,
     "departure_tax_premium_usd": null,
-    "tax_note": "出國納付金＋機場使用料",
+    "tax_note": "旅客服務費（PSC）₩12,000",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "UBN",
@@ -3486,11 +3533,12 @@
     "eva_own_zone": null,
     "lat": 47.6531,
     "lon": 106.82,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 30,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "成吉思汗國際機場國際線旅客費約 ₮108,000（≈US$30",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "BKK",
@@ -3503,11 +3551,12 @@
     "eva_own_zone": "asia",
     "lat": 13.69,
     "lon": 100.7501,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費 ฿730",
+    "tax_note": "AOT 國際線旅客服務費(PSC) THB 1,120",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "DMK",
@@ -3520,11 +3569,12 @@
     "eva_own_zone": null,
     "lat": 13.9126,
     "lon": 100.6068,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費 ฿730",
+    "tax_note": "AOT 國際線 PSC THB 1,120（2026/6/20 起）",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CNX",
@@ -3537,11 +3587,12 @@
     "eva_own_zone": "asia",
     "lat": 18.7668,
     "lon": 98.9626,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
+    "tax_note": "AOT 國際線 PSC THB 1,120（2026/6/20 起）",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HKT",
@@ -3551,14 +3602,15 @@
     "country_name": "泰國",
     "sa_zone": "sea",
     "sa_zone_name": "東南亞",
-    "eva_own_zone": null,
+    "eva_own_zone": "asia",
     "lat": 8.1132,
     "lon": 98.3169,
-    "departure_tax_usd": 22,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
-    "eva_operated": false,
-    "star_alliance_hub": false
+    "tax_note": "AOT 國際線 PSC THB 1,120（2026/6/20 起）",
+    "eva_operated": true,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SGN",
@@ -3571,11 +3623,12 @@
     "eva_own_zone": "asia",
     "lat": 10.8188,
     "lon": 106.652,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 27,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場離境費",
+    "tax_note": "越南 A 類機場國際線 PSC USD 25 ",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HAN",
@@ -3588,11 +3641,12 @@
     "eva_own_zone": "asia",
     "lat": 21.2212,
     "lon": 105.8072,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 27,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場離境費",
+    "tax_note": "越南 A 類機場國際線 PSC USD 25 ＋ 安檢費 USD 2",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DAD",
@@ -3605,11 +3659,12 @@
     "eva_own_zone": "asia",
     "lat": 16.0439,
     "lon": 108.1994,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 27,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場離境費",
+    "tax_note": "越南 A 類機場國際線 PSC USD 25 ＋ 安檢費 USD 2",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CXR",
@@ -3622,11 +3677,12 @@
     "eva_own_zone": null,
     "lat": 11.9982,
     "lon": 109.2192,
-    "departure_tax_usd": 16,
+    "departure_tax_usd": 27,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場離境費",
+    "tax_note": "越南 A 類機場國際線 PSC USD 25 ＋ 安檢費 USD 2",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PQC",
@@ -3643,7 +3699,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場離境費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SIN",
@@ -3656,11 +3713,12 @@
     "eva_own_zone": "asia",
     "lat": 1.3644,
     "lon": 103.9915,
-    "departure_tax_usd": 48,
+    "departure_tax_usd": 51,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費＋航空稅 S$65",
+    "tax_note": "樟宜離境旅客費用合計 SGD 65.20（PSSF＋航空徵費 AL",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "KUL",
@@ -3673,11 +3731,12 @@
     "eva_own_zone": "asia",
     "lat": 2.7456,
     "lon": 101.7099,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 22,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費＋離境稅",
+    "tax_note": "KLIA T1 國際線 PSC RM73 ＋ 離境稅",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "PEN",
@@ -3690,11 +3749,12 @@
     "eva_own_zone": "asia",
     "lat": 5.2971,
     "lon": 100.277,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 17,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費＋離境稅",
+    "tax_note": "非 KLIA T1 機場國際線 PSC RM50 ",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BKI",
@@ -3707,11 +3767,12 @@
     "eva_own_zone": null,
     "lat": 5.9372,
     "lon": 116.0512,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 17,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費＋離境稅",
+    "tax_note": "非 KLIA T1 機場國際線 PSC RM50 ",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CGK",
@@ -3728,7 +3789,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DPS",
@@ -3741,11 +3803,12 @@
     "eva_own_zone": "asia",
     "lat": -8.7482,
     "lon": 115.1672,
-    "departure_tax_usd": 15,
+    "departure_tax_usd": 12,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "伍拉萊國際線 PSC 約 IDR 200,000（含稅），已併入票價",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SUB",
@@ -3755,14 +3818,15 @@
     "country_name": "印尼",
     "sa_zone": "sea",
     "sa_zone_name": "東南亞",
-    "eva_own_zone": null,
+    "eva_own_zone": "asia",
     "lat": -7.3798,
     "lon": 112.7869,
     "departure_tax_usd": 15,
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
-    "eva_operated": false,
-    "star_alliance_hub": false
+    "eva_operated": true,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MNL",
@@ -3775,11 +3839,12 @@
     "eva_own_zone": "asia",
     "lat": 14.5086,
     "lon": 121.0198,
-    "departure_tax_usd": 15,
+    "departure_tax_usd": 12,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
+    "tax_note": "NAIA 國際線旅客服務費(terminal fee) PHP 700（2026/4/1 起由 900 調降），已含在票",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CEB",
@@ -3796,7 +3861,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CRK",
@@ -3806,14 +3872,15 @@
     "country_name": "菲律賓",
     "sa_zone": "sea",
     "sa_zone_name": "東南亞",
-    "eva_own_zone": null,
+    "eva_own_zone": "asia",
     "lat": 15.186,
     "lon": 120.56,
     "departure_tax_usd": 15,
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費",
-    "eva_operated": false,
-    "star_alliance_hub": false
+    "eva_operated": true,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PNH",
@@ -3824,13 +3891,14 @@
     "sa_zone": "sea",
     "sa_zone_name": "東南亞",
     "eva_own_zone": "asia",
-    "lat": 11.5466,
-    "lon": 104.8442,
-    "departure_tax_usd": 18,
+    "lat": 11.3629,
+    "lon": 104.9166,
+    "departure_tax_usd": 30,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "柬埔寨國際線旅客服務費：外籍旅客 USD 30（柬籍 USD 23）",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "REP",
@@ -3841,13 +3909,14 @@
     "sa_zone": "sea",
     "sa_zone_name": "東南亞",
     "eva_own_zone": null,
-    "lat": 13.4107,
-    "lon": 103.813,
-    "departure_tax_usd": 18,
+    "lat": 13.3753,
+    "lon": 104.2208,
+    "departure_tax_usd": 30,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "柬埔寨國際線旅客服務費：外籍旅客 USD 30，已含在票價",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "VTE",
@@ -3860,11 +3929,12 @@
     "eva_own_zone": null,
     "lat": 17.9883,
     "lon": 102.5633,
-    "departure_tax_usd": 18,
+    "departure_tax_usd": 12,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "瓦岱國際機場國際線離境費，已併入票價",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "RGN",
@@ -3877,11 +3947,12 @@
     "eva_own_zone": null,
     "lat": 16.9073,
     "lon": 96.1332,
-    "departure_tax_usd": 18,
+    "departure_tax_usd": 13,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "緬甸國際線機場服務費，現已併入票價",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BWN",
@@ -3894,11 +3965,12 @@
     "eva_own_zone": null,
     "lat": 4.9442,
     "lon": 114.9283,
-    "departure_tax_usd": 15,
+    "departure_tax_usd": 9,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "汶萊離境稅：目的地非印尼／馬來西亞／菲律賓者 BND 12",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DEL",
@@ -3915,7 +3987,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費 UDF",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "BOM",
@@ -3928,11 +4001,12 @@
     "eva_own_zone": null,
     "lat": 19.0896,
     "lon": 72.8656,
-    "departure_tax_usd": 15,
+    "departure_tax_usd": 22,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費 UDF",
+    "tax_note": "CSMIA 國際出境 UDF（AERA 近期調升",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "BLR",
@@ -3945,11 +4019,12 @@
     "eva_own_zone": null,
     "lat": 13.1979,
     "lon": 77.7063,
-    "departure_tax_usd": 15,
+    "departure_tax_usd": 18,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費 UDF",
+    "tax_note": "UDF 2026/9/1 起由約 INR 1,500 降至略低於 INR 1,000＋ASF USD 4.85＋GST",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "MAA",
@@ -3966,7 +4041,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費 UDF",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HYD",
@@ -3979,11 +4055,12 @@
     "eva_own_zone": null,
     "lat": 17.2403,
     "lon": 78.4294,
-    "departure_tax_usd": 15,
+    "departure_tax_usd": 19,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費 UDF",
+    "tax_note": "UDF 2026-27 年度為 INR 1,030",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CCU",
@@ -4000,7 +4077,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費 UDF",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CMB",
@@ -4013,11 +4091,12 @@
     "eva_own_zone": null,
     "lat": 7.1808,
     "lon": 79.8841,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 90,
     "departure_tax_premium_usd": null,
-    "tax_note": "離境稅",
+    "tax_note": "離境稅 Embarkation Levy，非 SAARC 目的地 US$60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KTM",
@@ -4030,11 +4109,12 @@
     "eva_own_zone": null,
     "lat": 27.6966,
     "lon": 85.3591,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 22,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "特里布萬機場國際線離境稅／旅客服務費 NPR 2,765",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DAC",
@@ -4047,11 +4127,12 @@
     "eva_own_zone": null,
     "lat": 23.8433,
     "lon": 90.3978,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 42,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "孟加拉旅行稅（Travel Tax）飛台灣／中國／日本／歐美等非 SAARC 目的地 BDT 4,000＋登機費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KHI",
@@ -4064,11 +4145,12 @@
     "eva_own_zone": null,
     "lat": 24.9065,
     "lon": 67.1608,
-    "departure_tax_usd": 30,
+    "departure_tax_usd": 52,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "重稅點：聯邦貨物稅 FED 經濟艙／豪經 PKR 12,500",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ISB",
@@ -4081,11 +4163,12 @@
     "eva_own_zone": null,
     "lat": 33.5607,
     "lon": 72.8517,
-    "departure_tax_usd": 30,
+    "departure_tax_usd": 52,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "與喀拉蚩／拉合爾同：FED 經濟艙 PKR 12,500",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MLE",
@@ -4098,11 +4181,12 @@
     "eva_own_zone": null,
     "lat": 4.1918,
     "lon": 73.5291,
-    "departure_tax_usd": 55,
+    "departure_tax_usd": 100,
     "departure_tax_premium_usd": 110,
-    "tax_note": "離境稅（艙等分級）",
+    "tax_note": "機場發展費 ADF＋離境稅，各按艙等收一次",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TAS",
@@ -4119,7 +4203,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "ALA",
@@ -4132,11 +4217,12 @@
     "eva_own_zone": null,
     "lat": 43.3521,
     "lon": 77.0405,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 14,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "機場旅客服務費約 USD 10–14",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "NQZ",
@@ -4149,11 +4235,12 @@
     "eva_own_zone": null,
     "lat": 51.0223,
     "lon": 71.4669,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 15,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "機場旅客服務費＋保安費約 USD 15（推估，與阿拉木圖同級）",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "GYD",
@@ -4161,16 +4248,17 @@
     "city_key": "GYD",
     "country": "AZ",
     "country_name": "亞塞拜然",
-    "sa_zone": "csa",
-    "sa_zone_name": "中亞南亞",
+    "sa_zone": "eur",
+    "sa_zone_name": "歐洲",
     "eva_own_zone": null,
     "lat": 40.4675,
     "lon": 50.0467,
-    "departure_tax_usd": 25,
+    "departure_tax_usd": 45,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "機場稅費合計約 US$45–50（推估）",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "TBS",
@@ -4178,16 +4266,17 @@
     "city_key": "TBS",
     "country": "GE",
     "country_name": "喬治亞",
-    "sa_zone": "csa",
-    "sa_zone_name": "中亞南亞",
+    "sa_zone": "eur",
+    "sa_zone_name": "歐洲",
     "eva_own_zone": null,
     "lat": 41.6692,
     "lon": 44.9547,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 28,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "機場旅客服務費＋保安費合計約 USD 28",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "SYD",
@@ -4200,11 +4289,12 @@
     "eva_own_zone": null,
     "lat": -33.9399,
     "lon": 151.1753,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 81,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "旅客離境稅 PMC A$70＋雪梨機場旅客服務費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "MEL",
@@ -4217,11 +4307,12 @@
     "eva_own_zone": null,
     "lat": -37.669,
     "lon": 144.841,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 74,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "PMC A$70＋墨爾本機場旅客服務費＋安檢費，合計約 A$112",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "BNE",
@@ -4234,11 +4325,12 @@
     "eva_own_zone": "ocean",
     "lat": -27.3842,
     "lon": 153.1075,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 78,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "PMC A$70＋布里斯本機場旅客服務費＋安檢費，合計約 A$118",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "PER",
@@ -4251,11 +4343,12 @@
     "eva_own_zone": null,
     "lat": -31.9385,
     "lon": 115.9672,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 77,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "PMC A$70＋伯斯機場旅客服務費＋安檢費，合計約 A$116",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ADL",
@@ -4268,11 +4361,12 @@
     "eva_own_zone": null,
     "lat": -34.945,
     "lon": 138.5306,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 71,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "PMC A$70＋阿德雷德機場旅客服務費＋安檢費，合計約 A$108",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "OOL",
@@ -4285,11 +4379,12 @@
     "eva_own_zone": null,
     "lat": -28.1644,
     "lon": 153.505,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 69,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "PMC A$70＋黃金海岸機場旅客服務費＋安檢費，合計約 A$104",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CNS",
@@ -4302,11 +4397,12 @@
     "eva_own_zone": null,
     "lat": -16.8858,
     "lon": 145.7553,
-    "departure_tax_usd": 45,
+    "departure_tax_usd": 71,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客離境稅 A$70＋PSC",
+    "tax_note": "PMC A$70＋凱恩斯機場旅客服務費＋安檢費，合計約 A$108",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "AKL",
@@ -4319,11 +4415,12 @@
     "eva_own_zone": null,
     "lat": -37.0082,
     "lon": 174.7917,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 30,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
+    "tax_note": "紐西蘭海關徵費約 NZ$4.52＋邊境通關徵費約 NZ$2.94",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "CHC",
@@ -4336,11 +4433,12 @@
     "eva_own_zone": null,
     "lat": -43.4894,
     "lon": 172.5322,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 28,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
+    "tax_note": "紐西蘭海關＋邊境通關徵費約 NZ$7.5＋基督城機場旅客服務費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "WLG",
@@ -4353,11 +4451,12 @@
     "eva_own_zone": null,
     "lat": -41.3272,
     "lon": 174.8053,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 28,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
+    "tax_note": "紐西蘭海關＋邊境通關徵費約 NZ$7.5＋威靈頓機場旅客服務費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ZQN",
@@ -4370,11 +4469,12 @@
     "eva_own_zone": null,
     "lat": -45.0211,
     "lon": 168.7392,
-    "departure_tax_usd": 20,
+    "departure_tax_usd": 26,
     "departure_tax_premium_usd": null,
-    "tax_note": "旅客服務費",
+    "tax_note": "紐西蘭海關＋邊境通關徵費約 NZ$7.5＋皇后鎮機場旅客服務費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "NAN",
@@ -4387,11 +4487,12 @@
     "eva_own_zone": null,
     "lat": -17.7554,
     "lon": 177.4434,
-    "departure_tax_usd": 55,
+    "departure_tax_usd": 92,
     "departure_tax_premium_usd": null,
-    "tax_note": "離境稅",
+    "tax_note": "斐濟離境稅 FJ$200（2025/8/1 起回到疫情前水準",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "POM",
@@ -4408,7 +4509,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "NOU",
@@ -4421,11 +4523,12 @@
     "eva_own_zone": null,
     "lat": -22.0146,
     "lon": 166.213,
-    "departure_tax_usd": 30,
+    "departure_tax_usd": 40,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "法國民航稅(TAC)＋機場稅(taxe d’aéroport)",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PPT",
@@ -4438,11 +4541,12 @@
     "eva_own_zone": null,
     "lat": -17.5537,
     "lon": -149.607,
-    "departure_tax_usd": 30,
+    "departure_tax_usd": 35,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場稅",
+    "tax_note": "法國民航稅＋機場稅＋旅客服務費（內含於票價，機場不另收離境稅）",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "GUM",
@@ -4455,11 +4559,12 @@
     "eva_own_zone": null,
     "lat": 13.4834,
     "lon": 144.797,
-    "departure_tax_usd": 40,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國屬地・國際離境規費",
+    "tax_note": "美國國際段離境稅約 US$23.4＋911 安檢費 US$5.6",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "LAX",
@@ -4472,11 +4577,12 @@
     "eva_own_zone": "amw",
     "lat": 33.9416,
     "lon": -118.4085,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費＋APHIS",
+    "tax_note": "美國國際航段稅 US$23.40",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "SFO",
@@ -4489,11 +4595,12 @@
     "eva_own_zone": "amw",
     "lat": 37.6213,
     "lon": -122.379,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費＋APHIS",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "SEA",
@@ -4506,11 +4613,12 @@
     "eva_own_zone": "amw",
     "lat": 47.4502,
     "lon": -122.3088,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費＋APHIS",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "ONT",
@@ -4520,14 +4628,15 @@
     "country_name": "美國",
     "sa_zone": "nam",
     "sa_zone_name": "北美洲",
-    "eva_own_zone": "amw",
+    "eva_own_zone": null,
     "lat": 34.056,
     "lon": -117.6012,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
-    "eva_operated": true,
-    "star_alliance_hub": false
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SAN",
@@ -4540,11 +4649,12 @@
     "eva_own_zone": null,
     "lat": 32.7336,
     "lon": -117.1897,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "LAS",
@@ -4557,11 +4667,12 @@
     "eva_own_zone": null,
     "lat": 36.084,
     "lon": -115.1537,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PHX",
@@ -4574,11 +4685,12 @@
     "eva_own_zone": null,
     "lat": 33.4343,
     "lon": -112.0116,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DEN",
@@ -4591,11 +4703,12 @@
     "eva_own_zone": null,
     "lat": 39.8561,
     "lon": -104.6737,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "JFK",
@@ -4608,11 +4721,12 @@
     "eva_own_zone": "ame",
     "lat": 40.6413,
     "lon": -73.7781,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費＋APHIS",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "EWR",
@@ -4625,11 +4739,12 @@
     "eva_own_zone": null,
     "lat": 40.6895,
     "lon": -74.1745,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "BOS",
@@ -4642,11 +4757,12 @@
     "eva_own_zone": null,
     "lat": 42.3656,
     "lon": -71.0096,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "IAD",
@@ -4659,11 +4775,12 @@
     "eva_own_zone": "ame",
     "lat": 38.9531,
     "lon": -77.4565,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "ORD",
@@ -4676,11 +4793,12 @@
     "eva_own_zone": "ame",
     "lat": 41.9742,
     "lon": -87.9073,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "IAH",
@@ -4693,11 +4811,12 @@
     "eva_own_zone": "ame",
     "lat": 29.9902,
     "lon": -95.3368,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "DFW",
@@ -4710,11 +4829,12 @@
     "eva_own_zone": "ame",
     "lat": 32.8998,
     "lon": -97.0403,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": true,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ATL",
@@ -4727,11 +4847,12 @@
     "eva_own_zone": null,
     "lat": 33.6407,
     "lon": -84.4277,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MIA",
@@ -4744,11 +4865,12 @@
     "eva_own_zone": null,
     "lat": 25.7959,
     "lon": -80.287,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MCO",
@@ -4761,11 +4883,12 @@
     "eva_own_zone": null,
     "lat": 28.4312,
     "lon": -81.3081,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MSP",
@@ -4778,11 +4901,12 @@
     "eva_own_zone": null,
     "lat": 44.8848,
     "lon": -93.2223,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SLC",
@@ -4795,11 +4919,12 @@
     "eva_own_zone": null,
     "lat": 40.7899,
     "lon": -111.9791,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PDX",
@@ -4812,11 +4937,12 @@
     "eva_own_zone": null,
     "lat": 45.5898,
     "lon": -122.5951,
-    "departure_tax_usd": 44,
+    "departure_tax_usd": 34,
     "departure_tax_premium_usd": null,
-    "tax_note": "美國國際離境稅＋設施費",
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "YVR",
@@ -4829,11 +4955,12 @@
     "eva_own_zone": "amw",
     "lat": 49.1947,
     "lon": -123.1792,
-    "departure_tax_usd": 40,
+    "departure_tax_usd": 43,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場改善費＋加拿大安檢費",
+    "tax_note": "加拿大航空旅客保安費 ATSC CAD34.42",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "YYZ",
@@ -4846,11 +4973,12 @@
     "eva_own_zone": "ame",
     "lat": 43.6777,
     "lon": -79.6248,
-    "departure_tax_usd": 40,
+    "departure_tax_usd": 54,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場改善費＋加拿大安檢費",
+    "tax_note": "ATSC CAD34.42＋AIF CAD40",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "YUL",
@@ -4863,11 +4991,12 @@
     "eva_own_zone": null,
     "lat": 45.4706,
     "lon": -73.7408,
-    "departure_tax_usd": 40,
+    "departure_tax_usd": 54,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場改善費＋加拿大安檢費",
+    "tax_note": "ATSC CAD34.42＋AIF CAD40＝CAD74.42",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "YYC",
@@ -4880,11 +5009,12 @@
     "eva_own_zone": null,
     "lat": 51.1139,
     "lon": -114.0203,
-    "departure_tax_usd": 40,
+    "departure_tax_usd": 54,
     "departure_tax_premium_usd": null,
-    "tax_note": "機場改善費＋加拿大安檢費",
+    "tax_note": "ATSC CAD34.42＋AIF CAD40",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HNL",
@@ -4901,7 +5031,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "美國國際離境稅＋設施費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "OGG",
@@ -4918,7 +5049,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "美國國際離境稅＋設施費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "MEX",
@@ -4935,7 +5067,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客離境稅 TUA",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": true
    },
    {
     "code": "CUN",
@@ -4952,7 +5085,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客離境稅 TUA",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "PTY",
@@ -4969,7 +5103,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客離境稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "SJO",
@@ -4986,7 +5121,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "離境稅 US$29",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "GUA",
@@ -5003,7 +5139,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SAL",
@@ -5020,7 +5157,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HAV",
@@ -5037,7 +5175,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SJU",
@@ -5054,7 +5193,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "美國屬地・離境規費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "GRU",
@@ -5071,7 +5211,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "GIG",
@@ -5088,7 +5229,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "EZE",
@@ -5105,7 +5247,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SCL",
@@ -5122,7 +5265,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "LIM",
@@ -5139,7 +5283,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "BOG",
@@ -5156,7 +5301,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅＋觀光稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "UIO",
@@ -5173,7 +5319,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MVD",
@@ -5190,7 +5337,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "LHR",
@@ -5207,7 +5355,8 @@
     "departure_tax_premium_usd": 290,
     "tax_note": "英國 APD 長程經濟艙＋機場費；商務艙約 2 倍以上",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "LGW",
@@ -5224,7 +5373,8 @@
     "departure_tax_premium_usd": 290,
     "tax_note": "英國 APD 長程經濟艙；商務艙更高",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "CDG",
@@ -5241,7 +5391,8 @@
     "departure_tax_premium_usd": 95,
     "tax_note": "法國民航稅＋團結稅（艙等分級）",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "AMS",
@@ -5258,7 +5409,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "荷蘭航空旅客稅 €29＋機場費",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "FRA",
@@ -5275,7 +5427,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "德國航空稅（長程）＋機場費",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "MUC",
@@ -5292,7 +5445,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "德國航空稅（長程）＋機場費",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "ZRH",
@@ -5309,7 +5463,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費（瑞士無離境稅）",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "GVA",
@@ -5326,7 +5481,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "VIE",
@@ -5343,7 +5499,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "奧地利航空稅＋機場費",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "BRU",
@@ -5360,7 +5517,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "比利時登機稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "CPH",
@@ -5377,7 +5535,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "丹麥航空稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ARN",
@@ -5394,7 +5553,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "OSL",
@@ -5411,7 +5571,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HEL",
@@ -5428,7 +5589,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DUB",
@@ -5445,7 +5607,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "LIS",
@@ -5462,7 +5625,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費＋市政稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "OPO",
@@ -5479,7 +5643,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MAD",
@@ -5496,7 +5661,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BCN",
@@ -5513,7 +5679,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "FCO",
@@ -5530,7 +5697,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "義大利市政附加稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "MXP",
@@ -5547,7 +5715,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "義大利市政附加稅＋機場費",
     "eva_operated": true,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "LIN",
@@ -5564,7 +5733,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "義大利市政附加稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "VCE",
@@ -5581,7 +5751,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "義大利市政附加稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "WAW",
@@ -5598,7 +5769,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "KRK",
@@ -5615,7 +5787,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "PRG",
@@ -5632,7 +5805,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BUD",
@@ -5649,7 +5823,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "OTP",
@@ -5666,7 +5841,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SOF",
@@ -5683,7 +5859,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ZAG",
@@ -5700,7 +5877,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "LJU",
@@ -5717,7 +5895,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BEG",
@@ -5734,7 +5913,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ATH",
@@ -5751,7 +5931,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "希臘離境稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "SKG",
@@ -5768,7 +5949,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "希臘離境稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TLL",
@@ -5785,7 +5967,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "RIX",
@@ -5802,7 +5985,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "VNO",
@@ -5819,7 +6003,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "IST",
@@ -5836,7 +6021,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "土耳其離境稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": true
    },
    {
     "code": "SAW",
@@ -5853,7 +6039,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "土耳其離境稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "DXB",
@@ -5870,7 +6057,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "AUH",
@@ -5887,7 +6075,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DOH",
@@ -5904,7 +6093,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "旅客服務費＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "RUH",
@@ -5921,7 +6111,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "JED",
@@ -5938,7 +6129,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "KWI",
@@ -5955,7 +6147,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BAH",
@@ -5972,7 +6165,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MCT",
@@ -5989,7 +6183,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "AMM",
@@ -6006,7 +6201,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "約旦離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "BEY",
@@ -6023,7 +6219,8 @@
     "departure_tax_premium_usd": 80,
     "tax_note": "離境稅（艙等分級）",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TLV",
@@ -6040,7 +6237,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "CAI",
@@ -6057,7 +6255,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": true
    },
    {
     "code": "HRG",
@@ -6074,7 +6273,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "SSH",
@@ -6091,7 +6291,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": true
    },
    {
     "code": "CMN",
@@ -6108,7 +6309,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "摩洛哥離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "RAK",
@@ -6125,7 +6327,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "摩洛哥離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "TUN",
@@ -6142,7 +6345,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ALG",
@@ -6159,7 +6363,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "JNB",
@@ -6176,7 +6381,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "南非旅客稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "CPT",
@@ -6193,7 +6399,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "南非旅客稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DUR",
@@ -6210,7 +6417,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "南非旅客稅＋機場費",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ADD",
@@ -6227,7 +6435,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "NBO",
@@ -6244,7 +6453,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": true
+    "star_alliance_hub": true,
+    "zone_uncertain": false
    },
    {
     "code": "LOS",
@@ -6261,7 +6471,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "奈及利亞離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ABV",
@@ -6278,7 +6489,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "奈及利亞離境稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "ACC",
@@ -6295,7 +6507,8 @@
     "departure_tax_premium_usd": 110,
     "tax_note": "迦納離境稅（艙等分級）",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "DAR",
@@ -6312,7 +6525,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "EBB",
@@ -6329,7 +6543,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "MRU",
@@ -6346,7 +6561,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "SEZ",
@@ -6363,7 +6579,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "WDH",
@@ -6380,7 +6597,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "HRE",
@@ -6397,7 +6615,8 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    },
    {
     "code": "LUN",
@@ -6414,7 +6633,224 @@
     "departure_tax_premium_usd": null,
     "tax_note": "機場稅",
     "eva_operated": false,
-    "star_alliance_hub": false
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "AUS",
+    "city": "奧斯汀",
+    "city_key": "AUS",
+    "country": "US",
+    "country_name": "美國",
+    "sa_zone": "nam",
+    "sa_zone_name": "北美洲",
+    "eva_own_zone": null,
+    "lat": 30.1945,
+    "lon": -97.6699,
+    "departure_tax_usd": 34,
+    "departure_tax_premium_usd": null,
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "CLT",
+    "city": "夏洛特",
+    "city_key": "CLT",
+    "country": "US",
+    "country_name": "美國",
+    "sa_zone": "nam",
+    "sa_zone_name": "北美洲",
+    "eva_own_zone": null,
+    "lat": 35.214,
+    "lon": -80.9431,
+    "departure_tax_usd": 34,
+    "departure_tax_premium_usd": null,
+    "tax_note": "美國國際航段稅 US$23.40＋AY US$5.60",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "EVN",
+    "city": "葉里溫",
+    "city_key": "EVN",
+    "country": "AM",
+    "country_name": "亞美尼亞",
+    "sa_zone": "eur",
+    "sa_zone_name": "歐洲",
+    "eva_own_zone": null,
+    "lat": 40.1473,
+    "lon": 44.3959,
+    "departure_tax_usd": 40,
+    "departure_tax_premium_usd": null,
+    "tax_note": "離境費約 AMD 10,000＋機場旅客服務費",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": true
+   },
+   {
+    "code": "FRU",
+    "city": "比什凱克",
+    "city_key": "FRU",
+    "country": "KG",
+    "country_name": "吉爾吉斯",
+    "sa_zone": "csa",
+    "sa_zone_name": "中亞南亞",
+    "eva_own_zone": null,
+    "lat": 43.0613,
+    "lon": 74.4776,
+    "departure_tax_usd": 15,
+    "departure_tax_premium_usd": null,
+    "tax_note": "瑪納斯機場旅客服務費＋保安費約 USD 15（推估",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": true
+   },
+   {
+    "code": "HFE",
+    "city": "合肥",
+    "city_key": "HFE",
+    "country": "CN",
+    "country_name": "中國大陸",
+    "sa_zone": "cn",
+    "sa_zone_name": "中國大陸",
+    "eva_own_zone": null,
+    "lat": 31.9878,
+    "lon": 116.9769,
+    "departure_tax_usd": 13,
+    "departure_tax_premium_usd": null,
+    "tax_note": "民航發展基金 CNY 90，約 US$13",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "HUN",
+    "city": "花蓮",
+    "city_key": "HUN",
+    "country": "TW",
+    "country_name": "台灣",
+    "sa_zone": "tw",
+    "sa_zone_name": "台灣",
+    "eva_own_zone": null,
+    "lat": 24.0232,
+    "lon": 121.618,
+    "departure_tax_usd": 24,
+    "departure_tax_premium_usd": null,
+    "tax_note": "若有國際包機出境，同樣課機場服務費 NT$750",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "LHE",
+    "city": "拉合爾",
+    "city_key": "LHE",
+    "country": "PK",
+    "country_name": "巴基斯坦",
+    "sa_zone": "csa",
+    "sa_zone_name": "中亞南亞",
+    "eva_own_zone": null,
+    "lat": 31.5216,
+    "lon": 74.4036,
+    "departure_tax_usd": 52,
+    "departure_tax_premium_usd": null,
+    "tax_note": "與喀拉蚩同：FED 經濟艙 PKR 12,500",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "SPN",
+    "city": "塞班島",
+    "city_key": "SPN",
+    "country": "MP",
+    "country_name": "北馬里亞納群島",
+    "sa_zone": "swp",
+    "sa_zone_name": "西南太平洋",
+    "eva_own_zone": null,
+    "lat": 15.119,
+    "lon": 145.729,
+    "departure_tax_usd": 33,
+    "departure_tax_premium_usd": null,
+    "tax_note": "美國國際段離境稅約 US$23.4＋911 安檢費 US$5.6",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": true
+   },
+   {
+    "code": "TNN",
+    "city": "台南",
+    "city_key": "TNN",
+    "country": "TW",
+    "country_name": "台灣",
+    "sa_zone": "tw",
+    "sa_zone_name": "台灣",
+    "eva_own_zone": "asia",
+    "lat": 22.9504,
+    "lon": 120.206,
+    "departure_tax_usd": 24,
+    "departure_tax_premium_usd": null,
+    "tax_note": "同 TPE：機場服務費 NT$750（僅國際／兩岸出境）",
+    "eva_operated": true,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "USM",
+    "city": "蘇美島",
+    "city_key": "USM",
+    "country": "TH",
+    "country_name": "泰國",
+    "sa_zone": "sea",
+    "sa_zone_name": "東南亞",
+    "eva_own_zone": null,
+    "lat": 9.5479,
+    "lon": 100.0623,
+    "departure_tax_usd": 21,
+    "departure_tax_premium_usd": null,
+    "tax_note": "蘇美機場為曼谷航空(PG)私營",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "YEG",
+    "city": "艾德蒙頓",
+    "city_key": "YEG",
+    "country": "CA",
+    "country_name": "加拿大",
+    "sa_zone": "nam",
+    "sa_zone_name": "北美洲",
+    "eva_own_zone": null,
+    "lat": 53.3097,
+    "lon": -113.58,
+    "departure_tax_usd": 54,
+    "departure_tax_premium_usd": null,
+    "tax_note": "ATSC CAD34.42＋AIF CAD40",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
+   },
+   {
+    "code": "YOW",
+    "city": "渥太華",
+    "city_key": "YOW",
+    "country": "CA",
+    "country_name": "加拿大",
+    "sa_zone": "nam",
+    "sa_zone_name": "北美洲",
+    "eva_own_zone": null,
+    "lat": 45.3225,
+    "lon": -75.6692,
+    "departure_tax_usd": 54,
+    "departure_tax_premium_usd": null,
+    "tax_note": "ATSC CAD34.42＋AIF CAD40",
+    "eva_operated": false,
+    "star_alliance_hub": false,
+    "zone_uncertain": false
    }
   ]
  },
