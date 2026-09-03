@@ -6854,6 +6854,102 @@
    }
   ]
  },
+ "cross_program_map": {
+  "note": "「我有多少哩能去哪」的跨計畫比價資料。華航／長榮／星宇表列為來回，國泰與阿拉斯加為單程（來回 ×2）。",
+  "programs": [
+   {
+    "id": "CI",
+    "name": "華航",
+    "sub": "華夏哩程"
+   },
+   {
+    "id": "BR",
+    "name": "長榮",
+    "sub": "無限萬哩遊"
+   },
+   {
+    "id": "JX",
+    "name": "星宇",
+    "sub": "COSMILE"
+   },
+   {
+    "id": "CX",
+    "name": "國泰",
+    "sub": "亞洲萬里通・經香港"
+   },
+   {
+    "id": "AS",
+    "name": "阿拉斯加",
+    "sub": "Mileage Plan × 星宇"
+   }
+  ],
+  "china_airlines_network": {
+   "HKG": "asia1",
+   "XMN": "asia1",
+   "FOC": "asia1",
+   "NRT": "asia3",
+   "HND": "asia3",
+   "KIX": "asia3",
+   "CTS": "asia3",
+   "ICN": "asia3",
+   "BKK": "asia3",
+   "CNX": "asia3",
+   "PEN": "asia3",
+   "DPS": "asia3",
+   "RGN": "asia3",
+   "MFM": "asia2",
+   "NGO": "asia2",
+   "FUK": "asia2",
+   "OKA": "asia2",
+   "TAK": "asia2",
+   "SDJ": "asia2",
+   "HIJ": "asia2",
+   "PUS": "asia2",
+   "PVG": "asia2",
+   "PEK": "asia2",
+   "CAN": "asia2",
+   "SZX": "asia2",
+   "CTU": "asia2",
+   "XIY": "asia2",
+   "NKG": "asia2",
+   "HGH": "asia2",
+   "WUH": "asia2",
+   "CKG": "asia2",
+   "TAO": "asia2",
+   "CSX": "asia2",
+   "KMG": "asia2",
+   "HFE": "asia2",
+   "NNG": "asia2",
+   "SGN": "asia2",
+   "HAN": "asia2",
+   "DAD": "asia2",
+   "PNH": "asia2",
+   "SIN": "asia2",
+   "KUL": "asia2",
+   "MNL": "asia2",
+   "CGK": "asia2",
+   "SUB": "asia2",
+   "SYD": "ocean",
+   "MEL": "ocean",
+   "BNE": "ocean",
+   "AKL": "ocean",
+   "LAX": "na",
+   "SFO": "na",
+   "ONT": "na",
+   "SEA": "na",
+   "YVR": "na",
+   "ORD": "na",
+   "JFK": "nyc",
+   "LHR": "eu",
+   "FRA": "eu",
+   "AMS": "eu",
+   "VIE": "eu",
+   "PRG": "eu",
+   "MXP": "eu"
+  },
+  "starlux_network": "見 alaska_starlux.airports：scope=asia 者為 COSMILE 亞洲區域線，scope=longhaul 且 country=US 者為北美線",
+  "cathay_network": "見 cathay.airports"
+ },
  "four_leg": {
   "BR": {
    "name": "長榮航空",

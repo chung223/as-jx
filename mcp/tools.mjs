@@ -521,6 +521,128 @@ export const TOOLS = [
     },
   },
   {
+    name: 'where_can_i_go',
+    description: '「我有多少哩，能去哪」：給各計畫的哩程餘額與出發地，跨華航／長榮／星宇／國泰／阿拉斯加五個計畫比出每個目的地誰最省、換不換得起，並依「飛行哩程 ÷ 所需哩程」的效益排序。',
+    inputSchema: { type:'object', properties:{
+      miles: { type:'object', description:'各計畫哩程餘額，如 {"BR":200000,"CI":100000,"CX":80000}。留空則列出所有目的地與最省報價。',
+        properties:{ CI:{type:'number'}, BR:{type:'number'}, JX:{type:'number'}, CX:{type:'number'}, AS:{type:'number'} } },
+      origin: { type:'string', description:'出發地 IATA 代碼（預設 TPE）' },
+      cabin: { type:'string', enum:['eco','pey','biz','fst'], description:'預設 biz' },
+      trip: { type:'string', enum:['rt','ow'], description:'rt 來回（預設）／ow 單程' },
+      ci_era: { type:'string', enum:['new','old'], description:'華航制度：new 新制 2026/9/16 起／old 現行（預設 new）' },
+      ci_tier: { type:'number', description:'華航酬賓機位級別 0 充足（預設）／1 有限／2 稀少' },
+      limit: { type:'number', description:'回傳幾筆（預設 20）' },
+    } },
+    run: async (D, a) => {
+      const M = D.cross_program_map;
+      if (!M) return '這份 data.json 還沒有跨計畫地圖資料，請稍後再試（網站部署後就會有）。';
+      const org = evAp(D, a.origin || 'TPE');
+      if (!org) return `找不到出發地 ${a.origin}。`;
+      const cab = a.cabin || 'biz', ow = a.trip === 'ow';
+      const bal = a.miles || {}, anyBal = Object.values(bal).some(v => +v > 0);
+      const era = a.ci_era === 'old' ? 'old' : 'new', tier = Math.max(0, Math.min(2, +a.ci_tier || 0));
+      const zf = ow ? 0.5 : 1, xf = ow ? 1 : 2;
+      const jxNet = {}, cxNet = {};
+      for (const x of D.alaska_starlux.airports){
+        if (x.scope === 'asia') jxNet[x.code] = 'asia';
+        else if (x.scope === 'longhaul' && x.country === 'US') jxNet[x.code] = 'na';
+      }
+      for (const list of Object.values(D.cathay.airports)) for (const [c] of list) cxNet[c] = true;
+      const cxAt = c => { for (const list of Object.values(D.cathay.airports))
+        for (const [k, n2, lat, lon] of list) if (k === c) return { lat, lon }; return null; };
+      const norm = (cell, mult) => {
+        if (!cell) return null;
+        const lo = cell.t ? cell.t[tier] : (cell.lo ?? cell.v ?? cell.rt);
+        const hi = cell.t ? cell.t[tier] : (cell.hi ?? cell.v ?? cell.rt);
+        return { lo:Math.round(lo * mult), hi:Math.round(hi * mult), approx:!!cell.approx };
+      };
+      const price = (id, dst) => {
+        if (id === 'CI'){
+          if (org.sa_zone !== 'tw') return null;
+          const key = M.china_airlines_network[dst.code]; if (!key) return null;
+          const old = era === 'old';
+          const list = old ? D.award_charts.CI.oldZones : D.award_charts.CI.zones;
+          const k = old ? ({ asia1:'asia', asia2:'asia', asia3:'asia', ocean:'long', na:'long', eu:'long', nyc:'long' }[key] || key) : key;
+          const z = list.find(z => z.key === k);
+          const c = norm(z?.[cab], zf);
+          return c && { ...c, chart: old ? '現行' : `新制・${D.ci_tiers[tier]}`, note:z.zone };
+        }
+        if (id === 'BR'){
+          const trip = ow ? [{code:org.code}, {code:dst.code, stop:true}]
+            : [{code:org.code}, {code:dst.code, stop:true}, {code:org.code}];
+          const out = [];
+          if (cab !== 'fst'){ const r = evEval(D, trip, cab, 'own');
+            if (r.ok && r.miles) out.push({ lo:r.miles, hi:r.miles, chart:'自家票', note:D.eva.own_chart[r.bucket]?.name }); }
+          if (cab !== 'pey'){ const r = evEval(D, trip, cab, 'sa');
+            if (r.ok && r.miles) out.push({ lo:r.miles, hi:r.miles, chart:'星盟票', note:`${D.eva.star_alliance_zone_names[org.sa_zone]}→${D.eva.star_alliance_zone_names[dst.sa_zone]}` }); }
+          return out.sort((x, y) => x.lo - y.lo)[0] || null;
+        }
+        if (id === 'JX'){
+          if (org.sa_zone !== 'tw') return null;
+          const key = jxNet[dst.code]; if (!key) return null;
+          const z = D.award_charts.JX.zones.find(z => z.key === key);
+          const c = norm(z?.[cab], zf);
+          return c && { ...c, chart:'COSMILE', note:z.zone };
+        }
+        if (id === 'CX'){
+          if (!cxNet[dst.code]) return null;
+          const hk = cxAt('HKG'), dd = cxAt(dst.code) || dst;
+          const d = dst.code === 'HKG' ? gc(org, hk) : gc(org, hk) + gc(hk, dd);
+          const band = D.cathay.chart.find(b => d <= b.max);
+          const c = norm(band?.[cab], xf);
+          return c && { ...c, chart:'按距離', note:`${band.name}・${n(d)} 哩` };
+        }
+        if (id === 'AS'){
+          if (org.sa_zone !== 'tw' || jxNet[dst.code] !== 'asia') return null;
+          if (cab === 'pey' || cab === 'fst') return null;
+          const d = gc(org, dst);
+          const p = d <= 1500 ? D.alaska_starlux.price.sweet : D.alaska_starlux.price.high;
+          return { lo:p[cab] * xf, hi:p[cab] * xf, chart:'AS 夥伴表',
+            note: d <= 1500 ? '甜蜜區 ≤1,500 哩' : '超過 1,500 哩' };
+        }
+        return null;
+      };
+      const rows = [];
+      for (const d of D.eva.airports){
+        if (d.code === org.code || d.city_key === org.city_key) continue;
+        const offers = [];
+        for (const p of M.programs){
+          const q = price(p.id, d);
+          if (!q) continue;
+          const have = +bal[p.id] || 0;
+          offers.push({ ...q, id:p.id, name:p.name, have, ok: have > 0 && have >= q.lo });
+        }
+        if (!offers.length) continue;
+        offers.sort((x, y) => x.lo - y.lo);
+        const afford = offers.find(o => o.ok) || null;
+        if (anyBal && !afford) continue;
+        const dist = gc(org, d) * (ow ? 1 : 2);
+        rows.push({ d, offers, best:offers[0], afford, dist,
+          eff: Math.round(dist / (afford || offers[0]).lo * 10000) });
+      }
+      if (!rows.length) return anyBal
+        ? `${org.code} 出發、${CAB[cab]}，用這些哩程還換不到任何目的地。可以試試經濟艙，或不填哩程看全部的報價。`
+        : `${org.code} 出發、${CAB[cab]} 在這幾張兌換表上沒有可換的目的地。`;
+      rows.sort((x, y) => y.eff - x.eff);
+      const lim = Math.max(1, Math.min(80, a.limit || 20));
+      const out = [`## ${org.code} ${org.city} 出發・${CAB[cab]}・${ow ? '單程' : '來回'}`
+        + (anyBal ? `　你的哩程換得到 **${rows.length}** 個目的地` : `　共 ${rows.length} 個目的地`), ''];
+      if (anyBal) out.push('哩程：' + M.programs.filter(p => +bal[p.id] > 0)
+        .map(p => `${p.name} ${n(+bal[p.id])}`).join('／'), '');
+      out.push('| 目的地 | 區域 | 最省 | 所需哩程 | 其他計畫 | 飛行 | 效益 |', '|---|---|---|---|---|---|---|');
+      for (const r of rows.slice(0, lim)){
+        const o = r.afford || r.best;
+        const rng = x => x.lo === x.hi ? n(x.lo) : `${n(x.lo)}–${n(x.hi)}`;
+        const others = r.offers.filter(x => x !== o).map(x => `${x.name} ${rng(x)}`).join('、') || '—';
+        out.push(`| ${r.d.code} ${r.d.city} | ${r.d.sa_zone_name} | ${o.name}（${o.chart}） | **${rng(o)}**${o.ok ? ' ✓' : ''} | ${others} | ${n(r.dist)} 哩 | ${r.eff} |`);
+      }
+      out.push('', '效益＝飛行哩程 ÷ 所需哩程 × 10,000，越大越划算。✓ 代表你填的餘額換得起。');
+      out.push('', '華航／長榮／星宇表列為來回，國泰與阿拉斯加為單程（來回 ×2）；國泰自台灣出發按「台北–香港＋香港–目的地」總距離計價，阿拉斯加開星宇只涵蓋亞洲區。');
+      out.push('', '想知道某個目的地能不能免費加中停，用 `eva_free_stopovers`。哩程為整理值，以各航空公司官網為準。');
+      return out.join('\n');
+    },
+  },
+  {
     name: 'list_airports',
     description: '列出星宇航點（含距各台灣樞紐的大圓距離、是否參與中停配對、季節性等），可用關鍵字或國家篩選。',
     inputSchema: { type:'object', properties:{

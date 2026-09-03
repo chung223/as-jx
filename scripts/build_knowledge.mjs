@@ -37,7 +37,7 @@ const D = Object.fromEntries(['HUBS','AIRPORTS','COUNTRY','PRICE','FL_AIRLINES',
   'CI_TIER_NAME','BR_ZONE_NAME','BR_ZONE_APTS','BR_ASIA_X','CX_AIRPORTS','CX_CHART','NH_PRICE',
   'NH_DOM_BANDS','CMP_DESTS','CMP_RATE_DEF','ELITE','PROGRAMS',
   'EV_Z','EV_ZN','EV_CHART','EV_BLOC','EV_OWN','EV_OWN_RANK','EV_RTW','EV_FEES',
-  'EV_UP_PEY','EV_UP_NOPEY','EV_UP_SA','EV_RULES','EV_CC','EV_AP_RAW'].map(n => [n, literal(n)]));
+  'EV_UP_PEY','EV_UP_NOPEY','EV_UP_SA','EV_RULES','EV_CC','EV_AP_RAW','MP_CI_NET','MP_PROGS'].map(n => [n, literal(n)]));
 
 /* 長榮星盟兌換表：上三角矩陣的取值（單位千哩、來回） */
 const evPrice = (a, b, cab) => {
@@ -258,6 +258,26 @@ P(``);
 P(`離境稅費為 2026/08–09 費率的整理值，不含航空公司的訂位服務費 YR（每張 US$${D.EV_FEES.yr}，香港出發免收）；兌換表本身不含燃油附加費。`);
 P(``);
 
+/* ── 跨計畫哩程地圖 ── */
+P(`### 華航自營航網與新制分區對照（跨計畫比價用）`);
+P(``);
+P(`華航的兌換表以台灣出發計價。asia1（香港、廈門、福州）與 asia3（東京、大阪、札幌、首爾、曼谷、清邁、`);
+P(`檳城、峇里島、帛琉、仰光）是官方明列的封閉清單，其餘亞洲航點一律 asia2；JFK 單獨為 nyc 級距。`);
+P(``);
+{
+  const byZone = {};
+  for (const [code, z] of Object.entries(D.MP_CI_NET)) (byZone[z] ||= []).push(code);
+  const zn = Object.fromEntries(D.MILE_DATA.CI.zones.map(z => [z.key, z.zone]));
+  P(`| 分區 | 航點 |`);
+  P(`|---|---|`);
+  for (const [z, list] of Object.entries(byZone)) P(`| ${zn[z] || z} | ${list.join('、')} |`);
+}
+P(``);
+P(`跨計畫比價的計價基準：華航／長榮／星宇的表列值為**來回**（單程為一半）；`);
+P(`國泰與阿拉斯加為**單程**（來回 ×2）。國泰自台灣出發須經香港，按「台北–香港＋香港–目的地」的`);
+P(`大圓距離合計查距離帶。阿拉斯加開星宇只模型化亞洲區（≤1,500 哩為甜蜜區）。`);
+P(``);
+
 /* ── 國泰距離表 ── */
 P(`### 國泰・亞洲萬里通（按總距離計價，單程里數）`);
 P(``);
@@ -373,6 +393,13 @@ writeFileSync('data.json', JSON.stringify({
     upgrades: { own_with_premium_economy: D.EV_UP_PEY, own_without_premium_economy: D.EV_UP_NOPEY,
       star_alliance: D.EV_UP_SA },
     airports: EV_AP,
+  },
+  cross_program_map: {
+    note: '「我有多少哩能去哪」的跨計畫比價資料。華航／長榮／星宇表列為來回，國泰與阿拉斯加為單程（來回 ×2）。',
+    programs: D.MP_PROGS,
+    china_airlines_network: D.MP_CI_NET,
+    starlux_network: '見 alaska_starlux.airports：scope=asia 者為 COSMILE 亞洲區域線，scope=longhaul 且 country=US 者為北美線',
+    cathay_network: '見 cathay.airports',
   },
   four_leg: D.FL_AIRLINES, compare_destinations: D.CMP_DESTS,
   mile_cost_ntd: D.CMP_RATE_DEF, elite: D.ELITE, programs: D.PROGRAMS,
