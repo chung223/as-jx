@@ -5319,7 +5319,7 @@ function trkDraw(){
   }
 }
 
-/* ---- 機場航班看板（交通部 TDX FIDS：官方資料，GitHub Actions 每 30 分更新） ---- */
+/* ---- 機場航班看板（交通部 TDX FIDS：官方資料；排程抓取已暫停，僅手動觸發 Actions 時更新） ---- */
 const fdState = { apt:'TPE', dir:'dep', data:null, hl:null, hlDone:false };
 // 收藏航班：與快轉共用（同網域 localStorage，鍵 trav-fav-flights）
 function favFlights(){ try { return JSON.parse(localStorage.getItem('trav-fav-flights')) ?? []; } catch { return []; } }
@@ -5340,7 +5340,9 @@ async function fdLoad(){
   try {
     const d = await fetch('tdx.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); });
     fdState.data = d;
-    $id('fd-n').textContent = `官方 FIDS・${d.updated_at} 更新`;
+    // 排程抓取已暫停：超過 2 小時沒更新就明講，避免把舊看板當成即時資料
+    const ageMin = (Date.now() - (Date.parse(String(d.updated_at).replace(' ', 'T') + '+08:00') || Date.now())) / 60000;
+    $id('fd-n').textContent = `官方 FIDS・${d.updated_at} 更新${ageMin > 120 ? '（排程已暫停，非即時）' : ''}`;
     if (fdState.hl){
       // 依高亮航班自動切到對的機場／方向
       const hit = ['dep', 'arr'].find(k => (d.airports?.TPE?.[k] || []).some(r => r.f === fdState.hl || (r.cs || []).includes(fdState.hl)));
@@ -5351,7 +5353,7 @@ async function fdLoad(){
     }
     fdRender();
   } catch {
-    $id('fd-out').innerHTML = '<p class="mnote">看板資料暫時無法取得 — 官方 TDX 資料源可能額度用罄或維護中，排程每小時會自動重試。</p>';
+    $id('fd-out').innerHTML = '<p class="mnote">目前沒有看板資料 — 為節省 TDX 金鑰額度，排程抓取已暫停；需要時可到 GitHub Actions 手動觸發「TDX airport boards」更新。</p>';
   }
 }
 function fdName(code){
@@ -5388,7 +5390,7 @@ function fdRender(){
     <div class="mrows">${rows}</div>
     <p class="mnote">資料：交通部 TDX 民航即時航班（FIDS）・顯示近 12 小時、共掛班號已合併、貨機已排除。
     ☆ 收藏航班與姊妹站 <a href="https://chung223.github.io/tymetrofast/" target="_blank" rel="noopener" style="color:var(--gold)">🚇 快轉</a> 互通。
-    金鑰僅存於 GitHub Actions Secrets（每次更新僅 6 個 API 請求、間隔 13 秒，遠低於免費帳號每分鐘 5 次限制）。</p>`;
+    為節省金鑰額度，排程抓取已暫停，僅在手動觸發 GitHub Actions 時更新（每次僅 6 個 API 請求）。</p>`;
   out.querySelectorAll('.favstar').forEach(b => b.onclick = e => {
     e.stopPropagation();
     const f = b.dataset.ff, a = favFlights();

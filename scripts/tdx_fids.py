@@ -1,4 +1,5 @@
-# 機場航班看板：TDX 民航 FIDS 官方資料，每 30 分鐘由 GitHub Actions 執行。
+# 機場航班看板：TDX 民航 FIDS 官方資料，由 GitHub Actions 執行。
+# 排程已暫停（太耗金鑰額度），目前只在 Actions 頁手動觸發時抓取。
 # 金鑰僅存於 GitHub Secrets；免費金鑰限每分鐘 5 次呼叫，故 6 個請求間隔 13 秒。
 # 產出 tdx.json 只進 Pages 部署、不進版控（避免高頻資料 commit）。
 import datetime

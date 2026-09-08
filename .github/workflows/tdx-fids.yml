@@ -1,8 +1,10 @@
 name: TDX airport boards
 
+# 排程已暫停：每小時抓取太耗 TDX 金鑰額度（與姊妹站快轉共用同一組金鑰）。
+# 需要更新看板時到 Actions 頁手動觸發即可；要恢復排程再把 schedule 加回來：
+#   schedule:
+#     - cron: '15 * * * *'
 on:
-  schedule:
-    - cron: '15 * * * *'  # 每小時（原每 30 分）；避開姊妹站快轉的抓取窗口，共用 TDX 金鑰額度
   workflow_dispatch:
 
 permissions:
