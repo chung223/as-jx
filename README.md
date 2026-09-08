@@ -15,9 +15,11 @@
 
 - **機場航班看板**（交通部 TDX 民航 FIDS，需 TDX 會員金鑰）：桃園／松山／高雄的官方
   出發＋抵達看板 — 表定/預計/實際時間、延誤/取消狀態、登機門、行李轉盤、機型、共掛班號合併。
-  `.github/workflows/tdx-fids.yml` 每 30 分鐘經 GitHub Actions 抓取並隨 Pages 部署（tdx.json
+  `.github/workflows/tdx-fids.yml` 經 GitHub Actions 抓取並隨 Pages 部署（tdx.json
   不進版控）；金鑰僅存於 repo Secrets（TDX_CLIENT_ID/TDX_CLIENT_SECRET 等常見命名皆可），
-  每次僅 6 個請求、間隔 13 秒，遠低於免費帳號每分鐘 5 次之限制
+  每次僅 6 個請求、間隔 13 秒，遠低於免費帳號每分鐘 5 次之限制。
+  **排程抓取已暫停**（太耗金鑰額度），需要更新看板時到 Actions 頁手動觸發；頁面上超過
+  2 小時未更新的看板會標示「排程已暫停，非即時」
 - **台灣上空即時航班**（airplanes.live ADS-B，免金鑰、非商業）：以台灣為中心 250 浬的
   即時航機雷達（海岸線 Canvas），含航跡尾巴，點選看航班號、機型、高度、地速，每 45 秒更新
 - **桃園進出港看板**：由雷達垂直速率±350 ft/min 判定進場／離場，呼號自動辨識航空公司
